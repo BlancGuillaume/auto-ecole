@@ -1,0 +1,23 @@
+DIRECTIVES
+
+Je vous ai fait une exempel de connection PHP à Oracle. JE travaille en BDD locale.
+
+La subtilité pour la connexion à la BDD Oracle rédide dans le troisième paramètre de la fonction oci_connect().
+En local ce paramètre n'est pas nécésssaire car pour moi il génère une erreur contrairement à ce qui est spécifié dans la doc utilisateur.
+Ce troisième paramètre consiste à spécifier l'identifiant de connection à la BDD que vous trouvez dans le fichier tnsnames.ora.
+
+Le fichier Bdd.sql contient le script de la Bdd que j'exploite dans mon exemple.
+
+
+ENVIRONNEMENT
+
+BDD Oracle 11g locale.
+Xamp.
+
+CONFIG 
+
+fichier php.ini
+
+Il faut d'abort valider l'utilisation des librairies oci ou odbc dans le fichier php.ini.
+Dans le fichier que je vous transmet, fait une recherche du mot clé XAV et vous trouverez ce que j'ai décommenté.
+
