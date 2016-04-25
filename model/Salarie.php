@@ -19,11 +19,23 @@ class Salarie extends Individu {
     /** Voiture dont le salarié est responsable */
     private $_voiture;
     
-    /** Constructeur par défaut */
-     function __construct() {
-        parent::construct();
-    }
+    /** Eleves du salarié */
+    private $_eleves;
     
+    function __construct($id, $prenom, $nom, $dateNaissance, $telDomicile, 
+            $telPortable, $adresse, $surnom, $dateRecrutement, $categories, $voiture, $eleves) {
+        
+        parent::__construct($id, $prenom, $nom, $dateNaissance, $telDomicile, $telPortable, $adresse);
+        
+        $this->_surnom = $surnom;
+        $this->_dateRecrutement = $dateRecrutement;
+        $this->_categories = $categories;
+        $this->_voiture = $voiture;
+        $this->_eleves = $eleves;
+    }
+
+    
+
     function get_surnom() {
         return $this->_surnom;
     }
@@ -36,7 +48,7 @@ class Salarie extends Individu {
         return $this->_categories;
     }
 
-    function get_voiture() {
+    public function get_voiture() {
         return $this->_voiture;
     }
 

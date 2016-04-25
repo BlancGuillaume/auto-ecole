@@ -20,6 +20,8 @@ class LeconConduite {
     /** la voiture utilisée pour la leçon de conduite */
     private $_voiture;
     
+    // TODO : date 
+    
     function get_id() {
         return $this->_id;
     }

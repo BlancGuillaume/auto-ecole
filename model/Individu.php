@@ -29,10 +29,16 @@ abstract class Individu {
     /** Adresse de la personne */
     private $_adresse;
     
-    /** Constructeur par défaut */
-    function __construct() {
+    function __construct($_id, $_prenom, $_nom, $_dateNaissance, $_telDomicile, $_telPortable, $_adresse) {
+        $this->_id = $_id;
+        $this->_prenom = $_prenom;
+        $this->_nom = $_nom;
+        $this->_dateNaissance = $_dateNaissance;
+        $this->_telDomicile = $_telDomicile;
+        $this->_telPortable = $_telPortable;
+        $this->_adresse = $_adresse;
     }
-
+    
     function get_id() {
         return $this->_id;
     }
