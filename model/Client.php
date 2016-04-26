@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Description of Client
- *
- * @author blanc
+ * Un client inscrit un ou plusieurs élèves dans l'auto-ecole
+ * Il peut s'inscrire lui même
+ * 
+ * @author Guillaume Blanc
  */
 class Client extends Individu {
     
@@ -13,9 +14,14 @@ class Client extends Individu {
     /** Liste d'achats effectués par le client */
     private $_listeAchats;
     
-     /** Constructeur par défaut */
-     function __construct() {
-        parent::construct();
+    function __construct($id, $prenom, $nom, $dateNaissance, $telDomicile, 
+            $telPortable, $adresse, $listeEleves, $listeAchats) {
+        
+        parent::__construct($id, $prenom, $nom, $dateNaissance, $telDomicile, 
+                $telPortable, $adresse);
+
+        $this->_listeEleves = $listeEleves;
+        $this->_listeAchats = $listeAchats;
     }
     
     function get_listeEleves() {
@@ -33,6 +39,4 @@ class Client extends Individu {
     function set_listeAchats($_listeAchats) {
         $this->_listeAchats = $_listeAchats;
     }
-
-
 }

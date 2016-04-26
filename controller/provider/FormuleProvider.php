@@ -8,8 +8,6 @@
 
 include_once('model/Formule.php');
 
-$test = include_once('model/Formule.php');
-
 class FormuleProvider {
 
     /**
@@ -36,5 +34,31 @@ class FormuleProvider {
 
         return $formules;
     }
+    
+    /**
+     * Récupère la formule correspondant à l'id spécifié
+     * @param type $id - l'id de la formule à récupérer
+     */
+    public function get_formule($id) {
+        
+        $conn = include_once('model/ConnectionManager.php');
 
+        // Récupération de la forumule
+        $req = oci_parse($conn, 'SELECT * FROM FORMULE WHERE id_formule = '. $id);
+
+        // Execution de la requête
+        oci_execute($req);
+
+        // Traitement du résultat : construction de la formule
+        while ($resultats = oci_fetch_array($req)) {
+            foreach ($resultats as $resultat) {
+                // Une seule occurence
+                $formule = new Formule($resultat['id_formule'], 
+                                       $resultat['prix_formule'], 
+                                       $resultat['nb_tickets_formule']);
+            }
+        }
+        
+        return $formule;
+    }
 }

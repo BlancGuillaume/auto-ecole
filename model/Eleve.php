@@ -34,10 +34,27 @@ class Eleve extends Individu {
     /** True si il a eu son code sinon false */
     private $_examenCode;
     
-    /** Constructeur par défaut */
-    function __construct() {
-        parent::construct();
+    /** Date d'inscription de l'élève */
+    private $_dateInscription;
+    
+    /** Constructeur par paramètres */
+    function __construct($id, $prenom, $nom, $dateNaissance, $telDomicile,
+                         $telPortable, $adresse,$telTravail, $moniteur, $nombreLeconsDisponibles, 
+                         $nombreLeconsEffectuees, $client, $formule, $examenPermis, $examenCode, $dateInscription) {
+        
+        parent::__construct($id, $prenom, $nom, $dateNaissance, $telDomicile, $telPortable, $adresse);
+        
+        $this->_telTravail = $telTravail;
+        $this->_moniteur = $moniteur;
+        $this->_nombreLeconsDisponibles = $nombreLeconsDisponibles;
+        $this->_nombreLeconsEffectuees = $nombreLeconsEffectuees;
+        $this->_client = $client;
+        $this->_formule = $formule;
+        $this->_examenPermis = $examenPermis;
+        $this->_examenCode = $examenCode;
+        $this->_dateInscription = $dateInscription;
     }
+
     
     function get_telTravail() {
         return $this->_telTravail;
@@ -103,5 +120,11 @@ class Eleve extends Individu {
         $this->_examenCode = $_examenCode;
     }
 
+    function getDateInscription() {
+        return $this->_dateInscription;
+    }
 
+    function setDateInscription($dateInscription) {
+        $this->_dateInscription = $dateInscription;
+    }
 }

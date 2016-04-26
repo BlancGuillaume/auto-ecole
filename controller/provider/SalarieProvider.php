@@ -1,17 +1,11 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+ 
 /**
  * Description of MoniteurProvider
  *
  * @author blanc
  */
-class MoniteurProvider {
+class SalarieProvider {
     
     /**
      * Récupère les informations du moniteur spécifié par son id
@@ -22,7 +16,9 @@ class MoniteurProvider {
         $conn = include_once('model/ConnectionManager.php');
 
         // Récupération du moniteur correspondant à l'identifiant
-        $req = oci_parse($conn, 'SELECT * FROM VOITURE');
+        $req = oci_parse($conn, 'SELECT id_salarie, prenom_salarie, nom_salarie, surnom_salarie'
+                              . 'FROM SALARIE WHERE id_salarie = '.$id);
+        
         // Execution de la requête
         oci_execute($req);
 
@@ -38,5 +34,20 @@ class MoniteurProvider {
                                         NULL, NULL, NULL, NULL);
             }
         }
+        
+        return $moniteur;
+    }
+    
+    
+    /**
+     * Toutes les informations du salarié
+     * @param type $id
+     */
+    function get_salarie_detail($id) {
+       // Tout : sauf pour la voiture on choppe pas le gars (pour éviter de boucler) 
+    }
+    
+    function get_salaries() {
+        
     }
 }

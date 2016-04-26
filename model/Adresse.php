@@ -23,10 +23,14 @@ class Adresse {
     /** code postal */
     private $_codePostal;
     
-    /** Constructeur par défaut */
-    function __construct() {   
+    /** Constructeur par paramètres */
+    function __construct($idAdresse, $rue, $ville, $codePostal) {
+        $this->_idAdresse = $idAdresse;
+        $this->_rue = $rue;
+        $this->_ville = $ville;
+        $this->_codePostal = $codePostal;
     }
-    
+
     function get_idAdresse() {
         return $this->_idAdresse;
     }
