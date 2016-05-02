@@ -4,20 +4,20 @@
 	height:833.333px;
 }
 #formulaireInfosClient {
-	width:50%;
-	margin-left:15%;
+margin-left:5%;
+	margin-right:5%;
 }
 #formulaireInfosEleve {
-	width:50%;
-	margin-left:15%;
+margin-left:5%;
+	margin-right:5%;
 }
 #formulaireFormuleEleve {
-	width:46%;
-	margin-left:15%;
+	margin-left:5%;
+	margin-right:5%;
 }
 #formulaireSalarieEleve {
-	width:46%;
-	margin-left:15%;
+margin-left:5%;
+	margin-right:5%;
 }	
 
 .input-group {
@@ -40,4 +40,12 @@ h3 {
 .formulaire {
 	width:46%;
 	margin-left:35%;
+}
+
+#boutonAjout {
+	margin-left: 46%;
+}
+
+#formulaireFormuleEleve {
+	width: 100%;
 }

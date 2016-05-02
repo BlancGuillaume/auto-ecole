@@ -264,99 +264,125 @@
 		  });
 		  </script>
 		<header>
-		<!-- Navigation -->
-        <?php include('nav.php');?>
-
+			<!-- Navigation -->
+	        <?php include('nav.php');?>
 		</header>
-		<form class="formulaire" action="inscriptionEleve.php" method="post">
-			<div id="formulaireInfosClient" class="sectionsFormulaireEleve">
-				<h3>Client</h3>
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon1">Nom</span>
-					<input name="nomClient" type="text" class="form-control" aria-describedby="basic-addon1">
-				</div>
+		<form id="page-wrapper" action="inscriptionEleve.php" method="post">
+			<div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Inscription Eleve</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                	<div class="panel panel-default">
+                		<div class="panel-body">
+					    	<div class="col-lg-6">
+								<div id="formulaireInfosEleve" class="sectionsFormulaireEleve">
+									<h3>Eleve</h3>
+									<div class="input-group">
+										<span class="input-group-addon" id="basic-addon1">Nom</span>
+										<input name="nomEleve" type="text" class="form-control" aria-describedby="basic-addon1">
+									</div>
 
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon1">Prénom</span>
-					<input name="prenomClient" type="text" class="form-control" aria-describedby="basic-addon1">
-				</div>
+									<div class="input-group">
+										<span class="input-group-addon" id="basic-addon1">Prénom</span>
+										<input name="prenomEleve" type="text" class="form-control" aria-describedby="basic-addon1">
+									</div>
 
-				<div class="input-group">
-					<span class="input-group-addon glyphicon glyphicon-phone-alt" aria-hidden="true"></span>
-					<input name="numClient" type="text" class="form-control" placeholder="Ex: 0612345678" aria-describedby="basic-addon1">
-				</div>
+									<div class="input-group">
+										<span class="input-group-addon glyphicon glyphicon-phone-alt" aria-hidden="true"></span>
+										<input name="numEleve" type="text" class="form-control" placeholder="Ex: 0612345678" aria-describedby="basic-addon1">
+									</div>
 
-				<div class="adresseBouton">
-					<h5>Adresse</h5>
-					<button>Même adresse</button>
-				</div>
-				<div class="adresseFormulaire">
-					<div class="input-group">
-						<span class="input-group-addon" id="basic-addon1">N° et nom de rue</span>
-						<textarea name="libelleClient" type="text" class="form-control" aria-describedby="basic-addon1" placeholder="Ex: 22 rue des pêcheurs"></textarea>
-					</div>
-					<div class="input-group">
-						<span class="input-group-addon" id="basic-addon1">Code postal</span>
-						<input name="codePostalClient" type="text" class="form-control" aria-describedby="basic-addon1">
-					</div>
-					<div class="input-group">
-						<span class="input-group-addon" id="basic-addon1">Ville</span>
-						<input name="villeClient" type="text" class="form-control" aria-describedby="basic-addon1">
-					</div>
-				</div>
-    		</div>
-			<div id="formulaireInfosEleve" class="sectionsFormulaireEleve">
-				<h3>Eleve</h3>
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon1">Nom</span>
-					<input name="nomEleve" type="text" class="form-control" aria-describedby="basic-addon1">
-				</div>
+									<div class="input-group">
+										<span class="input-group-addon glyphicon glyphicon-gift" aria-hidden="true"></span>
+										<input name="anniversaireEleve" type="text" class="form-control" placeholder="TO DO : datepicker" aria-describedby="basic-addon1">
+									</div>
 
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon1">Prénom</span>
-					<input name="prenomEleve" type="text" class="form-control" aria-describedby="basic-addon1">
-				</div>
+									<div class="adresseBouton">
+										<h5>Adresse</h5>
+										<button onClick="remplirChampsAdresse()">Même adresse</button>
+									</div>
+									<div class="adresseFormulaire">
+										<div class="input-group">
+											<span class="input-group-addon" id="basic-addon1">N° et nom de rue</span>
+											<textarea id="libelleAdresseEleve" name="libelleEleve" type="text" class="form-control" aria-describedby="basic-addon1" placeholder="Ex: 22 rue des pêcheurs"></textarea>
+										</div>
+										<div class="input-group">
+											<span class="input-group-addon" id="basic-addon1">Code postal</span>
+											<input id="codePostalAdresseEleve" name="codePostalEleve" type="text" class="form-control" aria-describedby="basic-addon1">
+										</div>
+										<div class="input-group">
+											<span class="input-group-addon" id="basic-addon1">Ville</span>
+											<input id="villeAdresseEleve" name="villeEleve" type="text" class="form-control" aria-describedby="basic-addon1">
+										</div>
+										<!-- TO DO -->
+										<script type="text/javascript">
+											remplirChampsAdresse() {
+												document.getElementById("libelleAdresseEleve").value = document.getElementById("libelleAdresseClient").value;
+												document.getElementById("codePostalAdresseEleve").value = document.getElementById("codePostalAdresseClient").value;
+												document.getElementById("villeAdresseEleve").value = document.getElementById("villeAdresseClient").value;
+											}
+										</script>
+									</div>
+					    		</div>
+					    		<div id="formulaireFormuleEleve" class="sectionsFormulaireEleve">
+					    			<h3>Formule</h3>
+					    			<div class="input-group">
+					    				<div class="input-group">
+					    					<span class="input-group-addon" id="basic-addon1">Formule</span>
+											<select class="form-control" name="formule">
+												<option value="1">Formule 1</option>
+												<option value="2">Formule 2</option>
+												<option value="3">Formule 3</option>
+											</select>
+										</div>
+									</div>
+					    		</div>
+					    	</div>
+					    	<div class="col-lg-6">
+								<div id="formulaireInfosClient" class="sectionsFormulaireEleve">
+									<h3>Client</h3>
+									<div class="input-group">
+										<span class="input-group-addon" id="basic-addon1">Nom</span>
+										<input name="nomClient" type="text" class="form-control" aria-describedby="basic-addon1">
+									</div>
 
-				<div class="input-group">
-					<span class="input-group-addon glyphicon glyphicon-phone-alt" aria-hidden="true"></span>
-					<input name="numEleve" type="text" class="form-control" placeholder="Ex: 0612345678" aria-describedby="basic-addon1">
-				</div>
+									<div class="input-group">
+										<span class="input-group-addon" id="basic-addon1">Prénom</span>
+										<input name="prenomClient" type="text" class="form-control" aria-describedby="basic-addon1">
+									</div>
 
-				<div class="input-group">
-					<span class="input-group-addon glyphicon glyphicon-gift" aria-hidden="true"></span>
-					<input name="anniversaireEleve" type="text" class="form-control" placeholder="TO DO : datepicker" aria-describedby="basic-addon1">
-				</div>
+									<div class="input-group">
+										<span class="input-group-addon glyphicon glyphicon-phone-alt" aria-hidden="true"></span>
+										<input name="numClient" type="text" class="form-control" placeholder="Ex: 0612345678" aria-describedby="basic-addon1">
+									</div>
 
-				<div class="adresseBouton"><h5>Adresse</h5><button>Même adresse</button></div>
-				<div class="adresseFormulaire">
-					<div class="input-group">
-						<span class="input-group-addon" id="basic-addon1">N° et nom de rue</span>
-						<textarea name="libelleEleve" type="text" class="form-control" aria-describedby="basic-addon1" placeholder="Ex: 22 rue des pêcheurs"></textarea>
-					</div>
-					<div class="input-group">
-						<span class="input-group-addon" id="basic-addon1">Code postal</span>
-						<input name="codePostalEleve" type="text" class="form-control" aria-describedby="basic-addon1">
-					</div>
-					<div class="input-group">
-						<span class="input-group-addon" id="basic-addon1">Ville</span>
-						<input name="villeEleve" type="text" class="form-control" aria-describedby="basic-addon1">
-					</div>
-				</div>
-    		</div>
-    		<div id="formulaireFormuleEleve" class="sectionsFormulaireEleve">
-    			<h3>Formule</h3>
-    			<div class="input-group">
-    				<div class="input-group">
-    					<span class="input-group-addon" id="basic-addon1">Formule</span>
-						<select class="form-control" name="formule">
-							<option value="1">Formule 1</option>
-							<option value="2">Formule 2</option>
-							<option value="3">Formule 3</option>
-						</select>
-					</div>
-				</div>
-    		</div>
-    		<button id="boutonAjout" type="submit" name="action">Inscrire</button>
+									<h5>Adresse</h5>
+									<div class="adresseFormulaire">
+										<div class="input-group">
+											<span class="input-group-addon" id="basic-addon1">N° et nom de rue</span>
+											<textarea id="libelleAdresseClient" name="libelleClient" type="text" class="form-control" aria-describedby="basic-addon1" placeholder="Ex: 22 rue des pêcheurs"></textarea>
+										</div>
+										<div class="input-group">
+											<span class="input-group-addon" id="basic-addon1">Code postal</span>
+											<input id="codePostalAdresseClient" name="codePostalClient" type="text" class="form-control" aria-describedby="basic-addon1">
+										</div>
+										<div class="input-group">
+											<span class="input-group-addon" id="basic-addon1">Ville</span>
+											<input id="villeAdresseClient" name="villeClient" type="text" class="form-control" aria-describedby="basic-addon1">
+										</div>
+									</div>
+					    		</div>
+					    	</div>
+					    </div>
+			    	</div>
+			    </div>
+			</div>
+    		<button id="boutonAjout" name="action" type="submit" class="btn btn-primary">Inscrire</button>
+    		<br/>
 		</form>
 
 	</body>
