@@ -20,6 +20,7 @@
 		$naissance_eleve =  $_POST['anniversaireEleve'];  
 		// Fonction addslashes pour éviter erreur d'insertions de bdd
 		$num_eleve = addslashes($_POST['numEleve']);
+		$num_travail_eleve = addslashes($_POST['numTravailEleve']);
 		$prenom_eleve = $_POST['prenomEleve'];
 		$nom_eleve = addslashes($_POST['nomEleve']);
 		$libelle_adresse_eleve = addslashes($_POST['libelleEleve']);
@@ -29,6 +30,7 @@
 
 		/*********** DONNEES SUR LE CLIENT ***********/
 		$num_client = addslashes($_POST['numClient']);
+		$num_portable_client = addslashes($_POST['numPortableClient']);
 		$prenom_client = $_POST['prenomClient'];
 		$nom_client = addslashes($_POST['nomClient']);
 		$libelle_adresse_client = addslashes($_POST['libelleClient']);
@@ -45,7 +47,7 @@
 			$erreurMessage .= "Date de naissance de l\'élève, ";
 			$erreurFormulaire = 1;
 		}
-		if (empty($num_eleve)) {
+		if (empty($num_eleve) && empty($num_travail_eleve)) {
 			$erreurMessage .= "Numéro de téléphone de l\'élève, ";
 			$erreurFormulaire = 1;
 		}
@@ -73,7 +75,7 @@
 			$erreurMessage .= "Formule, ";
 			$erreurFormulaire = 1;
 		}
-		if (empty($num_client)) {
+		if (empty($num_client) && empty($num_portable_client)) {
 			$erreurMessage .= "Numéro de téléphone du client, ";
 			$erreurFormulaire = 1;
 		}
@@ -108,6 +110,7 @@
 			var_dump("date_inscription : " . $date_inscription);
 			var_dump("naissance_eleve : " . $naissance_eleve);
 			var_dump("num_eleve : " . $num_eleve);
+			var_dump("num_travail_eleve : " . $num_travail_eleve);
 			var_dump("prenom_eleve : " . $prenom_eleve);
 			var_dump("nom_eleve : " . $nom_eleve);
 
@@ -117,6 +120,7 @@
 			var_dump("formule_eleve : " . $formule_eleve);
 
 			var_dump("num_client : " . $num_client);
+			var_dump("num_portable_client : " . $num_portable_client);
 			var_dump("prenom_client : " . $prenom_client);
 			var_dump("nom_client : " . $nom_client);
 			var_dump("libelle_adresse_client : " . $libelle_adresse_client);
@@ -293,7 +297,12 @@
 
 									<div class="input-group">
 										<span class="input-group-addon glyphicon glyphicon-phone-alt" aria-hidden="true"></span>
-										<input name="numEleve" type="text" class="form-control" placeholder="Ex: 0612345678" aria-describedby="basic-addon1">
+										<input name="numEleve" type="text" class="form-control" placeholder="Numéro personnel" aria-describedby="basic-addon1">
+									</div>
+
+									<div class="input-group">
+										<span class="input-group-addon glyphicon glyphicon-phone-alt" aria-hidden="true"></span>
+										<input name="numTravailEleve" type="text" class="form-control" placeholder="Numéro profesionnel" aria-describedby="basic-addon1">
 									</div>
 
 									<div class="input-group">
@@ -357,7 +366,11 @@
 
 									<div class="input-group">
 										<span class="input-group-addon glyphicon glyphicon-phone-alt" aria-hidden="true"></span>
-										<input name="numClient" type="text" class="form-control" placeholder="Ex: 0612345678" aria-describedby="basic-addon1">
+										<input name="numClient" type="text" class="form-control" placeholder="Numéro fixe" aria-describedby="basic-addon1">
+									</div>
+									<div class="input-group">
+										<span class="input-group-addon glyphicon glyphicon-phone-alt" aria-hidden="true"></span>
+										<input name="numPortableClient" type="text" class="form-control" placeholder="Numéro de portable" aria-describedby="basic-addon1">
 									</div>
 
 									<h5>Adresse</h5>

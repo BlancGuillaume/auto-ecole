@@ -1,3 +1,7 @@
+<?php
+	// TO DO : inclure modèle examen
+	//include('../model/Examen.php');
+?>
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -29,17 +33,38 @@
         <?php include('nav.php');?>
 
 		</header>
-		<form class="formulaire" action="ajoutExamen.php" method="post">
-			<div id="formulaireAjoutLecon" class="sectionsFormulaireEleve">
-				<h3>Examen de code</h3>
-				<div class="input-group">
-					<input name="anniversaireEleve" type="text" class="form-control" placeholder="TO DO : datepicker" aria-describedby="basic-addon1">
+
+		<form id="page-wrapper" action="ajoutExamen.php" method="post">
+			<div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Ajout examen</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+	        <div class="row">
+	        	<div class="col-lg-12">
+                	<div class="panel panel-default">
+                		<div class="panel-body">
+					    	<div class="col-lg-6">
+								<div id="formulaireAjoutLecon" class="sectionsFormulaireEleve">
+									<h3>Examen de code</h3>
+									<div class="input-group">
+										<input name="dateExamenCode" type="text" class="form-control" placeholder="TO DO : datepicker" aria-describedby="basic-addon1">
+									</div>
+									
+					    		</div>
+					    	</div>
+							<div id="formulaireAjoutLecon" class="sectionsFormulaireEleve">
+								<h3>Examen de conduite</h3>
+								<div class="input-group">
+									<input name="dateExamenConduite" type="text" class="form-control" placeholder="TO DO : datepicker" aria-describedby="basic-addon1">
+								</div>
+								
+				    		</div>
+					    </div>
+					</div>
 				</div>
-				<h3>Examen de conduite</h3>
-				<div class="input-group">
-					<input name="anniversaireEleve" type="text" class="form-control" placeholder="TO DO : datepicker" aria-describedby="basic-addon1">
-				</div>
-    		</div>
+			</div>
     		<button id="boutonAjout" type="submit" name="action">Ajouter</button>
 		</form>
 

@@ -18,7 +18,9 @@
 		// Fonction addslashes pour éviter erreur d'insertions de bdd
 		$num_salarie = addslashes($_POST['numSalarie']);
 		$prenom_salarie = $_POST['prenomSalarie'];
+		$surnom = $_POST['surnomSalarie'];
 		$nom_salarie = addslashes($_POST['nomSalarie']);
+		$categorie_salarie = addslashes($_POST['categorieSalarie']);
 		$libelle_adresse_salarie = addslashes($_POST['libelleSalarie']);
 		$ville_adresse_salarie = addslashes($_POST['villeSalarie']);
 		$cp_adresse_salarie = addslashes($_POST['codePostalSalarie']);
@@ -68,6 +70,7 @@
 			var_dump("ville_adresse_salarie : " . $ville_adresse_salarie);
 			var_dump("cp_adresse_salarie : " . $cp_adresse_salarie);
 			var_dump("voiture_salarie : " . $voiture_salarie);
+			var_dump("categorie_salarie : " . $categorie_salarie);
 			
 			// /*********** AJOUT DES ADRESSES DANS LA BD ***********/
 			// /*********** ADRESSE DU SALARIE ***********/
@@ -163,7 +166,6 @@
                 <div class="col-lg-12">
                 	<div class="panel panel-default">
 						<div id="formulaireInfosClient" class="sectionsFormulaireEleve">
-							<h3>Salarié</h3>
 							<div class="input-group">
 								<span class="input-group-addon" id="basic-addon1">Nom</span>
 								<input name="nomSalarie" type="text" class="form-control" aria-describedby="basic-addon1">
@@ -173,7 +175,11 @@
 								<span class="input-group-addon" id="basic-addon1">Prénom</span>
 								<input name="prenomSalarie" type="text" class="form-control" aria-describedby="basic-addon1">
 							</div>
-
+							
+							<div class="input-group">
+								<span class="input-group-addon" id="basic-addon1">Surnom</span>
+								<input name="surnomSalarie" type="text" class="form-control" aria-describedby="basic-addon1">
+							</div>
 							<div class="input-group">
 								<span class="input-group-addon glyphicon glyphicon-phone-alt" aria-hidden="true"></span>
 								<input name="numSalarie" type="text" class="form-control" placeholder="Ex: 0612345678" aria-describedby="basic-addon1">
@@ -194,9 +200,7 @@
 									<input name="villeSalarie" type="text" class="form-control" aria-describedby="basic-addon1">
 								</div>
 							</div>
-			    		</div>
-			    		<div id="formulaireFormuleEleve" class="sectionsFormulaireEleve">
-			    			<h3>Voiture</h3>
+			    			<br/>
 			    			<div class="input-group">
 			    				<div class="input-group">
 			    					<span class="input-group-addon" id="basic-addon1">Voiture</span>
@@ -209,7 +213,17 @@
 									</select>
 								</div>
 							</div>
-			    		</div>
+			    			<div class="input-group">
+			    				<div class="input-group">
+			    					<span class="input-group-addon" id="basic-addon1">Catégorie</span>
+			    					<!-- TO DO : remplir champs avec la BD -->
+									<select class="form-control" name="categorieSalarie">
+										<option value="moniteur">Moniteur</option>
+										<option value="secretaire">Secrétaire</option>
+									</select>
+								</div>
+							</div>
+						</div>
 			    	</div>
 				</div>
 			</div>
