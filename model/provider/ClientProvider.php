@@ -66,9 +66,24 @@ class ClientProvider {
                                         $client['tel_portable'],
                                         AdresseProvider::get_adresse($client['id_adresse_client']),
                                         EleveProvider::get_eleves_dun_client($client['id_client']),
-                                        AchatProvoder::get_achats_dun_client($client['id_client']));
+                                        AchatProvider::get_achats_dun_client($client['id_client']));
             }
         }
         return $clients;
+    }
+    
+        /** 
+     * Ajoute un client à la bdd
+     * @param $client - le client à ajouter à la bdd
+     */
+    function ajout_client(Client $client) {
+        
+        $req = "INSERT INTO CLIENT VALUES ('".$client->get_id()."', '"
+                                            .$client->get_nom()."', '"
+                                            .$client->get_prenom()."', '"
+                                            .$client->get_telPortable()."', '"
+                                            .$client->get_adresse()->get_idAdresse()."')"; 
+        
+        // TODO continuer
     }
 }

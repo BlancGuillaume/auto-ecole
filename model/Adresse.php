@@ -12,7 +12,7 @@
 class Adresse {
     
     /** identifiant de l'adresse */
-    private $_idAdresse;
+    private $_id;
     
     /** rue de l'adresse */
     private $_rue;
@@ -25,14 +25,14 @@ class Adresse {
     
     /** Constructeur par paramètres */
     function __construct($idAdresse, $rue, $ville, $codePostal) {
-        $this->_idAdresse = $idAdresse;
+        $this->_id = $idAdresse;
         $this->_rue = $rue;
         $this->_ville = $ville;
         $this->_codePostal = $codePostal;
     }
 
-    function get_idAdresse() {
-        return $this->_idAdresse;
+    function get_id() {
+        return $this->_id;
     }
 
     function get_rue() {

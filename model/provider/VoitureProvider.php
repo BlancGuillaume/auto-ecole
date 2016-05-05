@@ -40,5 +40,22 @@ class VoitureProvider {
         
         return $voitures;
     }
+    
+    
+    /**
+     * Ajoute une voiture dans la bdd
+     * @param Voiture $voiture - la voiture a ajouter
+     */
+    function ajout_voiture(Voiture $voiture) {
+      
+        $req = "INSERT INTO VOITURE VALUES ('".$voiture->get_id()."', '"
+                                            .$voiture->get_prixAchat()."', '"
+                                            .$voiture->get_kilometrage()."', '"
+                                            .$voiture->get_dateAchat()."', '"
+                                            .$voiture->get_marque()."', '"
+                                            .$voiture->get_modele()."', '"
+                                            .$voiture->get_responsable().get_id()."')";
+        // TODO : continuer
+    }
 
 }

@@ -38,16 +38,29 @@ class SalarieProvider {
         return $moniteur;
     }
     
-    
     /**
-     * Toutes les informations du salarié
-     * @param type $id
+     * Récupère tous les salariés
      */
-    function get_salarie_detail($id) {
-       // Tout : sauf pour la voiture on choppe pas le gars (pour éviter de boucler) 
-    }
-    
     function get_salaries() {
+        // TODO 
+    }
         
+    /** 
+     * Ajoute un salarié à la bdd
+     * @param $salarie - la salarié à ajouter
+     */
+    function ajout_voiture(Salarie $salarie) {
+      
+        $req = "INSERT INTO SALARIE VALUES ('".$salarie->get_id()."', '"
+                                            .$salarie->get_nom()."', '"
+                                            .$salarie->get_prenom()."', '"
+                                            .$salarie->get_telPortable()."', '"
+                                            .$salarie->get_categorie()."', '"
+                                            .$salarie->get_surnom()."', '"
+                                            .$salarie->get_dateRecrutement()."', '"
+                                            .$salarie->get_adresse()->get_idAdresse()."', '"
+                                            .$salarie->get_voiture()->get_id()."')"; 
+        
+        // TODO continuer
     }
 }

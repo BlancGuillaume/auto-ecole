@@ -22,11 +22,15 @@ class Achat {
     /** L'élève qui bénéficie de l'achat */
     private $_eleveBeneficiaire;
     
-     /** Constructeur par défaut */
-     function __construct() {
-        parent::construct();
+    /** Constructeur par paramètres */
+    function __construct($id, $nbreLecons, $montant, $dateAchat, $eleveBeneficiaire) {
+        $this->_id = $id;
+        $this->_nbreLecons = $nbreLecons;
+        $this->_montant = $montant;
+        $this->_dateAchat = $dateAchat;
+        $this->_eleveBeneficiaire = $eleveBeneficiaire;
     }
-    
+
     function get_id() {
         return $this->_id;
     }
