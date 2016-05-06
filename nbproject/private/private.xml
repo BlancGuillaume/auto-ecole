@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/wamp/www/auto-ecole/model/provider/ConnectionManager.php</file>
+            <file>file:/C:/wamp/www/auto-ecole/model/Adresse.php</file>
+            <file>file:/C:/wamp/www/auto-ecole/model/provider/SalarieProvider.php</file>
+            <file>file:/C:/wamp/www/auto-ecole/model/Voiture.php</file>
+            <file>file:/C:/wamp/www/auto-ecole/model/provider/ClientProvider.php</file>
+            <file>file:/C:/wamp/www/auto-ecole/model/provider/AchatProvider.php</file>
+            <file>file:/C:/wamp/www/auto-ecole/model/provider/VoitureProvider.php</file>
+            <file>file:/C:/wamp/www/auto-ecole/model/provider/LeconConduiteProvider.php</file>
+            <file>file:/C:/wamp/www/auto-ecole/model/provider/FormuleProvider.php</file>
+            <file>file:/C:/wamp/www/auto-ecole/model/Individu.php</file>
+            <file>file:/C:/wamp/www/auto-ecole/model/provider/EleveProvider.php</file>
+            <file>file:/C:/wamp/www/auto-ecole/model/Salarie.php</file>
+            <file>file:/C:/wamp/www/auto-ecole/model/provider/AdresseProvider.php</file>
+            <file>file:/C:/wamp/www/auto-ecole/model/LeconConduite.php</file>
+        </group>
+    </open-files>
+</project-private>
