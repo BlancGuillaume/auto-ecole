@@ -16,7 +16,7 @@ class LeconConduiteProvider {
         
         $conn = include_once('model/ConnectionManager.php');
 
-        // Récupération de la forumule
+        // Récupération du nombre de lecons effectuées
         $req = oci_parse($conn, 'SELECT COUNT(*) '
                               . 'FROM LECON WHERE id_eleve_lecon = '. $id);
 
@@ -49,7 +49,10 @@ class LeconConduiteProvider {
         return $nbreHeuresFormule + $nbreHeuresAchetees - $nbreHeuresConsommees;  
     }
     
-    
+    /**
+     * Ajoute une leçon dans la base de donnée
+     * @param LeconConduite $leconConduite la leçon a ajouter
+     */
     public function ajout_lecon(LeconConduite $leconConduite) {
         
         $req = "INSERT INTO LECON VALUES ('".$leconConduite->get_id()."', '"
@@ -57,5 +60,7 @@ class LeconConduiteProvider {
                                             .$leconConduite->get_eleve()->get_id()."', '"
                                             .$leconConduite->get_salarie()->get_id()."', '"
                                             .$leconConduite->get_voiture()->get_id()."')"; 
+        
+       // TODO : continuer
     }
 }

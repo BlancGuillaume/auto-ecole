@@ -15,7 +15,7 @@ class ClientProvider {
        
         $conn = include_once('model/ConnectionManager.php');
 
-        // Récupération de la forumule
+        // Récupération du client
         $req = oci_parse($conn, 'SELECT id_client, nom_client, prenom_client'
                               . 'FROM CLIENT WHERE id_client = '. $id);
 
@@ -44,7 +44,7 @@ class ClientProvider {
 
         $conn = include_once('model/ConnectionManager.php');
 
-        // Récupération de tous les élèves de l'auto-ecole
+        // Récupération de tous les clients de l'auto-ecole
         $reqStructure = 'SELECT *'
                       . 'FROM ADRESSE a, CLIENT c'
                       . 'WHERE c.id_adresse_client = a.id_adresse';
@@ -54,7 +54,7 @@ class ClientProvider {
         // Execution de la requête
         oci_execute($req);
         
-        // Traitement du résultat : construction des élèves
+        // Traitement du résultat : construction des clients
         while ($resultat = oci_fetch_array($req)) {
             foreach ($resultat as $client) {
 
@@ -72,11 +72,52 @@ class ClientProvider {
         return $clients;
     }
     
+    /**
+     * Récupère les informations d'un client
+     * @param $idClient - l'identifiant du client
+     * @return le client qui correspond à l'identifiant
+     */
+    public function get_client($idClient) {
+        
+        $conn = include_once('model/ConnectionManager.php');
+
+        // Récupération du client
+        $reqStructure = 'SELECT *'
+                      . 'FROM ADRESSE a, CLIENT c'
+                      . 'WHERE c.id_adresse_client = a.id_adresse'
+                      . 'AND c.id_client = '.$idClient;
+
+        $req = oci_parse($conn, $reqStructure);
+
+        // Execution de la requête
+        oci_execute($req);
+        
+        // Traitement du résultat : construction du client
+        while ($resultats = oci_fetch_array($req)) {
+            foreach ($resultats as $resultat) {
+
+                $client = new Client($resultat['id_client'],
+                                        $resultat['prenom_client'],
+                                        $resultat['nom_client'], 
+                                        $resultat['naissance_client'],
+                                        $resultat['tel_domicile'],
+                                        $resultat['tel_portable'],
+                                        AdresseProvider::get_adresse($resultat['id_adresse_client']),
+                                        EleveProvider::get_eleves_dun_client($resultat['id_client']),
+                                        AchatProvider::get_achats_dun_client($resultat['id_client']));
+            }
+        }
+        return $client;
+    }
+    
+    
+    
+    
     /** 
      * Ajoute un client à la bdd
      * @param $client - le client à ajouter à la bdd
      */
-    function ajout_client(Client $client) {
+    public function ajout_client(Client $client) {
         
         $req = "INSERT INTO CLIENT VALUES ('".$client->get_id()."', '"
                                             .$client->get_nom()."', '"

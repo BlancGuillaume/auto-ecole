@@ -14,7 +14,7 @@ class FormuleProvider {
      * Récupère toutes les formules proposées par l'auto-école
      * @return \Formule - la liste de toutes les formules
      */
-    function get_formules() {
+    public function get_formules() {
 
         $conn = include_once('model/ConnectionManager.php');
         

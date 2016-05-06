@@ -42,11 +42,11 @@ class AchatProvider {
         
         $conn = include_once('model/ConnectionManager.php');
 
-        // Récupération de la forumule
+        // Récupération des achats d'un client
         $req = oci_parse($conn, 'SELECT * '
                               . 'FROM ACHAT, ELEVE '
                               . 'WHERE id_eleve_achat = id_eleve'
-                              . 'id_client_achat = '. $idClient);
+                              . 'AND id_client_achat = '. $idClient);
 
         // Execution de la requête
         oci_execute($req);

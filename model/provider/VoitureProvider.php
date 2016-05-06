@@ -14,7 +14,7 @@ class VoitureProvider {
      * Récupère la liste de toutes les voitures de l'auto-ecole
      * @return $voitures - la liste de toutes les voitures 
      */
-    function get_voitures() {
+    public function get_voitures() {
 
         $conn = include_once('model/ConnectionManager.php');
 
@@ -23,7 +23,7 @@ class VoitureProvider {
         // Execution de la requête
         oci_execute($req);
 
-        // Traitement du résultat : construction des formules
+        // Traitement du résultat : construction des voitures
         while ($resultat = oci_fetch_array($req)) {
             foreach ($resultat as $voiture) {
                 $voitures[] = new Voiture($voiture['id_voiture'], 
@@ -34,19 +34,52 @@ class VoitureProvider {
                                           $voiture['marque_voiture'],
                                           $voiture['modele_voiture'],
                                           $voiture['kilometrage_voiture'],
-                                          MoniteurProvider::get_nom_prenom_surnom_moniteur($voiture['id_salarie_voiture']));
+                                          SalarieProvider::get_nom_prenom_surnom_moniteur($voiture['id_salarie_voiture']));
             }
         }
         
         return $voitures;
     }
     
+    /**
+     * Récupère les informations d'une voiture
+     * @param idVoiture - l'identifiant de la voiture à récupérer
+     * @return La voiture
+     */
+    public function get_voiture($idVoiture) {
+        
+        $conn = include_once('model/ConnectionManager.php');
+
+        // Récupération de la voiture 
+        $req = oci_parse($conn, 'SELECT * FROM VOITURE WHERE id_voiture = '.$idVoiture);
+        
+        // Execution de la requête
+        oci_execute($req);
+
+        // Traitement du résultat : construction de la voiture
+        while ($resultats = oci_fetch_array($req)) {
+            foreach ($resultats as $resultat) {
+                $voiture = new Voiture($resultat['id_voiture'], 
+                                          $resultat['immatriculation_voiture'], 
+                                          $resultat['date_achat_voiture'],
+                                          $resultat['prix_voiture'],
+                                          $resultat['etat_voiture'],
+                                          $resultat['marque_voiture'],
+                                          $resultat['modele_voiture'],
+                                          $resultat['kilometrage_voiture'],
+                                          SalarieProvider::get_nom_prenom_surnom_moniteur($resultat['id_salarie_voiture']));
+            }
+        }
+        
+        return $voiture;
+    } 
+    
     
     /**
      * Ajoute une voiture dans la bdd
      * @param Voiture $voiture - la voiture a ajouter
      */
-    function ajout_voiture(Voiture $voiture) {
+    public function ajout_voiture(Voiture $voiture) {
       
         $req = "INSERT INTO VOITURE VALUES ('".$voiture->get_id()."', '"
                                             .$voiture->get_prixAchat()."', '"
