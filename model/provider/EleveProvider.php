@@ -87,27 +87,7 @@ class EleveProvider {
         
         return $eleves;  
     }
-    
- /*
-    CREATE TABLE ELEVE (
-	id_eleve INTEGER NOT NULL, 
-	nom_eleve VARCHAR(50), 
-	prenom_eleve VARCHAR(50), 
-	date_inscription_eleve VARCHAR(10), 
-	naissance_eleve VARCHAR(10), 
-	resultat_conduite_eleve BOOLEAN, 
-	resultat_code_eleve BOOLEAN, 
-	id_adresse_eleve INTEGER,
-	id_client_eleve INTEGER, 
-	id_formule_eleve INTEGER, 
-	id_salarie_eleve INTEGER, 
-	PRIMARY KEY (id_eleve),
-	FOREIGN KEY (id_adresse_eleve) REFERENCES ADRESSE(id_adresse),
-	FOREIGN KEY (id_client_eleve) REFERENCES CLIENT(id_client),
-	FOREIGN KEY (id_formule_eleve) REFERENCES FORMULE(id_formule),
-	FOREIGN KEY (id_salarie_eleve) REFERENCES SALARIE(id_salarie),
-); */
-    
+        
     /** 
      * Ajoute un élève à la bdd
      * @param $eleve - l'élève à ajouter à la bdd

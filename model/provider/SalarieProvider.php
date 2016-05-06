@@ -39,10 +39,36 @@ class SalarieProvider {
     }
     
     /**
-     * Récupère tous les salariés
+     * Récupère tous les salariés de l'auto-école
      */
     function get_salaries() {
-        // TODO 
+        
+        $conn = include_once('model/ConnectionManager.php');
+
+        // Récupération du moniteur correspondant à l'identifiant
+        $req = oci_parse($conn, 'SELECT * FROM SALARIE');
+        
+        // Execution de la requête
+        oci_execute($req);
+        
+        // Traitement du résultat : construction des formules
+        while ($resultat = oci_fetch_array($req)) {
+            foreach ($resultat as $salarie) {
+                // Une seule occurence
+                $salaries[] = new Salarie($salarie['id_salarie'],
+                        $salarie['prenom_salarie'],
+                        $salarie['nom_salarie'],
+                        NULL, NULL, $salarie['num_salarie'], 
+                        AdresseProvider::get_adresse($salarie['id_adresse_salarie']),
+                        $salarie['surnom_salarie'],
+                        $salarie['recrutement_salaire'],
+                        $salarie['categorie_salarie'],
+                        $salarie['id_voiture_salarie'],
+                        NULL);       
+            }
+        }
+        
+        return $salaries;
     }
         
     /** 
@@ -50,7 +76,7 @@ class SalarieProvider {
      * @param $salarie - la salarié à ajouter
      */
     function ajout_voiture(Salarie $salarie) {
-      
+         
         $req = "INSERT INTO SALARIE VALUES ('".$salarie->get_id()."', '"
                                             .$salarie->get_nom()."', '"
                                             .$salarie->get_prenom()."', '"
@@ -58,7 +84,7 @@ class SalarieProvider {
                                             .$salarie->get_categorie()."', '"
                                             .$salarie->get_surnom()."', '"
                                             .$salarie->get_dateRecrutement()."', '"
-                                            .$salarie->get_adresse()->get_idAdresse()."', '"
+                                            .$salarie->get_adresse()->get_id()."', '"
                                             .$salarie->get_voiture()->get_id()."')"; 
         
         // TODO continuer

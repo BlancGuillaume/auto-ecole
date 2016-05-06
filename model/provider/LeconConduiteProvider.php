@@ -48,4 +48,14 @@ class LeconConduiteProvider {
                 
         return $nbreHeuresFormule + $nbreHeuresAchetees - $nbreHeuresConsommees;  
     }
+    
+    
+    public function ajout_lecon(LeconConduite $leconConduite) {
+        
+        $req = "INSERT INTO LECON VALUES ('".$leconConduite->get_id()."', '"
+                                            .date("Y-m-d H:i:s")
+                                            .$leconConduite->get_eleve()->get_id()."', '"
+                                            .$leconConduite->get_salarie()->get_id()."', '"
+                                            .$leconConduite->get_voiture()->get_id()."')"; 
+    }
 }

@@ -72,7 +72,7 @@ class ClientProvider {
         return $clients;
     }
     
-        /** 
+    /** 
      * Ajoute un client à la bdd
      * @param $client - le client à ajouter à la bdd
      */
