@@ -6,7 +6,21 @@
  * @author Guillaume Blanc
  */
 
-include_once('model/Formule.php');
+// include_once('model/Formule.php');
+
+echo "test formule";
+
+$formules = FormuleProvider::get_formules();
+
+foreach($formules as $formule) {
+    // Récupération de toutes les formules
+    echo "id :".$formule->get_id();
+    echo "prix : ".$formule->get_prix();
+    echo "detail : ".$formule->getDetail();
+    echo "prix lecon : ".$formule->getPrixLecon();
+    echo "nombre tickets : ".$formule->get_nombreTickets();
+    echo "";
+}
 
 class FormuleProvider {
 
