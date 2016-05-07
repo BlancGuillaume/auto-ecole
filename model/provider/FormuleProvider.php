@@ -28,7 +28,7 @@ class FormuleProvider {
      * Récupère toutes les formules proposées par l'auto-école
      * @return \Formule - la liste de toutes les formules
      */
-    public function get_formules() {
+    public static function get_formules() {
 
         // Connection à la bdd
         include_once('ConnectionManager.php');
@@ -52,7 +52,7 @@ class FormuleProvider {
             }
         }
 
-        return $formules;
+        return $formules[];
     }
     
     /**
