@@ -32,6 +32,8 @@ class FormuleProvider {
             foreach ($resultat as $formule) {
                 $formules[] = new Formule($formule['id_formule'], 
                                           $formule['prix_formule'], 
+                                          $formule['nb_tickets_formule'],
+                                          $formule['prix_lecons_formule'],
                                           $formule['nb_tickets_formule']);
             }
         }
