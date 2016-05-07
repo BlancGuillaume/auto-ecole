@@ -6,21 +6,31 @@
  * @author Guillaume Blanc
  */
 
-// include_once('model/Formule.php');
+include_once('../Formule.php');
 
-echo "test formule";
 
 $formules = FormuleProvider::get_formules();
 
 foreach($formules as $formule) {
     // Récupération de toutes les formules
-    echo "id :".$formule->get_id();
-    echo "prix : ".$formule->get_prix();
-    echo "detail : ".$formule->getDetail();
-    echo "prix lecon : ".$formule->getPrixLecon();
-    echo "nombre tickets : ".$formule->get_nombreTickets();
-    echo "";
+    echo "id :".$formule->get_id()."<br>";
+    echo "prix : ".$formule->get_prix()."<br>";
+    echo "detail : ".$formule->getDetail()."<br>";
+    echo "prix lecon : ".$formule->getPrixLecon()."<br>";
+    echo "nombre tickets : ".$formule->get_nombreTickets()."<br>";
+    echo "<br>";
 }
+
+$UneFomule = FormuleProvider::get_formule(2);
+    echo "recuperation de la formule 2"."<br>";
+    echo "id :".$UneFomule->get_id()."<br>";
+    echo "prix : ".$UneFomule->get_prix()."<br>";
+    echo "detail : ".$UneFomule->getDetail()."<br>";
+    echo "prix lecon : ".$UneFomule->getPrixLecon()."<br>";
+    echo "nombre tickets : ".$UneFomule->get_nombreTickets()."<br>";
+    echo "<br>";
+
+
 
 class FormuleProvider {
 
@@ -29,34 +39,28 @@ class FormuleProvider {
      * @return \Formule - la liste de toutes les formules
      */
     public static function get_formules() {
-
-        echo "dans le get formules";
         
         // Connection à la bdd
         include_once('ConnectionManager.php');
         $connectionManager = new ConnectionManager();
         $conn = $connectionManager->connect();
         
-        // Récupération de toutes les formules
         $req = oci_parse($conn, 'SELECT * FROM FORMULE');
         
         // Execution de la requête
-        oci_execute($req);
+	oci_execute($req);
 
         // Traitement du résultat : construction des formules
-        $formules = array();
-        while ($resultat = oci_fetch_array($req)) {
-            foreach ($resultat as $formule) {
-                echo "cration des objets formules";
-                echo $formule;
-                $formules = new Formule($formule['id_formule'], 
-                                          $formule['prix_formule'], 
-                                          $formule['nb_tickets_formule'],
-                                          $formule['prix_lecons_formule'],
-                                          $formule['nb_tickets_formule']);
-            }
+        $formules = array(); // tableau de formules 
+        while (($formule = oci_fetch_array($req, OCI_BOTH)) != false) {
+            
+            array_push($formules,   new Formule($formule["ID_FORMULE"], 
+                                                $formule["PRIX_FORMULE"], 
+                                                $formule['NB_TICKETS_FORMULE'],
+                                                $formule['PRIX_LECONS_FORMULE'],
+                                                $formule['DETAILS_FORMULE']));
         }
-
+        
         return $formules;
     }
     
@@ -64,7 +68,7 @@ class FormuleProvider {
      * Récupère la formule correspondant à l'id spécifié
      * @param type $id - l'id de la formule à récupérer
      */
-    public function get_formule($id) {
+    public static function get_formule($id) {
         
         // Connection à la bdd
         include_once('ConnectionManager.php');
@@ -77,14 +81,14 @@ class FormuleProvider {
         // Execution de la requête
         oci_execute($req);
 
-        // Traitement du résultat : construction de la formule
-        while ($resultats = oci_fetch_array($req)) {
-            foreach ($resultats as $resultat) {
-                // Une seule occurence
-                $formule = new Formule($resultat['id_formule'], 
-                                       $resultat['prix_formule'], 
-                                       $resultat['nb_tickets_formule']);
-            }
+        /// Traitement du résultat : construction de la formule
+        while (($resutat = oci_fetch_array($req, OCI_BOTH)) != false) {
+            
+            $formule  = new Formule($resutat["ID_FORMULE"], 
+                                    $resutat["PRIX_FORMULE"], 
+                                    $resutat['NB_TICKETS_FORMULE'],
+                                    $resutat['PRIX_LECONS_FORMULE'],
+                                    $resutat['DETAILS_FORMULE']);
         }
         
         return $formule;
