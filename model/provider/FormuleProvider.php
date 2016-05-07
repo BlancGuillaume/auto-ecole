@@ -42,9 +42,10 @@ class FormuleProvider {
         oci_execute($req);
 
         // Traitement du résultat : construction des formules
+        $formules = array();
         while ($resultat = oci_fetch_array($req)) {
             foreach ($resultat as $formule) {
-                $formules[] = new Formule($formule['id_formule'], 
+                $formules = new Formule($formule['id_formule'], 
                                           $formule['prix_formule'], 
                                           $formule['nb_tickets_formule'],
                                           $formule['prix_lecons_formule'],
@@ -52,7 +53,7 @@ class FormuleProvider {
             }
         }
 
-        return $formules[];
+        return $formules;
     }
     
     /**
