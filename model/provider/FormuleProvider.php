@@ -48,6 +48,7 @@ class FormuleProvider {
         while ($resultat = oci_fetch_array($req)) {
             foreach ($resultat as $formule) {
                 echo "cration des objets formules";
+                echo $formule['id_formule'];
                 $formules = new Formule($formule['id_formule'], 
                                           $formule['prix_formule'], 
                                           $formule['nb_tickets_formule'],

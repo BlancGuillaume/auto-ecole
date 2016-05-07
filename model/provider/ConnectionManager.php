@@ -15,6 +15,8 @@ public function connect() {
     if (!$conn) {
         $e = oci_error();
         exit("ERREUR DE CONNEXION : " . $e['message']);
+    } else {
+        echo "connexion à la bdd : ok";
     }
     // else : connection ok
 
