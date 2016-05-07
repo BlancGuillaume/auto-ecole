@@ -1,0 +1,75 @@
+-- FORMULE
+INSERT INTO FORMULE (id_formule, prix_formule, nb_tickets_formule, prix_lecons_formule, details_formule) VALUES (formule_seq.nextVal, 400, 0, 40, 'Lecons de code à volonte Lecon de conduite à prendre');
+INSERT INTO FORMULE (id_formule, prix_formule, nb_tickets_formule, prix_lecons_formule, details_formule) VALUES (formule_seq.nextVal, 1100, 20, 35, 'Lecons de code a volonte 20 lecons de conduite offertes');
+INSERT INTO FORMULE (id_formule, prix_formule, nb_tickets_formule, prix_lecons_formule, details_formule) VALUES (formule_seq.nextVal, 1300, 30, 35, 'Lecons de code a volonte 30 lecons de conduite offertes');
+
+-- ADRESSE 
+INSERT INTO ADRESSE (id_adresse, libelle_adresse, ville_adresse, cp_adresse) VALUES (adresse_seq.nextVal, '44 bis avenue des 53', 'SAINT-CHAMAS', 13250);
+INSERT INTO ADRESSE (id_adresse, libelle_adresse, ville_adresse, cp_adresse) VALUES (adresse_seq.nextVal, '22 rue de la pipelette', 'FLAVIN', 12450);
+INSERT INTO ADRESSE (id_adresse, libelle_adresse, ville_adresse, cp_adresse) VALUES (adresse_seq.nextVal, '42 rue de la Callebasse', 'MARSEILLE', 13013);
+INSERT INTO ADRESSE (id_adresse, libelle_adresse, ville_adresse, cp_adresse) VALUES (adresse_seq.nextVal, '78 avenue de Toulouse', 'RODEZ', 12000);
+
+-- CLIENT 
+INSERT INTO CLIENT (id_client, nom_client, prenom_client, num_domicile_client, num_travail_client, id_adresse_client) VALUES (client_seq.nextVal, 'CALVADOVAS', 'Henri', '0696365623', '0491632365', 4);
+INSERT INTO CLIENT (id_client, nom_client, prenom_client, num_domicile_client, num_travail_client, id_adresse_client) VALUES (client_seq.nextVal, 'CHERONT', 'Michel', '0636963256', '0496365623', 3);
+INSERT INTO CLIENT (id_client, nom_client, prenom_client, num_domicile_client, num_travail_client, id_adresse_client) VALUES (client_seq.nextVal, 'BORDIN', 'Geoffrey', '0696458965', '0456287963', 1);
+
+-- SALARIE 
+INSERT INTO SALARIE (id_salarie, nom_salarie, prenom_salarie, num_salarie, categorie_salarie, surnom_salarie, date_recrutement, id_adresse_salarie) VALUES (salarie_seq.nextVal, 'PLATER', 'Johnny', '0612345678', 'Moniteur', 'Jojo', to_date('2014/05/31:01:00:00AM', 'yyyy/mm/dd:hh:mi:ssam'),  1);
+INSERT INTO SALARIE (id_salarie, nom_salarie, prenom_salarie, num_salarie, categorie_salarie, surnom_salarie, date_recrutement, id_adresse_salarie) VALUES (salarie_seq.nextVal, 'GRAS', 'Richard', '0636965632', 'Moniteur', 'Riton', to_date('2014/07/31:01:00:00AM', 'yyyy/mm/dd:hh:mi:ssam'),  2);
+INSERT INTO SALARIE (id_salarie, nom_salarie, prenom_salarie, num_salarie, categorie_salarie, surnom_salarie, date_recrutement, id_adresse_salarie) VALUES (salarie_seq.nextVal, 'DIRLO', 'Nicole', '0656323691', 'Secretaire', 'Nini', to_date('2014/03/01:01:00:00AM', 'yyyy/mm/dd:hh:mi:ssam'),  3);
+INSERT INTO SALARIE (id_salarie, nom_salarie, prenom_salarie, num_salarie, categorie_salarie, surnom_salarie, date_recrutement, id_adresse_salarie) VALUES (salarie_seq.nextVal, 'DIRLO', 'Bobby', '0632657896', 'Directeur', 'Bobo', to_date('2014/03/01:01:00:00AM', 'yyyy/mm/dd:hh:mi:ssam'),  3);
+
+-- VOITURE 
+INSERT INTO VOITURE (id_voiture, prix_voiture, kilometrage_voiture, date_achat_voiture, immatriculation_voiture, marque_voiture, modele_voiture, id_salarie_voiture) VALUES (voiture_seq.nextVal, 9000, 4000, to_date('2014/03/01:01:00:00AM', 'yyyy/mm/dd:hh:mi:ssam'), '12ABV13', 'Citroen', 'C2', 1);
+INSERT INTO VOITURE (id_voiture, prix_voiture, kilometrage_voiture, date_achat_voiture, immatriculation_voiture, marque_voiture, modele_voiture, id_salarie_voiture) VALUES (voiture_seq.nextVal, 9000, 42000, to_date('2014/03/01:01:00:00AM', 'yyyy/mm/dd:hh:mi:ssam'), '10PML13', 'Citroen', 'C2', 2);
+INSERT INTO VOITURE (id_voiture, prix_voiture, kilometrage_voiture, date_achat_voiture, immatriculation_voiture, marque_voiture, modele_voiture, id_salarie_voiture) VALUES (voiture_seq.nextVal, 9000, 39000, to_date('2014/03/01:01:00:00AM', 'yyyy/mm/dd:hh:mi:ssam'), '65PMU13', 'Citroen', 'C2', 3);
+
+UPDATE SALARIE
+SET id_voiture_salarie=1
+WHERE id_salarie=1;
+
+UPDATE SALARIE
+SET id_voiture_salarie=2
+WHERE id_salarie=2;
+
+UPDATE SALARIE
+SET id_voiture_salarie=3
+WHERE id_salarie=3;
+
+
+-- ELEVE 
+INSERT INTO ELEVE (id_eleve, nom_eleve, prenom_eleve, date_inscription_eleve, naissance_eleve, num_domicile_eleve, num_travail_eleve,resultat_conduite_eleve, resultat_code_eleve, id_adresse_eleve, id_client_eleve, id_formule_eleve, id_salarie_eleve) VALUES (eleve_seq.nextVal, 'BLANC', 'Guillaume', to_date('2014/05/08:01:00:00AM', 'yyyy/mm/dd:hh:mi:ssam'), to_date('1994/07/10:01:00:00AM', 'yyyy/mm/dd:hh:mi:ssam'), '0685963236', '0456239685', 0, 0, 1,1,2,1); 
+INSERT INTO ELEVE (id_eleve, nom_eleve, prenom_eleve, date_inscription_eleve, naissance_eleve, num_domicile_eleve, num_travail_eleve,resultat_conduite_eleve, resultat_code_eleve, id_adresse_eleve, id_client_eleve, id_formule_eleve, id_salarie_eleve) VALUES (eleve_seq.nextVal, 'GIVELET', 'Elise', to_date('2014/05/08:01:00:00AM', 'yyyy/mm/dd:hh:mi:ssam'), to_date('1993/12/04:01:00:00AM', 'yyyy/mm/dd:hh:mi:ssam'), '0632356978', '0491534309', 1, 0, 1,1,3,2); 
+INSERT INTO ELEVE (id_eleve, nom_eleve, prenom_eleve, date_inscription_eleve, naissance_eleve, num_domicile_eleve, num_travail_eleve,resultat_conduite_eleve, resultat_code_eleve, id_adresse_eleve, id_client_eleve, id_formule_eleve, id_salarie_eleve) VALUES (eleve_seq.nextVal, 'BORDIN', 'Geoffrey', to_date('2014/05/08:01:00:00AM', 'yyyy/mm/dd:hh:mi:ssam'), to_date('1991/02/16:01:00:00AM', 'yyyy/mm/dd:hh:mi:ssam'), '0686423775', '0491635296', 1, 0, 2,1,2,2);
+INSERT INTO ELEVE (id_eleve, nom_eleve, prenom_eleve, date_inscription_eleve, naissance_eleve, num_domicile_eleve, num_travail_eleve,resultat_conduite_eleve, resultat_code_eleve, id_adresse_eleve, id_client_eleve, id_formule_eleve, id_salarie_eleve) VALUES (eleve_seq.nextVal, 'CHERONT', 'Jade', to_date('2014/05/08:01:00:00AM', 'yyyy/mm/dd:hh:mi:ssam'), to_date('2000/06/17:01:00:00AM', 'yyyy/mm/dd:hh:mi:ssam'), '0685632365', '0491963296',0, 0, 2,3,2,3); 
+
+
+-- LECON
+INSERT INTO LECON (id_lecon, date_lecon, id_eleve_lecon, id_salarie_lecon, id_voiture_lecon) VALUES (lecon_seq.nextVal, to_date('2016/02/01:05:00:00PM', 'yyyy/mm/dd:hh:mi:ssam'), 2, 2, 2);
+INSERT INTO LECON (id_lecon, date_lecon, id_eleve_lecon, id_salarie_lecon, id_voiture_lecon) VALUES (lecon_seq.nextVal, to_date('2016/02/03:05:00:00PM', 'yyyy/mm/dd:hh:mi:ssam'), 2, 2, 2);
+INSERT INTO LECON (id_lecon, date_lecon, id_eleve_lecon, id_salarie_lecon, id_voiture_lecon) VALUES (lecon_seq.nextVal, to_date('2016/02/06:04:00:00PM', 'yyyy/mm/dd:hh:mi:ssam'), 2, 2, 1);
+
+INSERT INTO LECON (id_lecon, date_lecon, id_eleve_lecon, id_salarie_lecon, id_voiture_lecon) VALUES (lecon_seq.nextVal, to_date('2016/02/01:05:00:00PM', 'yyyy/mm/dd:hh:mi:ssam'), 3, 1, 3);
+INSERT INTO LECON (id_lecon, date_lecon, id_eleve_lecon, id_salarie_lecon, id_voiture_lecon) VALUES (lecon_seq.nextVal, to_date('2016/02/02:05:00:00PM', 'yyyy/mm/dd:hh:mi:ssam'), 3, 1, 2);
+INSERT INTO LECON (id_lecon, date_lecon, id_eleve_lecon, id_salarie_lecon, id_voiture_lecon) VALUES (lecon_seq.nextVal, to_date('2016/02/03:04:00:00PM', 'yyyy/mm/dd:hh:mi:ssam'), 3, 2, 1);
+INSERT INTO LECON (id_lecon, date_lecon, id_eleve_lecon, id_salarie_lecon, id_voiture_lecon) VALUES (lecon_seq.nextVal, to_date('2016/02/04:05:00:00PM', 'yyyy/mm/dd:hh:mi:ssam'), 3, 1, 3);
+INSERT INTO LECON (id_lecon, date_lecon, id_eleve_lecon, id_salarie_lecon, id_voiture_lecon) VALUES (lecon_seq.nextVal, to_date('2016/02/05:05:00:00PM', 'yyyy/mm/dd:hh:mi:ssam'), 3, 1, 2);
+INSERT INTO LECON (id_lecon, date_lecon, id_eleve_lecon, id_salarie_lecon, id_voiture_lecon) VALUES (lecon_seq.nextVal, to_date('2016/02/06:04:00:00PM', 'yyyy/mm/dd:hh:mi:ssam'), 3, 2, 1);
+
+
+-- ACHAT 
+INSERT INTO ACHAT (id_achat, id_client_achat, id_eleve_achat, nb_tickets_achat, date_achat) VALUES (achat_seq.nextVal, 1, 2, 5, to_date('2016/01/30:05:00:00PM', 'yyyy/mm/dd:hh:mi:ssam'));
+INSERT INTO ACHAT (id_achat, id_client_achat, id_eleve_achat, nb_tickets_achat, date_achat) VALUES (achat_seq.nextVal, 3, 3, 10, to_date('2016/01/30:05:00:00PM', 'yyyy/mm/dd:hh:mi:ssam'));
+
+-- EXAMEN_CODE
+INSERT INTO EXAMEN_CODE (id_examen_code, date_examen_code) VALUES (examen_code_seq.nextVal, to_date('2016/02/15:05:00:00PM', 'yyyy/mm/dd:hh:mi:ssam'));
+INSERT INTO EXAMEN_CODE (id_examen_code, date_examen_code) VALUES (examen_code_seq.nextVal, to_date('2016/02/17:08:00:00AM', 'yyyy/mm/dd:hh:mi:ssam'));
+INSERT INTO EXAMEN_CODE (id_examen_code, date_examen_code) VALUES (examen_code_seq.nextVal, to_date('2016/01/15:08:00:00AM', 'yyyy/mm/dd:hh:mi:ssam'));
+
+-- EXAMEN_CONDUITE
+INSERT INTO EXAMEN_CONDUITE (id_examen_conduite, date_examen_conduite, id_eleve_examen_conduite) VALUES (examen_conduite_seq.nextVal, to_date('2016/02/17:08:00:00AM', 'yyyy/mm/dd:hh:mi:ssam'), 2);
+
+--PASSAGE_EXAMEN
+INSERT INTO PASSAGE_CODE (id_passage_code, id_examen_code_passage, id_eleve_passage) VALUES (passage_code_seq.nextVal, 3, 2);
+INSERT INTO PASSAGE_CODE (id_passage_code, id_examen_code_passage, id_eleve_passage) VALUES (passage_code_seq.nextVal, 3, 3);

@@ -1,0 +1,154 @@
+create sequence adresse_seq;
+create sequence client_seq;
+create sequence formule_seq; 
+create sequence voiture_seq;
+create sequence salarie_seq;
+create sequence eleve_seq;
+create sequence lecon_seq;
+create sequence achat_seq;
+create sequence examen_conduite_seq;
+create sequence examen_code_seq;
+create sequence passage_code_seq;
+
+CREATE TABLE ADRESSE (
+	id_adresse INTEGER NOT NULL, 
+	libelle_adresse VARCHAR(100), 
+	ville_adresse VARCHAR(50), 
+	cp_adresse VARCHAR(5), 
+	PRIMARY KEY (id_adresse)
+); 
+
+
+CREATE TABLE CLIENT (
+	id_client INTEGER NOT NULL, 
+	nom_client VARCHAR(50), 
+	prenom_client VARCHAR(50), 
+	num_domicile_client VARCHAR(10), 
+	num_travail_client VARCHAR(10),
+	id_adresse_client INTEGER,
+	PRIMARY KEY (id_client),
+	FOREIGN KEY (id_adresse_client) REFERENCES ADRESSE(id_adresse)
+);
+
+
+
+
+CREATE TABLE FORMULE (
+	id_formule INTEGER NOT NULL, 
+	prix_formule FLOAT, 
+	nb_tickets_formule INTEGER, 
+	PRIMARY KEY (id_formule)
+);
+
+
+
+CREATE TABLE VOITURE (
+	id_voiture INTEGER NOT NULL, 
+	prix_voiture FLOAT, 
+	kilometrage_voiture FLOAT,
+	date_achat_voiture DATE, 
+	immatriculation_voiture VARCHAR(10),
+	marque_voiture VARCHAR(50),
+	modele_voiture INTEGER, 
+	id_salarie_voiture INTEGER, 
+	PRIMARY KEY (id_voiture)
+); 
+
+
+
+CREATE TABLE SALARIE ( 
+	id_salarie INTEGER NOT NULL, 
+	nom_salarie VARCHAR(50), 
+	prenom_salarie VARCHAR(50),
+	num_salarie VARCHAR(10), 
+	categorie_salarie VARCHAR(50), 
+	surnom_salarie VARCHAR(50), 
+	date_recrutement DATE, 
+	id_adresse_salarie INTEGER, 
+	id_voiture_salarie INTEGER, 
+	PRIMARY KEY (id_salarie),
+	FOREIGN KEY (id_adresse_salarie) REFERENCES ADRESSE(id_adresse)
+);
+
+ALTER TABLE SALARIE
+ADD CONSTRAINT fk_voiture_salarie
+FOREIGN KEY (id_voiture_salarie) 
+REFERENCES VOITURE(id_voiture);
+
+ALTER TABLE VOITURE
+ADD CONSTRAINT fk_salarie_voiture
+FOREIGN KEY (id_salarie_voiture) 
+REFERENCES SALARIE(id_salarie);
+
+
+CREATE TABLE ELEVE (
+	id_eleve INTEGER NOT NULL, 
+	nom_eleve VARCHAR(50), 
+	prenom_eleve VARCHAR(50), 
+	date_inscription_eleve DATE, 
+	naissance_eleve VARCHAR(10), 
+	num_domicile_eleve VARCHAR(10), 
+	num_travail_eleve VARCHAR(10),
+	resultat_conduite_eleve NUMBER(1), 
+	resultat_code_eleve NUMBER(1),
+	id_adresse_eleve INTEGER,
+	id_client_eleve INTEGER, 
+	id_formule_eleve INTEGER, 
+	id_salarie_eleve INTEGER, 
+	PRIMARY KEY (id_eleve),
+	FOREIGN KEY (id_adresse_eleve) REFERENCES ADRESSE(id_adresse),
+	FOREIGN KEY (id_client_eleve) REFERENCES CLIENT(id_client),
+	FOREIGN KEY (id_formule_eleve) REFERENCES FORMULE(id_formule),
+	FOREIGN KEY (id_salarie_eleve) REFERENCES SALARIE(id_salarie)
+);
+
+CREATE TABLE LECON (
+	id_lecon INTEGER NOT NULL, 
+	date_lecon DATE,
+	id_eleve_lecon INTEGER, 
+	id_salarie_lecon INTEGER,
+	id_voiture_lecon INTEGER,
+	PRIMARY KEY (id_lecon),
+	FOREIGN KEY (id_eleve_lecon) REFERENCES ELEVE(id_eleve),
+	FOREIGN KEY (id_salarie_lecon) REFERENCES SALARIE(id_salarie),
+	FOREIGN KEY (id_voiture_lecon) REFERENCES VOITURE(id_voiture)
+);
+
+
+CREATE TABLE ACHAT (
+  id_achat INTEGER NOT NULL, 
+	id_client_achat INTEGER NOT NULL, 
+	id_eleve_achat INTEGER NOT NULL, 
+	nb_tickets_achat INTEGER, 
+	date_achat DATE, 
+	PRIMARY KEY (id_achat), 
+	FOREIGN KEY (id_client_achat) REFERENCES CLIENT(id_client),
+	FOREIGN KEY (id_eleve_achat) REFERENCES ELEVE(id_eleve)
+);
+
+CREATE TABLE EXAMEN_CONDUITE (
+	id_examen_conduite INTEGER NOT NULL, 
+	date_examen_conduite DATE, 
+	id_eleve_examen_conduite INTEGER,
+	PRIMARY KEY (id_examen_conduite), 
+	FOREIGN KEY (id_eleve_examen_conduite) REFERENCES ELEVE(id_eleve)
+); 
+
+CREATE TABLE EXAMEN_CODE (
+	id_examen_code INTEGER NOT NULL, 
+	date_examen_code DATE, 
+	PRIMARY KEY (id_examen_code)
+); 
+
+CREATE TABLE PASSAGE_CODE (
+  	id_passage_code INTEGER NOT NULL, 
+	id_examen_code_passage INTEGER NOT NULL, 
+	id_eleve_passage INTEGER NOT NULL, 
+	PRIMARY KEY (id_passage_code), 
+	FOREIGN KEY (id_examen_code_passage) REFERENCES EXAMEN_CODE(id_examen_code),
+	FOREIGN KEY (id_eleve_passage) REFERENCES ELEVE(id_eleve)
+);
+
+ALTER TABLE FORMULE ADD prix_lecons_formule FLOAT;
+ALTER TABLE FORMULE ADD details_formule VARCHAR(500);
+ALTER TABLE VOITURE MODIFY modele_voiture VARCHAR(50);
