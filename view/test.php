@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+﻿<!DOCTYPE HTML>
 <html>
     <head>
         <meta charset="utf-8" />
@@ -15,7 +15,7 @@
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <header>
-            <!-- Navigation -->
+            <!-- Navigation - test -->
             <?php include('nav.php');?>
 
             
