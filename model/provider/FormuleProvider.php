@@ -30,6 +30,8 @@ class FormuleProvider {
      */
     public static function get_formules() {
 
+        echo "dans le get formules";
+        
         // Connection à la bdd
         include_once('ConnectionManager.php');
         $connectionManager = new ConnectionManager();
@@ -45,6 +47,7 @@ class FormuleProvider {
         $formules = array();
         while ($resultat = oci_fetch_array($req)) {
             foreach ($resultat as $formule) {
+                echo "cration des objets formules";
                 $formules = new Formule($formule['id_formule'], 
                                           $formule['prix_formule'], 
                                           $formule['nb_tickets_formule'],
