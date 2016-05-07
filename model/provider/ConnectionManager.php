@@ -6,14 +6,19 @@
  * 
  * @author Guillaume Blanc
  */
+class ConnectionManager {
 
-/* identifiant et login de la bdd */
-$conn = oci_connect('admin', 'admin');
 
-if (!$conn) {
-    $e = oci_error();
-    exit("ERREUR DE CONNEXION : " . $e['message']);
+public function connect() {
+    $conn = oci_connect('SYSTEM', 'root', 'localhost/XE');
+
+    if (!$conn) {
+        $e = oci_error();
+        exit("ERREUR DE CONNEXION : " . $e['message']);
+    }
+    // else : connection ok
+
+    return $conn;
 }
-// else : connection ok
 
-return $conn;
+}

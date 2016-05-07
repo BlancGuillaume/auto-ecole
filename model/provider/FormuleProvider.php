@@ -16,10 +16,14 @@ class FormuleProvider {
      */
     public function get_formules() {
 
-        $conn = include_once('model/ConnectionManager.php');
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
         
         // Récupération de toutes les formules
         $req = oci_parse($conn, 'SELECT * FROM FORMULE');
+        
         // Execution de la requête
         oci_execute($req);
 
@@ -41,7 +45,10 @@ class FormuleProvider {
      */
     public function get_formule($id) {
         
-        $conn = include_once('model/ConnectionManager.php');
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
 
         // Récupération de la forumule
         $req = oci_parse($conn, 'SELECT * FROM FORMULE WHERE id_formule = '. $id);
