@@ -14,7 +14,10 @@ class AdresseProvider {
      */
     public function get_adresse($id) {
 
-        $conn = include_once('model/ConnectionManager.php');
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
 
         // Récupération de l'adresse
         $req = oci_parse($conn, 'SELECT * FROM ADRESSE WHERE id_adresse = '. $id);

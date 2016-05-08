@@ -16,7 +16,10 @@ class EleveProvider {
      */
     public function get_eleves() {
         
-        $conn = include_once('model/ConnectionManager.php');
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
 
         // Récupération de tous les élèves de l'auto-ecole
         $reqStructure = 'SELECT *'
@@ -63,7 +66,10 @@ class EleveProvider {
      */
     public function get_eleve($idEleve) {
         
-        $conn = include_once('model/ConnectionManager.php');
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
 
         // Récupération des informations de l'élève
         $reqStructure = 'SELECT *'
@@ -111,7 +117,10 @@ class EleveProvider {
      */
     public function get_eleves_dun_client($idClient) {
         
-        $conn = include_once('model/ConnectionManager.php');
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
 
         // Récupération des élèves du client
         $req = oci_parse($conn, 'SELECT id_eleve, nom_eleve, prenom_eleve'
@@ -141,6 +150,11 @@ class EleveProvider {
      * @param $eleve - l'élève à ajouter à la bdd
      */
     public function ajout_eleve(Eleve $eleve) {
+        
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
         
         $req = "INSERT INTO ELEVE VALUES ('".$eleve->get_id()."', '"
                                             .$eleve->get_nom()."', '"

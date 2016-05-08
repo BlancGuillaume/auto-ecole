@@ -13,7 +13,10 @@ class SalarieProvider {
      */
     public function get_nom_prenom_surnom_moniteur($id) {
         
-        $conn = include_once('model/ConnectionManager.php');
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
 
         // Récupération du moniteur correspondant à l'identifiant
         $req = oci_parse($conn, 'SELECT id_salarie, prenom_salarie, nom_salarie, surnom_salarie'
@@ -43,7 +46,10 @@ class SalarieProvider {
      */
     public function get_salaries() {
         
-        $conn = include_once('model/ConnectionManager.php');
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
 
         // Récupération des salariés
         $req = oci_parse($conn, 'SELECT * FROM SALARIE');
@@ -77,7 +83,10 @@ class SalarieProvider {
      */
     public function get_salarie($idSalarie) {
         
-        $conn = include_once('model/ConnectionManager.php');
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
 
         // Récupération du salarié correspondant à l'identifiant
         $req = oci_parse($conn, 'SELECT * FROM SALARIE WHERE id_salarie = '.$idSalarie);
@@ -111,6 +120,11 @@ class SalarieProvider {
      */
     public function ajout_salarie(Salarie $salarie) {
          
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
+        
         $req = "INSERT INTO SALARIE VALUES ('".$salarie->get_id()."', '"
                                             .$salarie->get_nom()."', '"
                                             .$salarie->get_prenom()."', '"

@@ -14,7 +14,10 @@ class LeconConduiteProvider {
      */
     public function get_nombre_lecons_effectuees($id) {
         
-        $conn = include_once('model/ConnectionManager.php');
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
 
         // Récupération du nombre de lecons effectuées
         $req = oci_parse($conn, 'SELECT COUNT(*) '
@@ -54,6 +57,11 @@ class LeconConduiteProvider {
      * @param LeconConduite $leconConduite la leçon a ajouter
      */
     public function ajout_lecon(LeconConduite $leconConduite) {
+        
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
         
         $req = "INSERT INTO LECON VALUES ('".$leconConduite->get_id()."', '"
                                             .date("Y-m-d H:i:s")

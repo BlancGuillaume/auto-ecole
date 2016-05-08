@@ -13,7 +13,10 @@ class AchatProvider {
      */
     public function get_nombre_lecons_achetees($idEleve) {
         
-        $conn = include_once('model/ConnectionManager.php');
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
 
         // Récupération du nombres de lecons achetées 
         $req = oci_parse($conn, 'SELECT COUNT(*) '
@@ -40,7 +43,10 @@ class AchatProvider {
      */
     public function get_achats_dun_client($idClient) {
         
-        $conn = include_once('model/ConnectionManager.php');
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
 
         // Récupération des achats d'un client
         $req = oci_parse($conn, 'SELECT * '

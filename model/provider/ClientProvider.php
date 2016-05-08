@@ -13,7 +13,10 @@ class ClientProvider {
     */
     public function get_nom_prenom_client($id) {
        
-        $conn = include_once('model/ConnectionManager.php');
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
 
         // Récupération du client
         $req = oci_parse($conn, 'SELECT id_client, nom_client, prenom_client'
@@ -42,7 +45,10 @@ class ClientProvider {
      */
     public function get_clients() {
 
-        $conn = include_once('model/ConnectionManager.php');
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
 
         // Récupération de tous les clients de l'auto-ecole
         $reqStructure = 'SELECT *'
@@ -79,7 +85,10 @@ class ClientProvider {
      */
     public function get_client($idClient) {
         
-        $conn = include_once('model/ConnectionManager.php');
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
 
         // Récupération du client
         $reqStructure = 'SELECT *'
@@ -118,6 +127,11 @@ class ClientProvider {
      * @param $client - le client à ajouter à la bdd
      */
     public function ajout_client(Client $client) {
+        
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
         
         $req = "INSERT INTO CLIENT VALUES ('".$client->get_id()."', '"
                                             .$client->get_nom()."', '"

@@ -16,7 +16,10 @@ class VoitureProvider {
      */
     public function get_voitures() {
 
-        $conn = include_once('model/ConnectionManager.php');
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
 
         // Récupération de toutes les voitures
         $req = oci_parse($conn, 'SELECT * FROM VOITURE');
@@ -48,7 +51,10 @@ class VoitureProvider {
      */
     public function get_voiture($idVoiture) {
         
-        $conn = include_once('model/ConnectionManager.php');
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
 
         // Récupération de la voiture 
         $req = oci_parse($conn, 'SELECT * FROM VOITURE WHERE id_voiture = '.$idVoiture);
@@ -81,6 +87,11 @@ class VoitureProvider {
      */
     public function ajout_voiture(Voiture $voiture) {
       
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
+        
         $req = "INSERT INTO VOITURE VALUES ('".$voiture->get_id()."', '"
                                             .$voiture->get_prixAchat()."', '"
                                             .$voiture->get_kilometrage()."', '"
