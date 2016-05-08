@@ -49,7 +49,7 @@ class Voiture {
     }
     
     public function get_id() {
-        return $this->_idVoiture;
+        return $this->_id;
     }
 
     function get_immatriculation() {
@@ -85,7 +85,7 @@ class Voiture {
     }
 
     function set_idVoiture($_idVoiture) {
-        $this->_idVoiture = $_idVoiture;
+        $this->_id = $_idVoiture;
     }
 
     function set_immatriculation($_immatriculation) {

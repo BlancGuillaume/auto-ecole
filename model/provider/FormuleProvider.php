@@ -8,29 +8,10 @@
 
 include_once('../Formule.php');
 
-
-$formules = FormuleProvider::get_formules();
-
-foreach($formules as $formule) {
-    // Récupération de toutes les formules
-    echo "id :".$formule->get_id()."<br>";
-    echo "prix : ".$formule->get_prix()."<br>";
-    echo "detail : ".$formule->getDetail()."<br>";
-    echo "prix lecon : ".$formule->getPrixLecon()."<br>";
-    echo "nombre tickets : ".$formule->get_nombreTickets()."<br>";
-    echo "<br>";
-}
-
-$UneFomule = FormuleProvider::get_formule(2);
-    echo "recuperation de la formule 2"."<br>";
-    echo "id :".$UneFomule->get_id()."<br>";
-    echo "prix : ".$UneFomule->get_prix()."<br>";
-    echo "detail : ".$UneFomule->getDetail()."<br>";
-    echo "prix lecon : ".$UneFomule->getPrixLecon()."<br>";
-    echo "nombre tickets : ".$UneFomule->get_nombreTickets()."<br>";
-    echo "<br>";
-
-
+/**
+ * Décommenter pour tester les requetes
+ */
+// FormuleProvider::testMethodes();
 
 class FormuleProvider {
 
@@ -81,16 +62,44 @@ class FormuleProvider {
         // Execution de la requête
         oci_execute($req);
 
-        /// Traitement du résultat : construction de la formule
-        while (($resutat = oci_fetch_array($req, OCI_BOTH)) != false) {
-            
-            $formule  = new Formule($resutat["ID_FORMULE"], 
-                                    $resutat["PRIX_FORMULE"], 
-                                    $resutat['NB_TICKETS_FORMULE'],
-                                    $resutat['PRIX_LECONS_FORMULE'],
-                                    $resutat['DETAILS_FORMULE']);
+        // Traitement du résultat : construction de la formule
+        while (($resultat = oci_fetch_array($req, OCI_BOTH)) != false) {
+            // une seule occruence
+            $formule  = new Formule($resultat["ID_FORMULE"], 
+                                    $resultat["PRIX_FORMULE"], 
+                                    $resultat['NB_TICKETS_FORMULE'],
+                                    $resultat['PRIX_LECONS_FORMULE'],
+                                    $resultat['DETAILS_FORMULE']);
         }
         
         return $formule;
     }
+    
+    /**
+     * Test des méthodes ci dessus
+     */
+    public static function testMethodes() {
+        
+        $formules = FormuleProvider::get_formules();
+
+        foreach ($formules as $formule) {
+            // Récupération de toutes les formules
+            echo "id :" . $formule->get_id() . "<br>";
+            echo "prix : " . $formule->get_prix() . "<br>";
+            echo "detail : " . $formule->getDetail() . "<br>";
+            echo "prix lecon : " . $formule->getPrixLecon() . "<br>";
+            echo "nombre tickets : " . $formule->get_nombreTickets() . "<br>";
+            echo "<br>";
+        }
+
+        $UneFomule = FormuleProvider::get_formule(21);
+        echo "recuperation de la formule 21" . "<br>";
+        echo "id :" . $UneFomule->get_id() . "<br>";
+        echo "prix : " . $UneFomule->get_prix() . "<br>";
+        echo "detail : " . $UneFomule->getDetail() . "<br>";
+        echo "prix lecon : " . $UneFomule->getPrixLecon() . "<br>";
+        echo "nombre tickets : " . $UneFomule->get_nombreTickets() . "<br>";
+        echo "<br>";
+    }
+
 }

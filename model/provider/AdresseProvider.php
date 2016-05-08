@@ -5,6 +5,14 @@
  * => Construction des objets Adresse
  * @author Guillaume Blanc
  */
+
+include_once('../Adresse.php');
+
+/**
+ * Décommenter pour tester les requetes
+ */
+// AdresseProvider::testMethodes();
+
 class AdresseProvider {
 
     /**
@@ -12,7 +20,7 @@ class AdresseProvider {
      * @param type $id - l'id de l'adresse a récupérer
      * @return adresse - l'adresse récupérée
      */
-    public function get_adresse($id) {
+    public static function get_adresse($id) {
 
         // Connection à la bdd
         include_once('ConnectionManager.php');
@@ -26,16 +34,29 @@ class AdresseProvider {
         oci_execute($req);
 
         // Traitement du résultat : construction de l'adresse
-        while ($resultats = oci_fetch_array($req)) {
-            foreach ($resultats as $resultat) {
-                // Une seule occurence
-                $adresse = new Adresse($resultat['id_adresse'],
-                                       $resultat['libelle_adresse'], 
-                                       $resultat['ville_adresse'],
-                                       $resultat['cp_adresse']);
-            }
+        while (($resultat = oci_fetch_array($req, OCI_BOTH)) != false) {
+            // une seule occurence
+            $adresse = new Adresse($resultat['ID_ADRESSE'],
+                                   $resultat['LIBELLE_ADRESSE'], 
+                                   $resultat['VILLE_ADRESSE'],
+                                   $resultat['CP_ADRESSE']);
         }
         
         return $adresse;
     }
+    
+     /**
+     * Test des méthodes ci dessus
+     */
+    public static function testMethodes() {
+        $uneAdresse = AdresseProvider::get_adresse(21);
+
+        echo "recuperation de l'adresse 21" . "<br>";
+        echo "id : " . $uneAdresse->get_id() . "<br>";
+        echo "rue : " . $uneAdresse->get_rue() . "<br>";
+        echo "ville : " . $uneAdresse->get_ville() . "<br>";
+        echo "code postal : " . $uneAdresse->get_codePostal() . "<br>";
+        echo "<br>";
+    }
+
 }

@@ -1,9 +1,20 @@
 <?php
 
 /**
- * Provider de la table
+ * Provider de la table client
  * @author Guillaume Blanc
  */
+
+include_once('../Client.php');
+
+$npClient = ClientProvider::get_nom_prenom_client(1); // np pour nom prenom
+echo "recuperation d'un client" ."<br>";
+echo"id : ".$npClient->get_id()."<br>";
+echo"nom : ".$npClient->get_nom()."<br>";
+echo"prenom : ".$npClient->get_prenom()."<br>";
+echo "<br>";
+
+
 class ClientProvider {
     
    /**
@@ -11,7 +22,7 @@ class ClientProvider {
     * @param type $id - l'id du client à récupérer
     * @return string - le client
     */
-    public function get_nom_prenom_client($id) {
+    public static function get_nom_prenom_client($id) {
        
         // Connection à la bdd
         include_once('ConnectionManager.php');
@@ -19,21 +30,19 @@ class ClientProvider {
         $conn = $connectionManager->connect();
 
         // Récupération du client
-        $req = oci_parse($conn, 'SELECT id_client, nom_client, prenom_client'
+        $req = oci_parse($conn, 'SELECT id_client, nom_client, prenom_client '
                               . 'FROM CLIENT WHERE id_client = '. $id);
 
         // Execution de la requête
         oci_execute($req);
-
-        // Traitement du résultat : construction de la formule
-        while ($resultats = oci_fetch_array($req)) {
-            foreach ($resultats as $resultat) {
-                // Une seule occurence
-                $client = new Client($resultat['id_client'], 
-                                     $resultat['prenom_client'], 
-                                     $resultat['nom_client'], 
-                                     null, null, null, null, null, null);
-            }
+        
+        // Traitement du résultat : construction du client
+        while (($resultat = oci_fetch_array($req, OCI_BOTH)) != false) {
+            // une seule occruence
+            $client = new Client($resultat['ID_CLIENT'], 
+                                 $resultat['PRENOM_CLIENT'], 
+                                 $resultat['NOM_CLIENT'], 
+                                 null, null, null, null, null, null);
         }
         
         return $client;
@@ -43,7 +52,7 @@ class ClientProvider {
      * Récupère la liste de tous les clients
      * @return type les clients de l'auto-école
      */
-    public function get_clients() {
+    public static function get_clients() {
 
         // Connection à la bdd
         include_once('ConnectionManager.php');
@@ -51,8 +60,8 @@ class ClientProvider {
         $conn = $connectionManager->connect();
 
         // Récupération de tous les clients de l'auto-ecole
-        $reqStructure = 'SELECT *'
-                      . 'FROM ADRESSE a, CLIENT c'
+        $reqStructure = 'SELECT * '
+                      . 'FROM ADRESSE a, CLIENT c '
                       . 'WHERE c.id_adresse_client = a.id_adresse';
 
         $req = oci_parse($conn, $reqStructure);
@@ -83,7 +92,7 @@ class ClientProvider {
      * @param $idClient - l'identifiant du client
      * @return le client qui correspond à l'identifiant
      */
-    public function get_client($idClient) {
+    public static function get_client($idClient) {
         
         // Connection à la bdd
         include_once('ConnectionManager.php');
@@ -91,8 +100,8 @@ class ClientProvider {
         $conn = $connectionManager->connect();
 
         // Récupération du client
-        $reqStructure = 'SELECT *'
-                      . 'FROM ADRESSE a, CLIENT c'
+        $reqStructure = 'SELECT * '
+                      . 'FROM ADRESSE a, CLIENT c '
                       . 'WHERE c.id_adresse_client = a.id_adresse'
                       . 'AND c.id_client = '.$idClient;
 
@@ -126,7 +135,7 @@ class ClientProvider {
      * Ajoute un client à la bdd
      * @param $client - le client à ajouter à la bdd
      */
-    public function ajout_client(Client $client) {
+    public static function ajout_client(Client $client) {
         
         // Connection à la bdd
         include_once('ConnectionManager.php');

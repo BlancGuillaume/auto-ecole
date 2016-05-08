@@ -5,6 +5,9 @@
  *
  * @author Guillaume Blanc
  */
+
+include_once('../Individu.php');
+
 class Salarie extends Individu {
     
     /** Surnom du salarié : utilisé par certains clients */
@@ -13,8 +16,8 @@ class Salarie extends Individu {
     /** Date de recrutement du salarié */
     private $_dateRecrutement;
     
-    /** Catégories a laquelle appartient le salarié */
-    private $_categories;
+    /** Catégorie a laquelle appartient le salarié */
+    private $_categorie;
    
     /** Voiture dont le salarié est responsable */
     private $_voiture;
@@ -29,7 +32,7 @@ class Salarie extends Individu {
         
         $this->_surnom = $surnom;
         $this->_dateRecrutement = $dateRecrutement;
-        $this->_categories = $categories;
+        $this->_categorie = $categories;
         $this->_voiture = $voiture;
         $this->_eleves = $eleves;
     }
@@ -44,8 +47,8 @@ class Salarie extends Individu {
         return $this->_dateRecrutement;
     }
 
-    function get_categories() {
-        return $this->_categories;
+    function get_categorie() {
+        return $this->_categorie;
     }
 
     public function get_voiture() {
@@ -60,8 +63,8 @@ class Salarie extends Individu {
         $this->_dateRecrutement = $_dateRecrutement;
     }
 
-    function set_categories($_categories) {
-        $this->_categories = $_categories;
+    function set_categorie($_categories) {
+        $this->_categorie = $_categories;
     }
 
     function set_voiture($_voiture) {

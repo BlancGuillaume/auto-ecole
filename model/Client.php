@@ -6,6 +6,9 @@
  * 
  * @author Guillaume Blanc
  */
+
+include_once('../Individu.php');
+
 class Client extends Individu {
     
     /** Liste d'élève associés au client */

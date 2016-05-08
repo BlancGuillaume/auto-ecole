@@ -1,17 +1,25 @@
 <?php
  
 /**
- * Description of MoniteurProvider
- *
+ * Requetes liées aux salariés de l'auto-école
  * @author blanc
  */
+
+include_once('../Salarie.php');
+include_once('AdresseProvider.php');
+
+/**
+ * Décommenter pour tester les requetes
+ */
+// SalarieProvider::testMethodes();
+   
 class SalarieProvider {
     
     /**
      * Récupère les informations du moniteur spécifié par son id
      * @param $id - l'identifiant du moniteur
      */
-    public function get_nom_prenom_surnom_moniteur($id) {
+    public static function get_nom_prenom_surnom_moniteur($id) {
         
         // Connection à la bdd
         include_once('ConnectionManager.php');
@@ -19,23 +27,21 @@ class SalarieProvider {
         $conn = $connectionManager->connect();
 
         // Récupération du moniteur correspondant à l'identifiant
-        $req = oci_parse($conn, 'SELECT id_salarie, prenom_salarie, nom_salarie, surnom_salarie'
+        $req = oci_parse($conn, 'SELECT id_salarie, prenom_salarie, nom_salarie, surnom_salarie '
                               . 'FROM SALARIE WHERE id_salarie = '.$id);
         
         // Execution de la requête
         oci_execute($req);
 
-        // Traitement du résultat : construction des formules
-        while ($resultat = oci_fetch_array($req)) {
-            foreach ($resultat as $salarie) {
-                // Une seule occurence
-                $moniteur = new Salarie($salarie['id_salarie'],
-                                        $salarie['prenom_salarie'],
-                                        $salarie['nom_salarie'],
+        // Traitement du résultat : construction du moniteur 
+        while (($salarie = oci_fetch_array($req, OCI_BOTH)) != false) {
+            // Une seule occurence
+                $moniteur = new Salarie($salarie['ID_SALARIE'],
+                                        $salarie['PRENOM_SALARIE'],
+                                        $salarie['NOM_SALARIE'],
                                         NULL, NULL, NULL, NULL,
-                                        $salarie['surnom_salarie'],
+                                        $salarie['SURNOM_SALARIE'],
                                         NULL, NULL, NULL, NULL);
-            }
         }
         
         return $moniteur;
@@ -44,7 +50,7 @@ class SalarieProvider {
     /**
      * Récupère tous les salariés de l'auto-école
      */
-    public function get_salaries() {
+    public static function get_salaries() {
         
         // Connection à la bdd
         include_once('ConnectionManager.php');
@@ -56,24 +62,25 @@ class SalarieProvider {
         
         // Execution de la requête
         oci_execute($req);
-        
+   
         // Traitement du résultat : construction des salariés
-        while ($resultat = oci_fetch_array($req)) {
-            foreach ($resultat as $salarie) {
-                $salaries[] = new Salarie($salarie['id_salarie'],
-                        $salarie['prenom_salarie'],
-                        $salarie['nom_salarie'],
-                        NULL, NULL, $salarie['num_salarie'], 
-                        AdresseProvider::get_adresse($salarie['id_adresse_salarie']),
-                        $salarie['surnom_salarie'],
-                        $salarie['recrutement_salaire'],
-                        $salarie['categorie_salarie'],
-                        $salarie['id_voiture_salarie'],
-                        NULL);       
-            }
+        $salaries = array(); // tableau de formules 
+        while (($salarie = oci_fetch_array($req, OCI_BOTH)) != false) {
+            
+            array_push($salaries, new Salarie($salarie['ID_SALARIE'],
+                        $salarie['PRENOM_SALARIE'],
+                        $salarie['NOM_SALARIE'],
+                        NULL, NULL, $salarie['NUM_SALARIE'], 
+                        AdresseProvider::get_adresse($salarie['ID_ADRESSE_SALARIE']),
+                        $salarie['SURNOM_SALARIE'],
+                        $salarie['DATE_RECRUTEMENT'],
+                        $salarie['CATEGORIE_SALARIE'],
+                        $salarie['ID_VOITURE_SALARIE'],
+                        NULL));     
         }
         
         return $salaries;
+      
     }
     
     /**
@@ -81,7 +88,7 @@ class SalarieProvider {
      * @param type $idSalarie - le salarié a récuperer
      * @return le salarié
      */
-    public function get_salarie($idSalarie) {
+    public static function get_salarie($idSalarie) {
         
         // Connection à la bdd
         include_once('ConnectionManager.php');
@@ -95,20 +102,18 @@ class SalarieProvider {
         oci_execute($req);
         
         // Traitement du résultat : construction du salarié 
-        while ($resultats = oci_fetch_array($req)) {
-            foreach ($resultats as $resultat) {
-                // Une seule occurence
-                $salarie = new Salarie($resultat['id_salarie'],
-                        $resultat['prenom_salarie'],
-                        $resultat['nom_salarie'],
-                        NULL, NULL, $salarie['num_salarie'], 
-                        AdresseProvider::get_adresse($resultat['id_adresse_salarie']),
-                        $resultat['surnom_salarie'],
-                        $resultat['recrutement_salaire'],
-                        $resultat['categorie_salarie'],
-                        $resultat['id_voiture_salarie'],
+        while (($resultat = oci_fetch_array($req, OCI_BOTH)) != false) {
+            // Une seule occurence
+                $salarie = new Salarie($resultat['ID_SALARIE'],
+                        $resultat['PRENOM_SALARIE'],
+                        $resultat['NOM_SALARIE'],
+                        NULL, NULL, $resultat['NUM_SALARIE'], 
+                        AdresseProvider::get_adresse($resultat['ID_ADRESSE_SALARIE']),
+                        $resultat['SURNOM_SALARIE'],
+                        $resultat['DATE_RECRUTEMENT'],
+                        $resultat['CATEGORIE_SALARIE'],
+                        $resultat['ID_VOITURE_SALARIE'],
                         NULL);       
-            }
         }
         
         return $salarie;
@@ -118,7 +123,7 @@ class SalarieProvider {
      * Ajoute un salarié à la bdd
      * @param $salarie - la salarié à ajouter
      */
-    public function ajout_salarie(Salarie $salarie) {
+    public static function ajout_salarie(Salarie $salarie) {
          
         // Connection à la bdd
         include_once('ConnectionManager.php');
@@ -137,4 +142,49 @@ class SalarieProvider {
         
         // TODO continuer
     }
+
+
+    /**
+     * Test des méthodes ci dessus
+     */
+    public static function testMethodes() {
+        // nps => nom, prenom, surnom 
+        $npsMoniteur = SalarieProvider::get_nom_prenom_surnom_moniteur(1);
+        echo "recuperation du nps du salarie 1" . "<br>";
+        echo "id : " . $npsMoniteur->get_id() . "<br>";
+        echo "nom : " . $npsMoniteur->get_nom() . "<br>";
+        echo "prenom : " . $npsMoniteur->get_prenom() . "<br>";
+        echo "surnom : " . $npsMoniteur->get_surnom() . "<br>";
+        echo "<br>";
+
+        // Récupération d'un salarié    
+        $moniteur = SalarieProvider::get_salarie(1);
+        echo "recuperation du salarie 1" . "<br>";
+        echo "id : " . $moniteur->get_id() . "<br>";
+        echo "nom : " . $moniteur->get_nom() . "<br>";
+        echo "prenom : " . $moniteur->get_prenom() . "<br>";
+        echo "num : " . $moniteur->get_telPortable() . "<br>";
+        echo "date recrutement : " . $moniteur->get_dateRecrutement() . "<br>";
+        echo "categorie : " . $moniteur->get_categorie() . "<br>";
+        echo "surnom : " . $moniteur->get_surnom() . "<br>";
+        echo "adresse rue : " . $moniteur->get_adresse()->get_rue() . "<br>"; // Adresse OK !!
+        echo "<br>";
+
+        // récupération de tous les salariés
+        $salaries = SalarieProvider::get_salaries();
+        echo "recuperation des salariés <br>";
+        foreach ($salaries as $moniteur) {
+            // Récupération de toutes les salariés
+            echo "id : " . $moniteur->get_id() . "<br>";
+            echo "nom : " . $moniteur->get_nom() . "<br>";
+            echo "prenom : " . $moniteur->get_prenom() . "<br>";
+            echo "num : " . $moniteur->get_telPortable() . "<br>";
+            echo "date recrutement : " . $moniteur->get_dateRecrutement() . "<br>";
+            echo "categorie : " . $moniteur->get_categorie() . "<br>";
+            echo "surnom : " . $moniteur->get_surnom() . "<br>";
+            echo "adresse rue : " . $moniteur->get_adresse()->get_rue() . "<br>"; // Adresse OK !!
+            echo "<br>";
+        }
+    }
+
 }
