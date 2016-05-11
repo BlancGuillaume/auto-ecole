@@ -7,12 +7,16 @@
  * @author Guillaume Blanc
  */
 
-
 include_once('../Eleve.php');
 include_once('AdresseProvider.php');
 include_once('SalarieProvider.php');
 include_once('LeconConduiteProvider.php');
 include_once('ClientProvider.php');
+
+/**
+ * Décommenter pour tester les requetes
+ */
+//EleveProvider::testMethodes();
 
 class EleveProvider {
     
@@ -126,26 +130,25 @@ class EleveProvider {
         $conn = $connectionManager->connect();
 
         // Récupération des élèves du client
-        $req = oci_parse($conn, 'SELECT id_eleve, nom_eleve, prenom_eleve'
+        $req = oci_parse($conn, 'SELECT id_eleve, nom_eleve, prenom_eleve '
                               . 'FROM ELEVE WHERE id_client_eleve = '. $idClient);
 
         // Execution de la requête
         oci_execute($req);
-        
-         // Traitement du résultat : construction des élèves
-        while ($resultat = oci_fetch_array($req)) {
-            foreach ($resultat as $eleve) {
-                              
-                $eleves[] = new Eleve($eleve['id_eleve'],
-                                      $eleve['prenom_eleve'],
-                                      $eleve['nom_eleve'],
+                
+        // Traitement du résultat : construction des élèves
+        $eleves = array(); // tableau de formules 
+        while (($eleve = oci_fetch_array($req, OCI_RETURN_NULLS)) != false) {
+            
+            array_push($eleves,   new Eleve($eleve['ID_ELEVE'],
+                                      $eleve['PRENOM_ELEVE'],
+                                      $eleve['NOM_ELEVE'],
                                       NULL, NULL, NULL, NULL,
                                       NULL, NULL, NULL, NULL,
-                                      NULL, NULL, NULL, NULL);
-            }
+                                      NULL, NULL, NULL, NULL));
         }
         
-        return $eleves;  
+        return $eleves;
     }
            
     /** 
@@ -289,5 +292,16 @@ class EleveProvider {
         echo "prenom : " . $unEleve->get_moniteur()->get_prenom() . "<br>";
         echo "surnom : " . $unEleve->get_moniteur()->get_surnom() . "<br>";
         echo "<br>";
+        
+        
+        // Récupération des élèves d'un client
+        echo "recuperation des eleves d'un client" . "<br>";
+        $elevesClient = EleveProvider::get_eleves_dun_client(1);
+        foreach ($elevesClient as $eleveClient) {
+            echo "id : " . $eleveClient->get_id() . "<br>";
+            echo "nom : " . $eleveClient->get_nom() . "<br>";
+            echo "prenom :" . $eleveClient->get_prenom() . "<br>";
+            echo "<br>";
+        }
     }
 }

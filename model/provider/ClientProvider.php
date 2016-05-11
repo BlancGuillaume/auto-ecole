@@ -6,14 +6,61 @@
  */
 
 include_once('../Client.php');
+include_once('../Formule.php');
 include_once('../Adresse.php');
+include_once('AdresseProvider.php');
+include_once('EleveProvider.php');
+
 
 /**
  * Décommenter pour tester les requetes
  */
-// ClientProvider::testMethodes();
+//ClientProvider::testMethodes();
 
 
+$clients = ClientProvider::get_clients();
+
+foreach ($clients as $client) {
+    // Récupération de toutes les formules
+    echo "recuperation du client : " . "<br>";
+    echo "id : ".$client->get_id(). "<br>";
+    echo "nom :".$client->get_nom(). "<br>";
+    echo "prenom : ".$client->get_prenom(). "<br>";
+    echo "tel : ".$client->get_telDomicile(). "<br>";
+    echo "portable : ".$client->get_telPortable(). "<br>";
+   
+    echo "recuperation de la rue du lient : " . "<br>";
+    echo "id : " . $client->get_adresse()->get_id() . "<br>";
+    echo "rue : " . $client->get_adresse()->get_rue() . "<br>";
+    echo "ville : " . $client->get_adresse()->get_ville() . "<br>";
+    echo "code postal : " . $client->get_adresse()->get_codePostal() . "<br>";
+    
+    // Récupération des élèves d'un client
+    echo "recuperation des eleves du client : " . "<br>";
+    foreach ($client->get_listeEleves() as $eleveClient) {
+        echo "id : " . $eleveClient->get_id() . "<br>";
+        echo "nom : " . $eleveClient->get_nom() . "<br>";
+        echo "prenom :" . $eleveClient->get_prenom() . "<br>";
+        echo "<br>";
+    }
+    
+    // Récupération des achats dun client
+     echo "Recuperation de touts les achats<br>";
+    foreach ($client->get_listeAchats() as $achat) {
+        // Récupération de toutes les achats
+        echo "id : " . $achat->get_id() . "<br>";
+        echo "nbre lecons : " . $achat->get_nbreLecons() . "<br>";
+        echo "montant : " . $achat->get_montant() . "<br>";
+        echo "date achat : " . $achat->get_dateAchat() . "<br>";
+        echo "id eleve : " . $achat->getEleveBeneficiaire()->get_id() . "<br>";
+        echo "prenom eleve : " . $achat->getEleveBeneficiaire()->get_prenom() . "<br>";
+        echo "nom eleve : " . $achat->getEleveBeneficiaire()->get_nom() . "<br>";
+        echo "<br>";
+    }
+    
+    echo "<br>";echo "<br>";echo "<br>-----------------------------";
+    
+} 
 
 class ClientProvider {
     
@@ -70,22 +117,22 @@ class ClientProvider {
 
         // Execution de la requête
         oci_execute($req);
-        
+             
         // Traitement du résultat : construction des clients
-        while ($resultat = oci_fetch_array($req)) {
-            foreach ($resultat as $client) {
-
-                $clients[] = new Client($client['id_client'],
-                                        $client['prenom_client'],
-                                        $client['nom_client'], 
-                                        $client['naissance_client'],
-                                        $client['tel_domicile'],
-                                        $client['tel_portable'],
-                                        AdresseProvider::get_adresse($client['id_adresse_client']),
-                                        EleveProvider::get_eleves_dun_client($client['id_client']),
-                                        AchatProvider::get_achats_dun_client($client['id_client']));
-            }
+        $clients = array(); // tableau de clients 
+        while (($client = oci_fetch_array($req, OCI_RETURN_NULLS)) != false) {
+            
+            array_push($clients, new Client($client['ID_CLIENT'],
+                                        $client['PRENOM_CLIENT'],
+                                        $client['NOM_CLIENT'], 
+                                        null, // naissance ? 
+                                        $client['NUM_DOMICILE_CLIENT'],
+                                        $client['NUM_TRAVAIL_CLIENT'],
+                                        AdresseProvider::get_adresse($client['ID_ADRESSE_CLIENT']),
+                                        EleveProvider::get_eleves_dun_client($client['ID_CLIENT']),
+                                        AchatProvider::get_achats_dun_client($client['ID_CLIENT'])));
         }
+        
         return $clients;
     }
     

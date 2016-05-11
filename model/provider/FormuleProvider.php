@@ -6,8 +6,6 @@
  * @author Guillaume Blanc
  */
 
-include_once('../Formule.php');
-
 /**
  * Décommenter pour tester les requetes
  */
