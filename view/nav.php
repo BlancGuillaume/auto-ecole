@@ -32,7 +32,7 @@
                             <a href="affichageEleve.php">Eleves</a>
                         </li>
                         <li>
-                            <a href="suppressionFormule.php">Clients</a>
+                            <a href="affichageClient.php">Clients</a>
                         </li>
                         <li>
                             <a href="modificationFormule.php">Salariés</a>
