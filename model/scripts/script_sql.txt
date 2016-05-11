@@ -1,3 +1,14 @@
+DROP SEQUENCE adresse_seq;
+DROP SEQUENCE client_seq;
+DROP SEQUENCE formule_seq; 
+DROP SEQUENCE voiture_seq;
+DROP SEQUENCE salarie_seq;
+DROP SEQUENCE eleve_seq;
+DROP SEQUENCE lecon_seq;
+DROP SEQUENCE achat_seq;
+DROP SEQUENCE examen_conduite_seq;
+DROP SEQUENCE examen_code_seq;
+DROP SEQUENCE passage_code_seq;
 create sequence adresse_seq;
 create sequence client_seq;
 create sequence formule_seq; 
@@ -116,7 +127,7 @@ CREATE TABLE LECON (
 
 
 CREATE TABLE ACHAT (
-  id_achat INTEGER NOT NULL, 
+  	id_achat INTEGER NOT NULL, 
 	id_client_achat INTEGER NOT NULL, 
 	id_eleve_achat INTEGER NOT NULL, 
 	nb_tickets_achat INTEGER, 
