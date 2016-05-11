@@ -31,7 +31,7 @@ class Achat {
         $this->_eleveBeneficiaire = $eleveBeneficiaire;
     }
 
-    function get_id() {
+        function get_id() {
         return $this->_id;
     }
 
@@ -62,4 +62,14 @@ class Achat {
     function set_dateAchat($_dateAchat) {
         $this->_dateAchat = $_dateAchat;
     }
+    
+    function getEleveBeneficiaire() {
+        return $this->_eleveBeneficiaire;
+    }
+
+    function setEleveBeneficiaire($eleveBeneficiaire) {
+        $this->_eleveBeneficiaire = $eleveBeneficiaire;
+    }
+
+
 }

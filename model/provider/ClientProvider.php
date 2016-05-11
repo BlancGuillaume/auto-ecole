@@ -6,13 +6,13 @@
  */
 
 include_once('../Client.php');
+include_once('../Adresse.php');
 
-$npClient = ClientProvider::get_nom_prenom_client(1); // np pour nom prenom
-echo "recuperation d'un client" ."<br>";
-echo"id : ".$npClient->get_id()."<br>";
-echo"nom : ".$npClient->get_nom()."<br>";
-echo"prenom : ".$npClient->get_prenom()."<br>";
-echo "<br>";
+/**
+ * Décommenter pour tester les requetes
+ */
+// ClientProvider::testMethodes();
+
 
 
 class ClientProvider {
@@ -46,6 +46,8 @@ class ClientProvider {
         }
         
         return $client;
+        
+        
     }
     
     /**
@@ -142,12 +144,36 @@ class ClientProvider {
         $connectionManager = new ConnectionManager();
         $conn = $connectionManager->connect();
         
-        $req = "INSERT INTO CLIENT VALUES ('".$client->get_id()."', '"
+        $req = "INSERT INTO CLIENT VALUES (client_seq.nextVal, '"
                                             .$client->get_nom()."', '"
                                             .$client->get_prenom()."', '"
+                                            .$client->get_telDomicile()."', '"
                                             .$client->get_telPortable()."', '"
-                                            .$client->get_adresse()->get_idAdresse()."')"; 
+                                            .$client->get_adresse()->get_id()."')"; 
         
-        // TODO continuer
+        
+        // Execution de la requete
+        $aExecuter = oci_parse($conn, $req);
+        oci_execute($aExecuter); 
+        
     }
+    
+    /**
+     * Test des méthodes ci dessus
+     */
+    public static function testMethodes() {
+
+        $npClient = ClientProvider::get_nom_prenom_client(1); // np pour nom prenom
+        echo "recuperation d'un client" . "<br>";
+        echo"id : " . $npClient->get_id() . "<br>";
+        echo"nom : " . $npClient->get_nom() . "<br>";
+        echo"prenom : " . $npClient->get_prenom() . "<br>";
+        echo "<br>";
+
+        // Test ajout d'un client
+        $adresse = new Adresse(24, "10 rue des ", "flavin", "looool");
+        $client = new Client(null, "Ramon", "Lilou", null, "0758798536", "0658682513", $adresse, null, null);
+        ClientProvider::ajout_client($client);
+    }
+
 }

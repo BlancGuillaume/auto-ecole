@@ -97,20 +97,30 @@ class VoitureProvider {
         $connectionManager = new ConnectionManager();
         $conn = $connectionManager->connect();
         
-        $req = "INSERT INTO VOITURE VALUES ('".$voiture->get_id()."', '"
-                                            .$voiture->get_prixAchat()."', '"
-                                            .$voiture->get_kilometrage()."', '"
-                                            .$voiture->get_dateAchat()."', '"
+        $req = "INSERT INTO VOITURE VALUES (voiture_seq.nextVal, "
+                                            .$voiture->get_prixAchat().", "
+                                            .$voiture->get_kilometrage().", TO_DATE('"
+                                            .$voiture->get_dateAchat()."', 'yyyy/mm/dd'), '"
+                                            .$voiture->get_immatriculation()."', '"
                                             .$voiture->get_marque()."', '"
                                             .$voiture->get_modele()."', '"
-                                            .$voiture->get_responsable().get_id()."')";
-        // TODO : continuer
+                                            .$voiture->get_responsable()->get_id()."')";        
+        
+        var_dump($req);
+        
+        // Execution de la requete
+        $aExecuter = oci_parse($conn, $req);
+        $resultat = oci_execute($aExecuter); 
+        
+         var_dump($resultat); 
     }
     
      /**
      * Test des méthodes ci dessus
      */
      public static function testMethodes() {
+        
+        // récupération d'une voiture
         $voiture = VoitureProvider::get_voiture(1);
         echo "récupération d'une voiture<br>";
         echo "id : " . $voiture->get_id() . "<br>";
@@ -124,6 +134,7 @@ class VoitureProvider {
         echo "responsable nom : " . $voiture->get_responsable()->get_nom() . "<br>";
         echo "responsable prenom : " . $voiture->get_responsable()->get_prenom() . "<br>";
 
+        // récupération de toutes les voitures
         $voitures = VoitureProvider::get_voitures();
         echo "récupération de toutes les voitures de l'auto ecole";
         foreach ($voitures as $voiture) {
@@ -140,6 +151,11 @@ class VoitureProvider {
             echo "responsable prenom : " . $voiture->get_responsable()->get_prenom() . "<br>";
             echo "<br>";
         }
+
+        // Test ajout d'une voiture
+        $responsable = new Salarie(1, null, null, null, null, null, null, null, null, null, null, null); // pour le test
+        $voiture = new Voiture(null, "biordeded", date("Y/m/d"), 15000, true, "audi", "tt", "239", $responsable);
+        VoitureProvider::ajout_voiture($voiture);
     }
 
 }

@@ -8,6 +8,9 @@
  * 
  * @author Guillaume Blanc
  */
+
+include_once('../Individu.php');
+
 class Eleve extends Individu {
     
     /** Le numéro du lieu de travail ou d'étude de l'élève */

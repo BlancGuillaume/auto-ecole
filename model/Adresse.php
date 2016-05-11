@@ -47,8 +47,8 @@ class Adresse {
         return $this->_codePostal;
     }
 
-    function set_idAdresse($_idAdresse) {
-        $this->_idAdresse = $_idAdresse;
+    function set_id($_idAdresse) {
+        $this->_id = $_idAdresse;
     }
 
     function set_rue($_rue) {
