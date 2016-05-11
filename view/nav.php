@@ -50,10 +50,7 @@
                             <a href="affichageExamenConduite.php">Examens conduite</a>
                         </li>
                         <li>
-                            <a href="modificationFormule.php">Examens code</a>
-                        </li>
-                        <li>
-                            <a href="modificationFormule.php">Passages aux examens code</a>
+                            <a href="affichageExamenCode.php">Examens code</a>
                         </li>
                     </ul>
                 </li>
