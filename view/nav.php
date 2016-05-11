@@ -38,7 +38,7 @@
                             <a href="affichageSalarie.php">Salaries</a>
                         </li>
                         <li>
-                            <a href="ajoutFormule.php">Lecons</a>
+                            <a href="affichageLecon.php">Lecons</a>
                         </li>
                         <li>
                             <a href="affichageVoiture.php">Voitures</a>
@@ -47,7 +47,7 @@
                             <a href="affichageFormule.php">Formules</a>
                         </li>
                         <li>
-                            <a href="modificationFormule.php">Examens conduite</a>
+                            <a href="affichageExamenConduite.php">Examens conduite</a>
                         </li>
                         <li>
                             <a href="modificationFormule.php">Examens code</a>
