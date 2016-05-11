@@ -1,4 +1,9 @@
 <?php 
+	include('..\model\provider\FormuleProvider.php');
+	include('..\model\Formule.php');
+	$formules = FormuleProvider::get_formules();
+
+
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -34,7 +39,7 @@
 		<div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Liste des élèves</h1>
+                    <h1 class="page-header">Liste des formules</h1>
                 </div>
                 <div class="row">
                 	<div class="col-lg-12">
@@ -45,22 +50,26 @@
 	                                    <!-- Entête du tableau -->
 	                                    <thead>
 	                                        <tr>
-	                                            <th>Nom</th>
-	                                            <th>Prénom</th>
-	                                            <th>Naissance</th>
-	                                            <th>Adresse</th>
-	                                            <th>Responsable</th>
-	                                            <th>Formule</th>
-	                                            <th>Référent</th>
-	                                            <th>Date d'inscription</th>
-	                                            <th>Tel 1</th>
-	                                            <th>Tel 2</th>
-	                                            <th>Code</th>
-	                                            <th>Conduite</th>
+	                                            <th>Numero</th>
+	                                            <th>Prix</th>
+	                                            <th>Nombres de tickets</th>
+	                                            <th>Prix d'une leçon</th>
+	                                            <th>Details</th>
 	                                        </tr>
 	                                    </thead>
 	                                    <!-- Contenu tableau -->
 		                                <tbody>
+		                                    <?php 
+			                                    foreach ($formules as $formule) {
+			                                    	echo "<tr>";
+			                                    	echo "<td>" . $formule->get_id() . "</td>";
+			                                    	echo "<td>" . $formule->get_prix() . "</td>";
+			                                    	echo "<td>" . $formule->get_nombreTickets() . "</td>";
+			                                    	echo "<td>" . $formule->getPrixLecon() . "</td>";
+			                                    	echo "<td>" . $formule->getDetail() . "</td>";
+			                                    	echo "</tr>";
+			                                    }
+										    ?>
 	                                        <!--<tr class="odd gradeX">
 		                                        <td>Trident</td>
 		                                        <td>Internet Explorer 4.0</td>

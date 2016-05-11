@@ -44,7 +44,7 @@
                             <a href="suppressionFormule.php">Voitures</a>
                         </li>
                         <li>
-                            <a href="modificationFormule.php">Formules</a>
+                            <a href="affichageFormule.php">Formules</a>
                         </li>
                         <li>
                             <a href="modificationFormule.php">Examens conduite</a>
