@@ -11,7 +11,7 @@ include_once('AdresseProvider.php');
 /**
  * Décommenter pour tester les requetes
  */
-// SalarieProvider::testMethodes();
+SalarieProvider::testMethodes();
    
 class SalarieProvider {
     
@@ -34,7 +34,7 @@ class SalarieProvider {
         oci_execute($req);
 
         // Traitement du résultat : construction du moniteur 
-        while (($salarie = oci_fetch_array($req, OCI_BOTH)) != false) {
+        while (($salarie = oci_fetch_array($req, OCI_RETURN_NULLS)) != false) {
             // Une seule occurence
                 $moniteur = new Salarie($salarie['ID_SALARIE'],
                                         $salarie['PRENOM_SALARIE'],
@@ -65,7 +65,7 @@ class SalarieProvider {
    
         // Traitement du résultat : construction des salariés
         $salaries = array(); // tableau de formules 
-        while (($salarie = oci_fetch_array($req, OCI_BOTH)) != false) {
+        while (($salarie = oci_fetch_array($req, OCI_RETURN_NULLS)) != false) {
             
             array_push($salaries, new Salarie($salarie['ID_SALARIE'],
                         $salarie['PRENOM_SALARIE'],
@@ -102,7 +102,7 @@ class SalarieProvider {
         oci_execute($req);
         
         // Traitement du résultat : construction du salarié 
-        while (($resultat = oci_fetch_array($req, OCI_BOTH)) != false) {
+        while (($resultat = oci_fetch_array($req, OCI_RETURN_NULLS)) != false) {
             // Une seule occurence
                 $salarie = new Salarie($resultat['ID_SALARIE'],
                         $resultat['PRENOM_SALARIE'],

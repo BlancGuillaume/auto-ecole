@@ -34,7 +34,7 @@ class AdresseProvider {
         oci_execute($req);
 
         // Traitement du résultat : construction de l'adresse
-        while (($resultat = oci_fetch_array($req, OCI_BOTH)) != false) {
+        while (($resultat = oci_fetch_array($req, OCI_RETURN_NULLS)) != false) {
             // une seule occurence
             $adresse = new Adresse($resultat['ID_ADRESSE'],
                                    $resultat['LIBELLE_ADRESSE'], 

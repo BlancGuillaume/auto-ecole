@@ -38,7 +38,7 @@ class LeconConduiteProvider {
 
         // Traitement du résultat : récupération du nombre de lecons effectuées 
         $nombreLecons = 0; // par défaut
-        while (($resultat = oci_fetch_array($req, OCI_BOTH)) != false) {
+        while (($resultat = oci_fetch_array($req, OCI_RETURN_NULLS)) != false) {
             // une seule occruence
                $nombreLecons = $resultat[0];
         }

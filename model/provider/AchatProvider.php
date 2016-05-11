@@ -37,7 +37,7 @@ class AchatProvider {
         
         // Traitement du résultat : récupération du nombre de lecons achetées 
         $nombreLeconsAchetees = 0; // par défaut aucune
-        while (($resultat = oci_fetch_array($req, OCI_BOTH)) != false) {
+        while (($resultat = oci_fetch_array($req, OCI_RETURN_NULLS)) != false) {
             // une seule occruence
             $nombreLeconsAchetees = $resultat[0]; // Car un seul résultat
         }
@@ -68,7 +68,7 @@ class AchatProvider {
         
          // Traitement du résultat : construction des achats 
         $achats = array(); // tableau d'achats 
-        while (($achat = oci_fetch_array($req, OCI_BOTH)) != false) {
+        while (($achat = oci_fetch_array($req, OCI_RETURN_NULLS)) != false) {
             
             array_push($achats,   new Achat($achat['ID_ACHAT'],
                                       $achat['NB_TICKETS_ACHAT'],

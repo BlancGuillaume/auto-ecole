@@ -37,7 +37,7 @@ class ClientProvider {
         oci_execute($req);
         
         // Traitement du résultat : construction du client
-        while (($resultat = oci_fetch_array($req, OCI_BOTH)) != false) {
+        while (($resultat = oci_fetch_array($req, OCI_RETURN_NULLS)) != false) {
             // une seule occruence
             $client = new Client($resultat['ID_CLIENT'], 
                                  $resultat['PRENOM_CLIENT'], 

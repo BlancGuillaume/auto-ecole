@@ -34,7 +34,7 @@ class VoitureProvider {
     
         // Traitement du résultat : construction des voitures
         $voitures = array(); // tableau de voitures 
-        while (($voiture = oci_fetch_array($req, OCI_BOTH)) != false) {
+        while (($voiture = oci_fetch_array($req, OCI_RETURN_NULLS)) != false) {
             
             array_push($voitures,   new Voiture($voiture['ID_VOITURE'], 
                                           $voiture['IMMATRICULATION_VOITURE'], 
@@ -69,7 +69,7 @@ class VoitureProvider {
         oci_execute($req);
         
         // Traitement du résultat : construction de la voiture
-        while (($resultat = oci_fetch_array($req, OCI_BOTH)) != false) {
+        while (($resultat = oci_fetch_array($req, OCI_RETURN_NULLS)) != false) {
             // une seule occruence
             $voiture = new Voiture($resultat['ID_VOITURE'], 
                                           $resultat['IMMATRICULATION_VOITURE'], 
