@@ -5,6 +5,16 @@
  *
  * @author Guillaume Blanc
  */
+
+include_once('../LeconConduite.php');
+include_once('FormuleProvider.php');
+include_once('AchatProvider.php');
+
+/**
+ * Décommenter pour tester les requetes
+ */
+// LeconConduiteProvider::testMethodes();
+
 class LeconConduiteProvider {
     
     /**
@@ -12,7 +22,7 @@ class LeconConduiteProvider {
      * @param type $id - l'identifiant de l'élève
      * @return type le nombre de lecons effectuées par l'élève
      */
-    public function get_nombre_lecons_effectuees($id) {
+    public static function get_nombre_lecons_effectuees($id) {
         
         // Connection à la bdd
         include_once('ConnectionManager.php');
@@ -20,21 +30,20 @@ class LeconConduiteProvider {
         $conn = $connectionManager->connect();
 
         // Récupération du nombre de lecons effectuées
-        $req = oci_parse($conn, 'SELECT COUNT(*) '
+        $req = oci_parse($conn, 'SELECT COUNT (*) '
                               . 'FROM LECON WHERE id_eleve_lecon = '. $id);
 
         // Execution de la requête
         oci_execute($req);
 
-        // Traitement du résultat : on 
-        while ($resultats = oci_fetch_array($req)) {
-            foreach ($resultats as $resultat) {
-                // Une seule occurence
-               $nombreLecons = $resultat;
-            }
+        // Traitement du résultat : récupération du nombre de lecons effectuées 
+        $nombreLecons = 0; // par défaut
+        while (($resultat = oci_fetch_array($req, OCI_BOTH)) != false) {
+            // une seule occruence
+               $nombreLecons = $resultat[0];
         }
-          
-        return $nombreLecons; 
+        
+        return $nombreLecons;
     }
     
     /**
@@ -43,9 +52,9 @@ class LeconConduiteProvider {
      * @param type $idFormule - l'identifiant de la formule souscrite par l'élève
      * @return type le nombre de lecons disponibles
      */
-    public function get_nombre_lecons_disponibles($idEleve, $idFormule) {
+    public static function get_nombre_lecons_disponibles($idEleve, $idFormule) {
         
-        $nbreHeuresFormule = FormuleProvider::get_formule($idFormule).get_nombreTickets();
+        $nbreHeuresFormule = FormuleProvider::get_formule($idFormule)->get_nombreTickets();
         $nbreHeuresAchetees = AchatProvider::get_nombre_lecons_achetees($idEleve);
         $nbreHeuresConsommees = LeconConduiteProvider::get_nombre_lecons_effectuees($idEleve);
                 
@@ -56,7 +65,7 @@ class LeconConduiteProvider {
      * Ajoute une leçon dans la base de donnée
      * @param LeconConduite $leconConduite la leçon a ajouter
      */
-    public function ajout_lecon(LeconConduite $leconConduite) {
+    public static function ajout_lecon(LeconConduite $leconConduite) {
         
         // Connection à la bdd
         include_once('ConnectionManager.php');
@@ -71,4 +80,17 @@ class LeconConduiteProvider {
         
        // TODO : continuer
     }
+    
+     /**
+     * Test des méthodes ci dessus
+     */
+    public static function testMethodes() {
+
+        $nbreLeconsEffectuees = LeconConduiteProvider::get_nombre_lecons_effectuees(3);
+        echo "nbre lecons effectues : " . $nbreLeconsEffectuees . "<br>";
+
+        $nbreLeconsDisponibles = LeconConduiteProvider::get_nombre_lecons_disponibles(3, 2);
+        echo "nbre lecons disponibles : " . $nbreLeconsDisponibles . "<br>";
+    }
+
 }
