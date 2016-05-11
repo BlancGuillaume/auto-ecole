@@ -35,13 +35,13 @@
                             <a href="affichageClient.php">Clients</a>
                         </li>
                         <li>
-                            <a href="affichageSalarie.php">Salariés</a>
+                            <a href="affichageSalarie.php">Salaries</a>
                         </li>
                         <li>
-                            <a href="ajoutFormule.php">Leçons</a>
+                            <a href="ajoutFormule.php">Lecons</a>
                         </li>
                         <li>
-                            <a href="suppressionFormule.php">Voitures</a>
+                            <a href="affichageVoiture.php">Voitures</a>
                         </li>
                         <li>
                             <a href="affichageFormule.php">Formules</a>

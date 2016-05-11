@@ -5,7 +5,7 @@
  * @author blanc
  */
 
-//include_once('../Salarie.php');
+include_once('C:\wamp\www\auto-ecole\model\Salarie.php');
 include_once('AdresseProvider.php');
 
 /**
