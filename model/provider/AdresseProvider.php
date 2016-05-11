@@ -6,7 +6,7 @@
  * @author Guillaume Blanc
  */
 
-include_once('../Adresse.php');
+include_once('C:\wamp\www\auto-ecole\model\Adresse.php');
 
 /**
  * Décommenter pour tester les requetes

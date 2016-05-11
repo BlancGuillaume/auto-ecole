@@ -6,7 +6,7 @@
  * @author Guillaume Blanc
  */
 
-include_once('../Individu.php');
+include_once('Individu.php');
 
 class Salarie extends Individu {
     

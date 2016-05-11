@@ -35,7 +35,7 @@
                             <a href="affichageClient.php">Clients</a>
                         </li>
                         <li>
-                            <a href="modificationFormule.php">Salariés</a>
+                            <a href="affichageSalarie.php">Salariés</a>
                         </li>
                         <li>
                             <a href="ajoutFormule.php">Leçons</a>

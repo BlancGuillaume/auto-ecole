@@ -5,7 +5,7 @@
  * @author blanc
  */
 
-include_once('../Salarie.php');
+//include_once('../Salarie.php');
 include_once('AdresseProvider.php');
 
 /**
