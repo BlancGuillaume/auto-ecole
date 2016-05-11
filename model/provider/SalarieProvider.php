@@ -11,7 +11,7 @@ include_once('AdresseProvider.php');
 /**
  * Décommenter pour tester les requetes
  */
-SalarieProvider::testMethodes();
+//SalarieProvider::testMethodes();
    
 class SalarieProvider {
     
