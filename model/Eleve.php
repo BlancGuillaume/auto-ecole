@@ -42,12 +42,12 @@ class Eleve extends Individu {
     
     /** Constructeur par paramètres */
     function __construct($id, $prenom, $nom, $dateNaissance, $telDomicile,
-                         $telPortable, $adresse,$telTravail, $moniteur, $nombreLeconsDisponibles, 
+                         $telPortable, $adresse, $moniteur, $nombreLeconsDisponibles, 
                          $nombreLeconsEffectuees, $client, $formule, $examenPermis, $examenCode, $dateInscription) {
         
         parent::__construct($id, $prenom, $nom, $dateNaissance, $telDomicile, $telPortable, $adresse);
         
-        $this->_telTravail = $telTravail;
+       
         $this->_moniteur = $moniteur;
         $this->_nombreLeconsDisponibles = $nombreLeconsDisponibles;
         $this->_nombreLeconsEffectuees = $nombreLeconsEffectuees;

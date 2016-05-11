@@ -6,7 +6,7 @@
  * @author Guillaume Blanc
  */
 
-//include_once('../Formule.php');
+include_once('../Formule.php');
 
 /**
  * Décommenter pour tester les requetes
@@ -33,7 +33,7 @@ class FormuleProvider {
 
         // Traitement du résultat : construction des formules
         $formules = array(); // tableau de formules 
-        while (($formule = oci_fetch_array($req, OCI_BOTH)) != false) {
+        while (($formule = oci_fetch_array($req, OCI_RETURN_NULLS)) != false) {
             
             array_push($formules,   new Formule($formule["ID_FORMULE"], 
                                                 $formule["PRIX_FORMULE"], 
@@ -63,7 +63,7 @@ class FormuleProvider {
         oci_execute($req);
 
         // Traitement du résultat : construction de la formule
-        while (($resultat = oci_fetch_array($req, OCI_BOTH)) != false) {
+        while (($resultat = oci_fetch_array($req, OCI_RETURN_NULLS)) != false) {
             // une seule occruence
             $formule  = new Formule($resultat["ID_FORMULE"], 
                                     $resultat["PRIX_FORMULE"], 
