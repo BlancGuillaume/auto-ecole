@@ -26,6 +26,38 @@
                     </div>
                 </li>
                 <li>
+                    <a href="#"><i class="fa fa-sitemap fa-fw"></i>Affichage<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="affichageEleve.php">Eleves</a>
+                        </li>
+                        <li>
+                            <a href="suppressionFormule.php">Clients</a>
+                        </li>
+                        <li>
+                            <a href="modificationFormule.php">Salariés</a>
+                        </li>
+                        <li>
+                            <a href="ajoutFormule.php">Leçons</a>
+                        </li>
+                        <li>
+                            <a href="suppressionFormule.php">Voitures</a>
+                        </li>
+                        <li>
+                            <a href="modificationFormule.php">Formules</a>
+                        </li>
+                        <li>
+                            <a href="modificationFormule.php">Examens conduite</a>
+                        </li>
+                        <li>
+                            <a href="modificationFormule.php">Examens code</a>
+                        </li>
+                        <li>
+                            <a href="modificationFormule.php">Passages aux examens code</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
                     <a href="#"><i class="fa fa-sitemap fa-fw"></i>Inscription<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
@@ -115,6 +147,20 @@
                         </li>
                         <li>
                             <a href="suppressionVoiture.php">Suppression voiture</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-sitemap fa-fw"></i>Gestion formule<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="ajoutFormule.php">Ajout Formule</a>
+                        </li>
+                        <li>
+                            <a href="suppressionFormule.php">Supprimer Formule</a>
+                        </li>
+                        <li>
+                            <a href="modificationFormule.php">Modifier Formule</a>
                         </li>
                     </ul>
                 </li>
