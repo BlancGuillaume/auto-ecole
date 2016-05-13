@@ -63,13 +63,13 @@
                             <a href="affichageFormule.php">Liste des formules</a>
                         </li>
                         <li>
-                            <a href="ajoutFormule.php">Ajout Formule</a>
+                            <a href="ajoutFormule.php">Ajout</a>
                         </li>
                         <li>
-                            <a href="suppressionFormule.php">Supprimer Formule</a>
+                            <a href="modificationFormule.php">Modification</a>
                         </li>
                         <li>
-                            <a href="modificationFormule.php">Modifier Formule</a>
+                            <a href="suppressionFormule.php">Suppression</a>
                         </li>
 
                     </ul>
@@ -98,21 +98,7 @@
                     <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Gestion leçon<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="#">Planning<span class="fa arrow"></span></a>
-                            <ul class="nav nav-third-level">
-                                <li>
-                                    <a href="affichageLecon.php">Planning global</a>
-                                </li>
-                                <li>
-                                    <a href="affichageLecon.php">Planning des élèves</a>
-                                </li>
-                                <li>
-                                    <a href="affichageLecon.php">Planning des salariés</a>
-                                </li>
-                                <li>
-                                    <a href="affichageLecon.php">Planning des voitures</a>
-                                </li>
-                            </ul>
+                            <a href="affichageLecon.php">Planning global</a>
                         </li>
                         <li>
                             <a href="ajoutLecon.php">Ajout</a>
@@ -122,27 +108,6 @@
                         </li>
                         <li>
                             <a href="supressionLecon.php">Supression</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <!-- <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a> -->
-                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Gestion examen<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="affichageExamenConduite.php">Liste des examens conduite</a>
-                        </li>
-                        <li>
-                            <a href="affichageExamenCode.php">Liste des examens code</a>
-                        </li>
-                        <li>
-                            <a href="ajoutExamen.php">Ajout</a>
-                        </li>
-                        <li>
-                            <a href="modificationExamen.php">Modification</a>
-                        </li>
-                        <li>
-                            <a href="supressionExamen.php">Supression</a>
                         </li>
                     </ul>
                 </li>
@@ -175,6 +140,21 @@
                         </li>
                         <li>
                             <a href="inscriptionEleve.php">Supression salarié/client</a>
+                        </li>
+                        <li>
+                            <a href="affichageExamenConduite.php">Liste des examens conduite</a>
+                        </li>
+                        <li>
+                            <a href="affichageExamenCode.php">Liste des examens code</a>
+                        </li>
+                        <li>
+                            <a href="ajoutExamen.php">Ajout Examens</a>
+                        </li>
+                        <li>
+                            <a href="modificationExamen.php">Modification Examens</a>
+                        </li>
+                        <li>
+                            <a href="supressionExamen.php">Supression Examens</a>
                         </li>
                     </ul>
                 </li>

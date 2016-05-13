@@ -21,25 +21,25 @@
 		// Récupération de toutes les informations sur l'élève
 		// TO DO : vérifier format date Oracle
 		$date_inscription = date("M-d-Y"); // le format DATE de Oracle
-		$naissance_eleve =  $_POST['anniversaireEleve'];  
+		$naissance_eleve = isset($_POST['anniversaireEleve']) ? addslashes($_POST['anniversaireEleve']) : NULL;
 		// Fonction addslashes pour éviter erreur d'insertions de bdd
-		$num_eleve = addslashes($_POST['numEleve']);
-		$num_travail_eleve = addslashes($_POST['numTravailEleve']);
-		$prenom_eleve = $_POST['prenomEleve'];
-		$nom_eleve = addslashes($_POST['nomEleve']);
-		$libelle_adresse_eleve = addslashes($_POST['libelleEleve']);
-		$ville_adresse_eleve = addslashes($_POST['villeEleve']);
-		$cp_adresse_eleve = addslashes($_POST['codePostalEleve']);
-		$formule_eleve = addslashes($_POST['formule']);
+		$num_eleve = isset($_POST['numEleve']) ? addslashes($_POST['numEleve']) : NULL;
+		$num_travail_eleve = isset($_POST['numTravailEleve']) ? addslashes($_POST['numTravailEleve']) : NULL;
+		$prenom_eleve = isset($_POST['prenomEleve']) ? addslashes($_POST['prenomEleve']) : NULL;
+		$nom_eleve = isset($_POST['nomEleve']) ? addslashes($_POST['nomEleve']) : NULL;
+		$libelle_adresse_eleve = isset($_POST['libelleEleve']) ? addslashes($_POST['libelleEleve']) : NULL;
+		$ville_adresse_eleve = isset($_POST['villeEleve']) ? addslashes($_POST['villeEleve']) : NULL;
+		$cp_adresse_eleve = isset($_POST['codePostalEleve']) ? addslashes($_POST['codePostalEleve']) : NULL;
+		$formule_eleve = isset($_POST['formule']) ? addslashes($_POST['formule']) : NULL;
 
 		/*********** DONNEES SUR LE CLIENT ***********/
-		$num_client = addslashes($_POST['numClient']);
-		$num_portable_client = addslashes($_POST['numPortableClient']);
-		$prenom_client = $_POST['prenomClient'];
-		$nom_client = addslashes($_POST['nomClient']);
-		$libelle_adresse_client = addslashes($_POST['libelleClient']);
-		$ville_adresse_client = addslashes($_POST['villeClient']);
-		$cp_adresse_client = addslashes($_POST['codePostalClient']);
+		$num_client = isset($_POST['numClient']) ? addslashes($_POST['numClient']) : NULL;
+		$num_portable_client = isset($_POST['numPortableClient']) ? addslashes($_POST['numPortableClient']) : NULL;
+		$prenom_client = isset($_POST['prenomClient']) ? addslashes($_POST['prenomClient']) : NULL;
+		$nom_client = isset($_POST['nomClient']) ? addslashes($_POST['nomClient']) : NULL;
+		$libelle_adresse_client = isset($_POST['libelleClient']) ? addslashes($_POST['libelleClient']) : NULL;
+		$ville_adresse_client = isset($_POST['villeClient']) ? addslashes($_POST['villeClient']) : NULL;
+		$cp_adresse_client = isset($_POST['codePostalClient']) ? addslashes($_POST['codePostalClient']) : NULL;
 
 		
 		// Plusieurs champs obligatoires peuvent avoir été omis.
