@@ -1,5 +1,5 @@
 <?php
-
+include_once('C:\wamp\www\auto-ecole\model\Formule.php');
 /*
  * Requete permettant de récupérer les formules
  * => Construction des objets Formule

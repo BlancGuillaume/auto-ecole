@@ -9,7 +9,7 @@
  * @author Guillaume Blanc
  */
 
-include_once('../Individu.php');
+include_once('C:\wamp\www\auto-ecole\model\Individu.php');
 
 class Eleve extends Individu {
     

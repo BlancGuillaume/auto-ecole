@@ -1,7 +1,13 @@
 <?php 
-	include('..\model\provider\VoitureProvider.php');
-	include('..\model\Voiture.php');
-	 $voitures = VoitureProvider::get_voitures();
+	include('..\model\provider\LeconConduiteProvider.php');
+	// include_once('../model/LeconConduite.php');
+	// include_once('../model/Salarie.php');
+	// include_once('../model/Voiturephp');
+	// include_once('../model/provider/FormuleProvider.php');
+	// include_once('../model/provider/AchatProvider.php');
+	// include_once('../model/provider/EleveProvider.php');
+	// include_once('../model/provider/VoitureProvider.php');
+	$lecons = LeconConduiteProvider::get_lecons();
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -24,11 +30,6 @@
 		<script type="text/javascript" src="js/script.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
-		<script>
-		  $(function() {
-		    $( "#datepicker" ).datepicker();
-		  });
-		  </script>
 		<header>
 			<!-- Navigation -->
 	        <?php include('nav.php');?>
@@ -47,7 +48,7 @@
 	                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
 	                                    <!-- Entête du tableau -->
 	                                    <thead>
-	                                        <tr>
+                                        	<tr>
 	                                            <th>Date</th>
 	                                            <th>Eleve</th>
 	                                            <th>Salarie</th>
@@ -56,6 +57,16 @@
 	                                    </thead>
 	                                    <!-- Contenu tableau -->
 		                                <tbody>
+			                                <?php 
+										        foreach ($lecons as $lecon) {
+										        	echo "<tr>";
+													echo "<td>" . $lecon->getDate() . "</td>";
+													echo "<td>" . $lecon->get_eleve()->get_prenom() . " " . $lecon->get_eleve()->get_nom() . "</td>";
+													echo "<td>" . $lecon->get_salarie()->get_surnom() . "</td>";
+													echo "<td>" . $lecon->get_voiture()->get_immatriculation() . "</td>";
+										            echo "</tr>";
+										        }
+										    ?>
                                         </tbody>
 	                                </table>
 	                            </div>
@@ -67,3 +78,6 @@
         </div>
 	</body>
 </html>
+
+<thead>
+	                                        

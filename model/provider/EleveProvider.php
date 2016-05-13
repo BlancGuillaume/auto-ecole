@@ -7,11 +7,11 @@
  * @author Guillaume Blanc
  */
 
-include_once('../Eleve.php');
-include_once('AdresseProvider.php');
-include_once('SalarieProvider.php');
-include_once('LeconConduiteProvider.php');
-include_once('ClientProvider.php');
+include_once('C:\wamp\www\auto-ecole\model\Eleve.php');
+include_once('C:\wamp\www\auto-ecole\model\provider\AdresseProvider.php');
+include_once('C:\wamp\www\auto-ecole\model\provider\SalarieProvider.php');
+include_once('C:\wamp\www\auto-ecole\model\provider\LeconConduiteProvider.php');
+include_once('C:\wamp\www\auto-ecole\model\provider\ClientProvider.php');
 
 /**
  * Décommenter pour tester les requetes
