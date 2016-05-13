@@ -17,51 +17,6 @@ include_once('EleveProvider.php');
  */
 //ClientProvider::testMethodes();
 
-
-$clients = ClientProvider::get_clients();
-
-foreach ($clients as $client) {
-    // Récupération de toutes les formules
-    echo "recuperation du client : " . "<br>";
-    echo "id : ".$client->get_id(). "<br>";
-    echo "nom :".$client->get_nom(). "<br>";
-    echo "prenom : ".$client->get_prenom(). "<br>";
-    echo "tel : ".$client->get_telDomicile(). "<br>";
-    echo "portable : ".$client->get_telPortable(). "<br>";
-   
-    echo "recuperation de la rue du lient : " . "<br>";
-    echo "id : " . $client->get_adresse()->get_id() . "<br>";
-    echo "rue : " . $client->get_adresse()->get_rue() . "<br>";
-    echo "ville : " . $client->get_adresse()->get_ville() . "<br>";
-    echo "code postal : " . $client->get_adresse()->get_codePostal() . "<br>";
-    
-    // Récupération des élèves d'un client
-    echo "recuperation des eleves du client : " . "<br>";
-    foreach ($client->get_listeEleves() as $eleveClient) {
-        echo "id : " . $eleveClient->get_id() . "<br>";
-        echo "nom : " . $eleveClient->get_nom() . "<br>";
-        echo "prenom :" . $eleveClient->get_prenom() . "<br>";
-        echo "<br>";
-    }
-    
-    // Récupération des achats dun client
-     echo "Recuperation de touts les achats<br>";
-    foreach ($client->get_listeAchats() as $achat) {
-        // Récupération de toutes les achats
-        echo "id : " . $achat->get_id() . "<br>";
-        echo "nbre lecons : " . $achat->get_nbreLecons() . "<br>";
-        echo "montant : " . $achat->get_montant() . "<br>";
-        echo "date achat : " . $achat->get_dateAchat() . "<br>";
-        echo "id eleve : " . $achat->getEleveBeneficiaire()->get_id() . "<br>";
-        echo "prenom eleve : " . $achat->getEleveBeneficiaire()->get_prenom() . "<br>";
-        echo "nom eleve : " . $achat->getEleveBeneficiaire()->get_nom() . "<br>";
-        echo "<br>";
-    }
-    
-    echo "<br>";echo "<br>";echo "<br>-----------------------------";
-    
-} 
-
 class ClientProvider {
     
    /**
@@ -151,29 +106,29 @@ class ClientProvider {
         // Récupération du client
         $reqStructure = 'SELECT * '
                       . 'FROM ADRESSE a, CLIENT c '
-                      . 'WHERE c.id_adresse_client = a.id_adresse'
+                      . 'WHERE c.id_adresse_client = a.id_adresse '
                       . 'AND c.id_client = '.$idClient;
 
         $req = oci_parse($conn, $reqStructure);
 
         // Execution de la requête
         oci_execute($req);
-        
+                
         // Traitement du résultat : construction du client
-        while ($resultats = oci_fetch_array($req)) {
-            foreach ($resultats as $resultat) {
-
-                $client = new Client($resultat['id_client'],
-                                        $resultat['prenom_client'],
-                                        $resultat['nom_client'], 
-                                        $resultat['naissance_client'],
-                                        $resultat['tel_domicile'],
-                                        $resultat['tel_portable'],
-                                        AdresseProvider::get_adresse($resultat['id_adresse_client']),
-                                        EleveProvider::get_eleves_dun_client($resultat['id_client']),
-                                        AchatProvider::get_achats_dun_client($resultat['id_client']));
-            }
+        $client = null; // tableau de clients 
+        while (($resultat = oci_fetch_array($req, OCI_RETURN_NULLS)) != false) {
+            
+            $client = new Client($resultat['ID_CLIENT'],
+                                        $resultat['PRENOM_CLIENT'],
+                                        $resultat['NOM_CLIENT'], 
+                                        null, // naissance ? 
+                                        $resultat['NUM_DOMICILE_CLIENT'],
+                                        $resultat['NUM_TRAVAIL_CLIENT'],
+                                        AdresseProvider::get_adresse($resultat['ID_ADRESSE_CLIENT']),
+                                        EleveProvider::get_eleves_dun_client($resultat['ID_CLIENT']),
+                                        AchatProvider::get_achats_dun_client($resultat['ID_CLIENT']));
         }
+        
         return $client;
     }
     
@@ -221,6 +176,87 @@ class ClientProvider {
         $adresse = new Adresse(24, "10 rue des ", "flavin", "looool");
         $client = new Client(null, "Ramon", "Lilou", null, "0758798536", "0658682513", $adresse, null, null);
         ClientProvider::ajout_client($client);
-    }
 
+        $clients = ClientProvider::get_clients();
+
+        foreach ($clients as $client) {
+
+            echo "recuperation du client : " . "<br>";
+            echo "id : " . $client->get_id() . "<br>";
+            echo "nom :" . $client->get_nom() . "<br>";
+            echo "prenom : " . $client->get_prenom() . "<br>";
+            echo "tel : " . $client->get_telDomicile() . "<br>";
+            echo "portable : " . $client->get_telPortable() . "<br>";
+
+            echo "recuperation de la rue du lient : " . "<br>";
+            echo "id : " . $client->get_adresse()->get_id() . "<br>";
+            echo "rue : " . $client->get_adresse()->get_rue() . "<br>";
+            echo "ville : " . $client->get_adresse()->get_ville() . "<br>";
+            echo "code postal : " . $client->get_adresse()->get_codePostal() . "<br>";
+
+            // Récupération des élèves d'un client
+            echo "recuperation des eleves du client : " . "<br>";
+            foreach ($client->get_listeEleves() as $eleveClient) {
+                echo "id : " . $eleveClient->get_id() . "<br>";
+                echo "nom : " . $eleveClient->get_nom() . "<br>";
+                echo "prenom :" . $eleveClient->get_prenom() . "<br>";
+                echo "<br>";
+            }
+
+            // Récupération des achats dun client
+            echo "Recuperation de touts les achats<br>";
+            foreach ($client->get_listeAchats() as $achat) {
+                // Récupération de toutes les achats
+                echo "id : " . $achat->get_id() . "<br>";
+                echo "nbre lecons : " . $achat->get_nbreLecons() . "<br>";
+                echo "montant : " . $achat->get_montant() . "<br>";
+                echo "date achat : " . $achat->get_dateAchat() . "<br>";
+                echo "id eleve : " . $achat->getEleveBeneficiaire()->get_id() . "<br>";
+                echo "prenom eleve : " . $achat->getEleveBeneficiaire()->get_prenom() . "<br>";
+                echo "nom eleve : " . $achat->getEleveBeneficiaire()->get_nom() . "<br>";
+                echo "<br>";
+            }
+        }
+        echo "<br>";
+        echo "<br>";
+        echo "<br>-----------------------------";
+
+        $unClient = ClientProvider::get_client(1);
+
+        echo "recuperation dun seul client : " . "<br>";
+        echo "id : " . $unClient->get_id() . "<br>";
+        echo "nom :" . $unClient->get_nom() . "<br>";
+        echo "prenom : " . $unClient->get_prenom() . "<br>";
+        echo "tel : " . $unClient->get_telDomicile() . "<br>";
+        echo "portable : " . $unClient->get_telPortable() . "<br>";
+
+        echo "recuperation de la rue du lient : " . "<br>";
+        echo "id : " . $unClient->get_adresse()->get_id() . "<br>";
+        echo "rue : " . $unClient->get_adresse()->get_rue() . "<br>";
+        echo "ville : " . $unClient->get_adresse()->get_ville() . "<br>";
+        echo "code postal : " . $unClient->get_adresse()->get_codePostal() . "<br>";
+
+        // Récupération des élèves d'un client
+        echo "recuperation des eleves du client : " . "<br>";
+        foreach ($unClient->get_listeEleves() as $eleveClient) {
+            echo "id : " . $eleveClient->get_id() . "<br>";
+            echo "nom : " . $eleveClient->get_nom() . "<br>";
+            echo "prenom :" . $eleveClient->get_prenom() . "<br>";
+            echo "<br>";
+        }
+
+        // Récupération des achats dun client
+        echo "Recuperation de touts les achats<br>";
+        foreach ($unClient->get_listeAchats() as $achat) {
+            // Récupération de toutes les achats
+            echo "id : " . $achat->get_id() . "<br>";
+            echo "nbre lecons : " . $achat->get_nbreLecons() . "<br>";
+            echo "montant : " . $achat->get_montant() . "<br>";
+            echo "date achat : " . $achat->get_dateAchat() . "<br>";
+            echo "id eleve : " . $achat->getEleveBeneficiaire()->get_id() . "<br>";
+            echo "prenom eleve : " . $achat->getEleveBeneficiaire()->get_prenom() . "<br>";
+            echo "nom eleve : " . $achat->getEleveBeneficiaire()->get_nom() . "<br>";
+            echo "<br>";
+        }
+    }
 }

@@ -71,14 +71,18 @@ class LeconConduiteProvider {
         include_once('ConnectionManager.php');
         $connectionManager = new ConnectionManager();
         $conn = $connectionManager->connect();
-        
-        $req = "INSERT INTO LECON VALUES ('".$leconConduite->get_id()."', '"
-                                            .date("Y-m-d H:i:s")
+         
+        $req = "INSERT INTO LECON VALUES (examen_conduite_seq.nextVal, '"
+                                            .$leconConduite->getDate()."', '"
                                             .$leconConduite->get_eleve()->get_id()."', '"
                                             .$leconConduite->get_salarie()->get_id()."', '"
-                                            .$leconConduite->get_voiture()->get_id()."')"; 
+                                            .get_voiture()->get_id()."')"; 
+                                            
         
-       // TODO : continuer
+        // Execution de la requete
+        $aExecuter = oci_parse($conn, $req);
+        oci_execute($aExecuter); 
+       
     }
     
      /**

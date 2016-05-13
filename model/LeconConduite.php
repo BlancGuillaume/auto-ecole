@@ -20,8 +20,27 @@ class LeconConduite {
     /** la voiture utilisée pour la leçon de conduite */
     private $_voiture;
     
-    // TODO : date 
+    /** La date de la lecon de conduite */
+    private $_date; 
     
+    
+    /** Constructeur par parametres */
+    function __construct($id, $eleve, $salarie, $voiture, $date) {
+        $this->_id = $id;
+        $this->_eleve = $eleve;
+        $this->_salarie = $salarie;
+        $this->_voiture = $voiture;
+        $this->_date = $date;
+    }
+    
+    function getDate() {
+        return $this->_date;
+    }
+
+    function setDate($date) {
+        $this->_date = $date;
+    }
+
     function get_id() {
         return $this->_id;
     }
