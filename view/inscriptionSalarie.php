@@ -9,6 +9,13 @@
 	// 	unset($_SESSION['erreurConnection']);
 	// 	echo '<script>alert("Echec de la connection : mail ou mot de passe invalide.");</script>';
 	// }
+
+	// Pour remplir la liste déroulante Voiture
+	include('..\model\provider\VoitureProvider.php');
+	include('..\model\Voiture.php');
+	$voitures = VoitureProvider::get_voitures();
+
+
 	
    // On regarde si le formulaire a été complété 
 	// TO DO : ajout rafraichissement page
@@ -16,61 +23,76 @@
    		/*********** DONNEES SUR L'ELEVE ***********/
 		// Récupération de toutes les informations sur le salarié
 		// Fonction addslashes pour éviter erreur d'insertions de bdd
-		$num_salarie = addslashes($_POST['numSalarie']);
-		$prenom_salarie = $_POST['prenomSalarie'];
-		$surnom = $_POST['surnomSalarie'];
-		$nom_salarie = addslashes($_POST['nomSalarie']);
-		$categorie_salarie = addslashes($_POST['categorieSalarie']);
-		$libelle_adresse_salarie = addslashes($_POST['libelleSalarie']);
-		$ville_adresse_salarie = addslashes($_POST['villeSalarie']);
-		$cp_adresse_salarie = addslashes($_POST['codePostalSalarie']);
-		$voiture_salarie = addslashes($_POST['voiture']);
+		$num_salarie = isset($_POST['numSalarie']) ? addslashes($_POST['numSalarie']) : NULL;
+		$prenom_salarie = isset($_POST['prenomSalarie']) ? addslashes($_POST['prenomSalarie']) : NULL;
+		$surnom = isset($_POST['surnomSalarie']) ? addslashes($_POST['surnomSalarie']) : NULL;
+		$nom_salarie = isset($_POST['nomSalarie']) ? addslashes($_POST['nomSalarie']) : NULL;
+		$categorie_salarie = isset($_POST['categorieSalarie']) ? addslashes($_POST['categorieSalarie']) : NULL;
+		$libelle_adresse_salarie = isset($_POST['libelleSalarie']) ? addslashes($_POST['libelleSalarie']) : NULL;
+		$ville_adresse_salarie = isset($_POST['villeSalarie']) ? addslashes($_POST['villeSalarie']) : NULL;
+		$cp_adresse_salarie = isset($_POST['codePostalSalarie']) ? addslashes($_POST['codePostalSalarie']) : NULL;
+		$voiture_salarie = isset($_POST['voiture']) ? addslashes($_POST['voiture']) : NULL;
 
 
 		// Plusieurs champs obligatoires peuvent avoir été omis.
 		// On va consruire le message au fur et a mesure
-		$erreurMessage = "La réservation a échouée, le(s) champ(s) suivant doivent être complétés : ";
+		$erreurMessage1 = "L\'ajout a échouée, le(s) champ(s) suivant(s) doivent être complétés : \\n";
+		$erreurMessage2 = "L\'ajout a échouée :\\n";
 		$erreurFormulaire = 0;
+
+		if (!preg_match('#^[0-9]{5}$#', $cp_adresse_salarie)) {
+			$erreurMessage2 .= "le code postal est un nombre à 5 chiffres\\n";
+			$erreurFormulaire = 2;
+		}
+		if (!preg_match('#^[0-9]{10}$#', $num_salarie)) {
+			$erreurMessage2 .= "le numéro de téléphone du salarié doit contenir 10 chiffres\\n";
+			$erreurFormulaire = 2;
+		}
 		if (empty($nom_salarie)) {
-			$erreurMessage .= "Nom du salarié, ";
+			$erreurMessage1 .= "Nom du salarié\\n";
 			$erreurFormulaire = 1;
 		}
 		if (empty($prenom_salarie)) {
-			$erreurMessage .= "Prénom du salarié, ";
+			$erreurMessage1 .= "Prénom du salarié\\n";
 			$erreurFormulaire = 1;
 		}
 		if (empty($num_salarie)) {
-			$erreurMessage .= "Numéro de téléphone du salarié, ";
+			$erreurMessage1 .= "Numéro de téléphone du salarié\\n";
 			$erreurFormulaire = 1;
 		}
 		if (empty($libelle_adresse_salarie)) {
-			$erreurMessage .= "Adresse du salarié, ";
+			$erreurMessage1 .= "Adresse du salarié\\n";
 			$erreurFormulaire = 1;
 		}
 		if (empty($ville_adresse_salarie)) {
-			$erreurMessage .= "Ville du salarié, ";
+			$erreurMessage1 .= "Ville du salarié\\n";
 			$erreurFormulaire = 1;
 		}
 		if (empty($cp_adresse_salarie)) {
-			$erreurMessage .= "Code postal du salarié.";
+			$erreurMessage1 .= "Code postal du salarié";
 			$erreurFormulaire = 1;
 		}
 		 
 		// Affichage de la pop du succès de la réservation, ou de l'echec dans le cas contraire
 		if ($erreurFormulaire == 1) {
 			// Il y a eu une erreur
-			echo "<script> alert('".$erreurMessage."');</script>";
-		} else {
+			echo "<script> alert('".$erreurMessage1."');</script>";
+		} 
+		elseif ($erreurFormulaire == 2) {
+			// Il y a eu une erreur
+			echo "<script> alert('".$erreurMessage2."');</script>";
+		} 
+		else {
 			// Récupération de toutes les informations sur le salarié
 			// AFFICHAGE VERIFICATION
-			var_dump("num_salarie : " . $num_salarie);
-			var_dump("prenom_salarie : " . $prenom_salarie);
-			var_dump("nom_salarie : " . $nom_salarie);
-			var_dump("libelle_adresse_salarie : " . $libelle_adresse_salarie);
-			var_dump("ville_adresse_salarie : " . $ville_adresse_salarie);
-			var_dump("cp_adresse_salarie : " . $cp_adresse_salarie);
-			var_dump("voiture_salarie : " . $voiture_salarie);
-			var_dump("categorie_salarie : " . $categorie_salarie);
+			// var_dump("num_salarie : " . $num_salarie);
+			// var_dump("prenom_salarie : " . $prenom_salarie);
+			// var_dump("nom_salarie : " . $nom_salarie);
+			// var_dump("libelle_adresse_salarie : " . $libelle_adresse_salarie);
+			// var_dump("ville_adresse_salarie : " . $ville_adresse_salarie);
+			// var_dump("cp_adresse_salarie : " . $cp_adresse_salarie);
+			// var_dump("voiture_salarie : " . $voiture_salarie);
+			// var_dump("categorie_salarie : " . $categorie_salarie);
 			
 			// /*********** AJOUT DES ADRESSES DANS LA BD ***********/
 			// /*********** ADRESSE DU SALARIE ***********/
@@ -145,11 +167,6 @@
 		<script type="text/javascript" src="js/script.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
-		<script>
-		  $(function() {
-		    $( "#datepicker" ).datepicker();
-		  });
-		  </script>
 		<header>
 		<!-- Navigation -->
         <?php include('nav.php');?>
@@ -207,16 +224,18 @@
 			    					<!-- TO DO : remplir champs avec la BD -->
 									<select class="form-control" name="voiture">
 										<option value="0">Aucune</option>
-										<option value="1">Voiture 1</option>
-										<option value="2">Voiture 2</option>
-										<option value="3">Voiture 3</option>
+										<?php 
+											foreach ($voitures as $voiture) {
+									            echo "<option value=" . $voiture->get_id() . "> Voiture " . 
+									            	 $voiture->get_id() . " - " . $voiture->get_immatriculation() . "</option>";
+										    }
+										?>
 									</select>
 								</div>
 							</div>
 			    			<div class="input-group">
 			    				<div class="input-group">
 			    					<span class="input-group-addon" id="basic-addon1">Catégorie</span>
-			    					<!-- TO DO : remplir champs avec la BD -->
 									<select class="form-control" name="categorieSalarie">
 										<option value="moniteur">Moniteur</option>
 										<option value="secretaire">Secrétaire</option>

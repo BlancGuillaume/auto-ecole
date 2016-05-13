@@ -9,6 +9,10 @@
 	// 	unset($_SESSION['erreurConnection']);
 	// 	echo '<script>alert("Echec de la connection : mail ou mot de passe invalide.");</script>';
 	// }
+
+	// Pour remplir la liste déroulante Formules
+	include('..\model\provider\FormuleProvider.php');
+	$formules = FormuleProvider::get_formules();
 	
    // On regarde si le formulaire a été complété 
 	// TO DO : ajout rafraichissement page
@@ -40,92 +44,123 @@
 		
 		// Plusieurs champs obligatoires peuvent avoir été omis.
 		// On va consruire le message au fur et a mesure
-		$erreurMessage = "La réservation a échouée, le(s) champ(s) suivant doivent être complétés : ";
+		$erreurMessage1 = "L\'ajout a échouée, le(s) champ(s) suivant(s) doivent être complétés : \\n";
+		$erreurMessage2 = "L\'ajout a échouée :\\n";
 		$erreurFormulaire = 0;
 
+		if (!preg_match('#^[0-9]{5}$#', $cp_adresse_eleve)) {
+			$erreurMessage2 .= "le code postal de l\'élève est un nombre à 5 chiffres\\n";
+			$erreurFormulaire = 2;
+		}
+		if (!preg_match('#^[0-9]{5}$#', $cp_adresse_client)) {
+			$erreurMessage2 .= "le code postal est un nombre à 5 chiffres\\n";
+			$erreurFormulaire = 2;
+		}
+		if (!preg_match('#^[0-9]{10}$#', $num_eleve)) {
+			$erreurMessage2 .= "le numéro de téléphone personnel de l\'eleve doit contenir 10 chiffres\\n";
+			$erreurFormulaire = 2;
+		}
+		if (!preg_match('#^[0-9]{10}$#', $num_travail_eleve)) {
+			$erreurMessage2 .= "le numéro de téléphone profesionnel de l\'eleve doit contenir 10 chiffres\\n";
+			$erreurFormulaire = 2;
+		}
+		if (!preg_match('#^[0-9]{10}$#', $num_client)) {
+			$erreurMessage2 .= "le numéro de téléphone fixe du client doit contenir 10 chiffres\\n";
+			$erreurFormulaire = 2;
+		}
+		if (!preg_match('#^[0-9]{10}$#', $num_portable_client)) {
+			$erreurMessage2 .= "le numéro de téléphone de portable du client doit contenir 10 chiffres\\n";
+			$erreurFormulaire = 2;
+		}
+
 		if (empty($naissance_eleve)) {
-			$erreurMessage .= "Date de naissance de l\'élève, ";
+			$erreurMessage1 .= "Date de naissance de l\'élève\\n";
 			$erreurFormulaire = 1;
 		}
 		if (empty($num_eleve) && empty($num_travail_eleve)) {
-			$erreurMessage .= "Numéro de téléphone de l\'élève, ";
+			$erreurMessage1 .= "Numéro de téléphone de l\'élève\\n";
 			$erreurFormulaire = 1;
 		}
 		if (empty($prenom_eleve)) {
-			$erreurMessage .= "Prénom de l\'élève, ";
+			$erreurMessage1 .= "Prénom de l\'élève\\n";
 			$erreurFormulaire = 1;
 		}
 		if (empty($nom_eleve)) {
-			$erreurMessage .= "Nom de l\'élève, ";
+			$erreurMessage1 .= "Nom de l\'élève\\n";
 			$erreurFormulaire = 1;
 		}
 		if (empty($libelle_adresse_eleve)) {
-			$erreurMessage .= "Adresse de l\'élève, ";
+			$erreurMessage1 .= "Adresse de l\'élève\\n";
 			$erreurFormulaire = 1;
 		}
 		if (empty($ville_adresse_eleve)) {
-			$erreurMessage .= "Ville de l\'élève, ";
+			$erreurMessage1 .= "Ville de l\'élève\\n";
 			$erreurFormulaire = 1;
 		}
 		if (empty($cp_adresse_eleve)) {
-			$erreurMessage .= "Code postal de l\'élève, ";
+			$erreurMessage1 .= "Code postal de l\'élève\\n";
 			$erreurFormulaire = 1;
 		}
 		if (empty($formule_eleve)) {
-			$erreurMessage .= "Formule, ";
+			$erreurMessage1 .= "Formule\\n";
 			$erreurFormulaire = 1;
 		}
 		if (empty($num_client) && empty($num_portable_client)) {
-			$erreurMessage .= "Numéro de téléphone du client, ";
+			$erreurMessage1 .= "Numéro de téléphone du client\\n";
 			$erreurFormulaire = 1;
 		}
 		if (empty($prenom_client)) {
-			$erreurMessage .= "Prénom du client, ";
+			$erreurMessage1 .= "Prénom du client\\n";
 			$erreurFormulaire = 1;
 		}
 		if (empty($nom_client)) {
-			$erreurMessage .= "Nom du client, ";
+			$erreurMessage1 .= "Nom du client\\n";
 			$erreurFormulaire = 1;
 		}
 		if (empty($libelle_adresse_client)) {
-			$erreurMessage .= "Adresse du client, ";
+			$erreurMessage1 .= "Adresse du client\\n";
 			$erreurFormulaire = 1;
 		}
 		if (empty($ville_adresse_client)) {
-			$erreurMessage .= "Ville du client, ";
+			$erreurMessage1 .= "Ville du client\\n";
 			$erreurFormulaire = 1;
 		}
 		if (empty($cp_adresse_client)) {
-			$erreurMessage .= "Code postal du client, ";
+			$erreurMessage1 .= "Code postal du client\\n";
 			$erreurFormulaire = 1;
 		}
 		 
 		// Affichage de la pop du succès de la réservation, ou de l'echec dans le cas contraire
 		if ($erreurFormulaire == 1) {
 			// Il y a eu une erreur
-			echo "<script> alert('".$erreurMessage."');</script>";
-		} else {
+			echo "<script> alert('".$erreurMessage1."');</script>";
+		} 
+		elseif ($erreurFormulaire == 2) {
+			// Il y a eu une erreur
+			echo "<script> alert('".$erreurMessage2."');</script>";
+		} 
+		else {
 			// Récupération de toutes les informations sur l'élève
 			// AFFICHAGE VERIFICATION
-			var_dump("date_inscription : " . $date_inscription);
-			var_dump("naissance_eleve : " . $naissance_eleve);
-			var_dump("num_eleve : " . $num_eleve);
-			var_dump("num_travail_eleve : " . $num_travail_eleve);
-			var_dump("prenom_eleve : " . $prenom_eleve);
-			var_dump("nom_eleve : " . $nom_eleve);
+			// var_dump("date_inscription : " . $date_inscription);
+			// var_dump("naissance_eleve : " . $naissance_eleve);
+			// var_dump("num_eleve : " . $num_eleve);
+			// var_dump("num_travail_eleve : " . $num_travail_eleve);
+			// var_dump("prenom_eleve : " . $prenom_eleve);
+			// var_dump("nom_eleve : " . $nom_eleve);
 
-			var_dump("libelle_adresse_eleve : " . $libelle_adresse_eleve);
-			var_dump("ville_adresse_eleve : " . $ville_adresse_eleve);
-			var_dump("cp_adresse_eleve : " . $cp_adresse_eleve);
-			var_dump("formule_eleve : " . $formule_eleve);
+			// var_dump("libelle_adresse_eleve : " . $libelle_adresse_eleve);
+			// var_dump("ville_adresse_eleve : " . $ville_adresse_eleve);
+			// var_dump("cp_adresse_eleve : " . $cp_adresse_eleve);
+			// var_dump("formule_eleve : " . $formule_eleve);
 
-			var_dump("num_client : " . $num_client);
-			var_dump("num_portable_client : " . $num_portable_client);
-			var_dump("prenom_client : " . $prenom_client);
-			var_dump("nom_client : " . $nom_client);
-			var_dump("libelle_adresse_client : " . $libelle_adresse_client);
-			var_dump("ville_adresse_client : " . $ville_adresse_client);
-			var_dump("cp_adresse_client : " . $cp_adresse_client);
+			// var_dump("num_client : " . $num_client);
+			// var_dump("num_portable_client : " . $num_portable_client);
+			// var_dump("prenom_client : " . $prenom_client);
+			// var_dump("nom_client : " . $nom_client);
+			// var_dump("libelle_adresse_client : " . $libelle_adresse_client);
+			// var_dump("ville_adresse_client : " . $ville_adresse_client);
+			// var_dump("cp_adresse_client : " . $cp_adresse_client);
 			
 			// /*********** AJOUT DES ADRESSES DANS LA BD ***********/
 			// /*********** ADRESSE DU CLIENT ***********/
@@ -262,11 +297,6 @@
 		<script type="text/javascript" src="js/script.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
-		<script>
-		  $(function() {
-		    $( "#datepicker" ).datepicker();
-		  });
-		  </script>
 		<header>
 			<!-- Navigation -->
 	        <?php include('nav.php');?>
@@ -309,11 +339,6 @@
 										<span class="input-group-addon glyphicon glyphicon-gift" aria-hidden="true"></span>
 										<input name="anniversaireEleve" type="text" class="form-control" placeholder="TO DO : datepicker" aria-describedby="basic-addon1">
 									</div>
-
-									<div class="adresseBouton">
-										<h5>Adresse</h5>
-										<button onClick="remplirChampsAdresse()">Même adresse</button>
-									</div>
 									<div class="adresseFormulaire">
 										<div class="input-group">
 											<span class="input-group-addon" id="basic-addon1">N° et nom de rue</span>
@@ -327,14 +352,6 @@
 											<span class="input-group-addon" id="basic-addon1">Ville</span>
 											<input id="villeAdresseEleve" name="villeEleve" type="text" class="form-control" aria-describedby="basic-addon1">
 										</div>
-										<!-- TO DO -->
-										<script type="text/javascript">
-											remplirChampsAdresse() {
-												document.getElementById("libelleAdresseEleve").value = document.getElementById("libelleAdresseClient").value;
-												document.getElementById("codePostalAdresseEleve").value = document.getElementById("codePostalAdresseClient").value;
-												document.getElementById("villeAdresseEleve").value = document.getElementById("villeAdresseClient").value;
-											}
-										</script>
 									</div>
 					    		</div>
 					    		<div id="formulaireFormuleEleve" class="sectionsFormulaireEleve">
@@ -343,9 +360,11 @@
 					    				<div class="input-group">
 					    					<span class="input-group-addon" id="basic-addon1">Formule</span>
 											<select class="form-control" name="formule">
-												<option value="1">Formule 1</option>
-												<option value="2">Formule 2</option>
-												<option value="3">Formule 3</option>
+												<?php 
+				                                    foreach ($formules as $formule) {
+				                                    	echo "<option value=" . $formule->get_id() . ">Formule " . $formule->get_id() . "</option>";
+				                                    }
+											    ?>
 											</select>
 										</div>
 									</div>

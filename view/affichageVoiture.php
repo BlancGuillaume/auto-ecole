@@ -1,7 +1,7 @@
 <?php 
 	include('..\model\provider\VoitureProvider.php');
 	include('..\model\Voiture.php');
-	 $voitures = VoitureProvider::get_voitures();
+	$voitures = VoitureProvider::get_voitures();
 ?>
 <!DOCTYPE HTML>
 <html>

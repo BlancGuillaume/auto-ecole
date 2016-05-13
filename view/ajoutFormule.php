@@ -1,4 +1,4 @@
-<?php 
+s<?php 
     // TO DO : CONNEXION A LA BASE DE DONNEES
  	// include('bd/accessBD.php'); 
 	// $bd = new accessBD;
@@ -15,10 +15,10 @@
     if (!empty($_POST)) {
    		/*********** DONNEES SUR LA FORMULE ***********/
 		// Récupération de toutes les informations sur la formule
-		$prix_formule =  $_POST['prixFormule'];
-		$nb_tickets_formule =  $_POST['nbTicketsFormule'];
-		$prix_lecon_formule = $_POST['prixLeconFormule'];
-		$details_formule = $_POST['detailsFormule'];
+		$prix_formule =  isset($_POST['prixFormule']) ? addslashes($_POST['prixFormule']) : NULL;
+		$nb_tickets_formule =  isset($_POST['nbTicketsFormule']) ? addslashes($_POST['nbTicketsFormule']) : NULL;
+		$prix_lecon_formule = isset($_POST['prixLeconFormule']) ? addslashes($_POST['prixLeconFormule']) : NULL; 
+		$details_formule = isset($_POST['detailsFormule']) ? addslashes($_POST['detailsFormule']) : NULL; 
 		
 		// Plusieurs champs obligatoires peuvent avoir été omis.
 		// On va consruire le message au fur et a mesure
@@ -27,15 +27,15 @@
 		$erreurFormulaire = 0;
 
 		if (!is_float($prix_formule)) {
-			$erreurMessage2 .= "le prix doit être un float\\n";
+			$erreurMessage2 .= "le prix doit être un nombre\\n";
 			$erreurFormulaire = 2;
 		}
 		if (!is_float($nb_tickets_formule)) {
-			$erreurMessage2 .= "le nombre de tickets doit être un float\\n";
+			$erreurMessage2 .= "le nombre de tickets doit être un nombre\\n";
 			$erreurFormulaire = 2;
 		}
 		if (!is_float($prix_lecon_formule)) {
-			$erreurMessage2 .= "le prix d\'une leçon doit être un float";
+			$erreurMessage2 .= "le prix d\'une leçon doit être un nombre";
 			$erreurFormulaire = 2;
 		}
 		if (empty($prix_formule)) {
@@ -67,7 +67,6 @@
 			var_dump("prix_lecon_formule : " . $prix_lecon_formule);
 			var_dump("details_formule : " . $details_formule);
 
-
 		}	
 	}
 ?>
@@ -93,11 +92,6 @@
 		<script type="text/javascript" src="js/script.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
-		<script>
-		  $(function() {
-		    $( "#datepicker" ).datepicker();
-		  });
-		  </script>
 		<header>
 			<!-- Navigation -->
 	        <?php include('nav.php');?>
