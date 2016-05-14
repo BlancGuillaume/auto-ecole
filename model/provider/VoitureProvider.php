@@ -14,6 +14,7 @@ include_once('SalarieProvider.php');
  */
 // VoitureProvider::testMethodes();
 
+
 class VoitureProvider {
 
     /**
@@ -105,6 +106,25 @@ class VoitureProvider {
                                             .$voiture->get_marque()."', '"
                                             .$voiture->get_modele()."', '"
                                             .$voiture->get_responsable()->get_id()."')";        
+    
+        // Execution de la requete
+        $aExecuter = oci_parse($conn, $req);
+        $resultat = oci_execute($aExecuter); 
+    }
+    
+    /**
+     * Met a jour le kilometrage d'une voiture
+     * @param type $voiture
+     */
+    public static function updateKilometrageVoiture($voiture) {
+        
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
+        
+        $req = "UPDATE VOITURE SET kilometrage_voiture = ".$voiture->get_kilometrage().
+                " WHERE id_voiture = ".$voiture->get_id();        
         
         var_dump($req);
         
@@ -156,6 +176,11 @@ class VoitureProvider {
         $responsable = new Salarie(1, null, null, null, null, null, null, null, null, null, null, null); // pour le test
         $voiture = new Voiture(null, "biordeded", date("Y/m/d"), 15000, true, "audi", "tt", "239", $responsable);
         VoitureProvider::ajout_voiture($voiture);
+        
+        echo "update kilometrages";
+        $voitureNouveauKilometrage = new Voiture(1, null, null, null, null, null, null, 100, null);
+        VoitureProvider::updateKilometrageVoiture($voitureNouveauKilometrage);
+
     }
 
 }
