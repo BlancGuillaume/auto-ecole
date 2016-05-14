@@ -17,6 +17,7 @@ include_once('C:\wamp\www\auto-ecole\model\provider\EleveProvider.php');
  */
 //ClientProvider::testMethodes();
 
+
 class ClientProvider {
     
    /**
@@ -115,9 +116,9 @@ class ClientProvider {
         oci_execute($req);
                 
         // Traitement du résultat : construction du client
-        $client = null; // tableau de clients 
+        $client = null; 
         while (($resultat = oci_fetch_array($req, OCI_RETURN_NULLS)) != false) {
-            
+            // une seule occurence
             $client = new Client($resultat['ID_CLIENT'],
                                         $resultat['PRENOM_CLIENT'],
                                         $resultat['NOM_CLIENT'], 
@@ -132,7 +133,39 @@ class ClientProvider {
         return $client;
     }
     
-    
+    /**
+     * Récupère l'id du client
+     * @param type $client - le client dont on souhaite récupérer l'id
+     * @return l'id du client
+     */
+    public static function get_id_client($client) {
+
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
+
+        // Récupération de l'id du client
+        $laRequete = 'SELECT id_client '
+                              . 'FROM CLIENT '
+                              . 'WHERE nom_client = '."'".$client->get_nom()."'"
+                              . ' AND prenom_client = '."'". $client->get_prenom()."'"
+                              . ' AND num_domicile_client = '. $client->get_telDomicile();
+        
+        $req = oci_parse($conn, $laRequete);
+  
+        // Execution de la requête
+        oci_execute($req);
+                
+        // Traitement du résultat : construction du client
+        $idClient = null; // tableau de clients 
+        while (($resultat = oci_fetch_array($req, OCI_RETURN_NULLS)) != false) {
+            // Une seule occurence
+            $idClient = $resultat['ID_CLIENT'];
+        }
+        
+        return $idClient;
+    }
     
     
     /** 
@@ -164,6 +197,11 @@ class ClientProvider {
      * Test des méthodes ci dessus
      */
     public static function testMethodes() {
+        
+        // récupération de l'indentifiant d'un client
+        $leClient = new Client(null, "Michel", "CHERONT", null, "0636963256", "0658682513", null, null, null);
+        $idClient = ClientProvider::get_id_client($leClient);
+        echo "id de michel cheront : " . $idClient;
 
         $npClient = ClientProvider::get_nom_prenom_client(1); // np pour nom prenom
         echo "recuperation d'un client" . "<br>";

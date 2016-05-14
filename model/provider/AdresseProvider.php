@@ -13,6 +13,7 @@ include_once('C:\wamp\www\auto-ecole\model\Adresse.php');
  */
 // AdresseProvider::testMethodes();
 
+
 class AdresseProvider {
 
     /**
@@ -45,23 +46,27 @@ class AdresseProvider {
         return $adresse;
     }
     
+    
+    
     /**
      * Récupère l'identifiant d'une adresse
      * @param type $adresse - l'adresse dont on souhaite connaitre l'identifiant
      */
     public static function get_id_adresse($adresse) {
-        
+         
         // Connection à la bdd
         include_once('ConnectionManager.php');
         $connectionManager = new ConnectionManager();
         $conn = $connectionManager->connect();
 
         // Récupération de l'adresse
-        $req = oci_parse($conn, 'SELECT id_adresse '
+        $laRequete = 'SELECT id_adresse '
                               . 'FROM ADRESSE '
-                              . 'WHERE libelle_adresse = '. $adresse->get_rue()
-                              . ' AND ville_adresse = '. $adresse->get_ville()
-                              . ' AND cp_adresse = '. $adresse->get_codePostal());
+                              . 'WHERE libelle_adresse = '."'".$adresse->get_rue()."'"
+                              . ' AND ville_adresse = '."'".$adresse->get_ville()."'"
+                              . ' AND cp_adresse = '."'".$adresse->get_codePostal()."'";
+       
+        $req = oci_parse($conn, $laRequete);
                 
         // Execution de la requête
         oci_execute($req);
@@ -86,15 +91,17 @@ class AdresseProvider {
             $connectionManager = new ConnectionManager();
             $conn = $connectionManager->connect();
         
-            $req = "INSERT INTO ADRESSE VALUES (adresse_seq.nextVal, "
-                                            .$adresse->get_rue().", "
-                                            .$adresse->get_ville()."', '"
+            $req = "INSERT INTO ADRESSE VALUES (adresse_seq.nextVal, '"
+                                            .$adresse->get_rue()."' , '"
+                                            .$adresse->get_ville()."' , '"
                                             .$adresse->get_codePostal()."')";        
-        
-        // Execution de la requete
-        $aExecuter = oci_parse($conn, $req);
-        $resultat = oci_execute($aExecuter);
+     
+            // Execution de la requete
+            $aExecuter = oci_parse($conn, $req);
+            $resultat = oci_execute($aExecuter);
+
         }
+        // else : existe déja
     }
     
      /**
@@ -109,6 +116,16 @@ class AdresseProvider {
         echo "ville : " . $uneAdresse->get_ville() . "<br>";
         echo "code postal : " . $uneAdresse->get_codePostal() . "<br>";
         echo "<br>";
+
+        // test récupération de l'id d'une adresse
+        $uneAdresse = new Adresse(null, '22 rue de la pipelette', 'FLAVIN', '12450');
+        $idAdresse = AdresseProvider::get_id_adresse($uneAdresse);
+        echo "id de l'adresse rue de la pipelette flavin : " . $idAdresse;
+
+        // test ajout adresse
+        echo "test ajout adresse";
+        $adresseAAjouter = new Adresse(null, "8 rue courbet", "CARMAUX", '12450');
+        AdresseProvider::ajout_adresse($adresseAAjouter);
     }
 
 }
