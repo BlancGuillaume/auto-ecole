@@ -1,14 +1,10 @@
 <?php 
-    // TO DO : CONNEXION A LA BASE DE DONNEES
- 	// include('bd/accessBD.php'); 
-	// $bd = new accessBD;
-	// $bd->connect();
-
-	/* TO DO : POUR LA CONNEXION : affichage alerte si erreur de connexion */
-	// if ($_SESSION['erreurConnection'] == -1) {
-	// 	unset($_SESSION['erreurConnection']);
-	// 	echo '<script>alert("Echec de la connection : mail ou mot de passe invalide.");</script>';
-	// }
+	// PAGE DISPONIBLE UNIQUEMENT PAR L'ADMINISTRATEUR : sinon redirection à la page de connexion
+    session_start();
+    if (!isset($_SESSION['login']) && empty($_SESSION['login']))
+    {
+      header('Location: connexion.php');
+    }
 
 	// Pour remplir la liste déroulante Voiture
 	include('..\model\provider\VoitureProvider.php');

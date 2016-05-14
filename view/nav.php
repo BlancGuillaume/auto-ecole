@@ -158,9 +158,12 @@
                         </li>
                     </ul>
                 </li>
-
+                <li>
+                    <br/><br/><br/><a align="center" href="deconnexion.php">Deconnexion</a>
+                </li>
             </ul>
         </div>
+        
     </div>
 </nav>  
 <!-- jQuery -->
