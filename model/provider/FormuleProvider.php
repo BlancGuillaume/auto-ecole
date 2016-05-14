@@ -74,10 +74,37 @@ class FormuleProvider {
     }
     
     /**
+     * Ajoute une formule à la base de donnée
+     * @param type $formule - la formule a ajouter
+     */
+    public static function ajout_formule($formule) {
+               // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
+        
+        $req = "INSERT INTO FORMULE VALUES (formule_seq.nextVal, "
+                                            .$formule->get_prix().", "
+                                            .$formule->get_nombreTickets()." , "
+                                            .$formule->getPrixLecon().", '"
+                                            .$formule->getDetail()."')";        
+    
+        var_dump($req);
+        
+        // Execution de la requete
+        $aExecuter = oci_parse($conn, $req);
+        $resultat = oci_execute($aExecuter);
+    }
+    
+    /**
      * Test des méthodes ci dessus
      */
     public static function testMethodes() {
-        
+
+        // Ajout d'une formule
+        $formuleAAjouter = new Formule(null, 1600, 69, 100, "cest pas fut ce que je dis");
+        FormuleProvider::ajout_formule($formuleAAjouter);
+
         $formules = FormuleProvider::get_formules();
 
         foreach ($formules as $formule) {
