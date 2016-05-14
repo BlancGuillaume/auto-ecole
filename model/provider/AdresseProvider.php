@@ -45,6 +45,58 @@ class AdresseProvider {
         return $adresse;
     }
     
+    /**
+     * Récupère l'identifiant d'une adresse
+     * @param type $adresse - l'adresse dont on souhaite connaitre l'identifiant
+     */
+    public static function get_id_adresse($adresse) {
+        
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
+
+        // Récupération de l'adresse
+        $req = oci_parse($conn, 'SELECT id_adresse '
+                              . 'FROM ADRESSE '
+                              . 'WHERE libelle_adresse = '. $adresse->get_rue()
+                              . ' AND ville_adresse = '. $adresse->get_ville()
+                              . ' AND cp_adresse = '. $adresse->get_codePostal());
+                
+        // Execution de la requête
+        oci_execute($req);
+                
+        // Traitement du résultat : construction de l'adresse
+        $idAdresse = null;
+        while (($resultat = oci_fetch_array($req, OCI_RETURN_NULLS)) != false) {
+            // une seule occurence
+            $idAdresse = $resultat['ID_ADRESSE'];              
+        }
+        
+        return $idAdresse;
+    }
+    
+    public static function ajout_adresse($adresse) {
+        
+        // Si l'adresse n'existe pas déja on l'ajoute
+        if (is_null($adresse) == null) {
+            
+            // Connection à la bdd
+            include_once('ConnectionManager.php');
+            $connectionManager = new ConnectionManager();
+            $conn = $connectionManager->connect();
+        
+            $req = "INSERT INTO ADRESSE VALUES (adresse_seq.nextVal, "
+                                            .$adresse->get_rue().", "
+                                            .$adresse->get_ville()."', '"
+                                            .$adresse->get_codePostal()."')";        
+        
+        // Execution de la requete
+        $aExecuter = oci_parse($conn, $req);
+        $resultat = oci_execute($aExecuter);
+        }
+    }
+    
      /**
      * Test des méthodes ci dessus
      */
