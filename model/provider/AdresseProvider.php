@@ -79,7 +79,7 @@ class AdresseProvider {
     public static function ajout_adresse($adresse) {
         
         // Si l'adresse n'existe pas déja on l'ajoute
-        if (is_null($adresse) == null) {
+        if (is_null(AdresseProvider::get_id_adresse($adresse))) {
             
             // Connection à la bdd
             include_once('ConnectionManager.php');
