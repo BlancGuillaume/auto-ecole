@@ -1,3 +1,60 @@
+<?php 
+	// PAGE DISPONIBLE UNIQUEMENT PAR L'ADMINISTRATEUR : sinon redirection à la page de connexion
+    session_start();
+    if (!isset($_SESSION['login']) && empty($_SESSION['login']))
+    {
+      header('Location: connexion.php');
+    }
+
+	include('..\model\provider\EleveProvider.php');
+	$eleves = EleveProvider::get_eleves();
+	//include('..\model\provider\SalarieProvider.php');
+	$salaries = SalarieProvider::get_salaries();
+	//include('..\model\provider\VoitureProvider.php');
+	$voitures = VoitureProvider::get_voitures();
+	
+   // On regarde si le formulaire a été complété 
+	// TO DO : ajout rafraichissement page
+    if (!empty($_POST)) {
+   		/*********** DONNEES SUR L'ELEVE ***********/
+		$date_lecon =  isset($_POST['dateLecon']) ? addslashes($_POST['dateLecon']) : NULL;
+		$eleve_lecon = isset($_POST['eleveLecon']) ? addslashes($_POST['eleveLecon']) : NULL;
+		$salarie_lecon = isset($_POST['salarieLecon']) ? addslashes($_POST['salarieLecon']) : NULL;
+		$voiture_lecon = isset($_POST['voitureLecon']) ? addslashes($_POST['voitureLecon']) : NULL;
+
+		$erreurMessage1 = "L\'ajout a échouée, le(s) champ(s) suivant(s) doivent être complétés : \\n";
+		$erreurFormulaire = 0;
+
+		if (empty($date_lecon)) {
+			$erreurMessage1 .= "Date\\n";
+			$erreurFormulaire = 1;
+		}
+		if (empty($eleve_lecon)) {
+			$erreurMessage1 .= "Eleve\\n";
+			$erreurFormulaire = 1;
+		}
+		if (empty($salarie_lecon)) {
+			$erreurMessage1 .= "Salarié\\n";
+			$erreurFormulaire = 1;
+		}
+		if (empty($voiture_lecon)) {
+			$erreurMessage1 .= "Voiture\\n";
+			$erreurFormulaire = 1;
+		}
+
+		if ($erreurFormulaire == 1) {
+			// Il y a eu une erreur
+			echo "<script> alert('".$erreurMessage1."');</script>";
+		} 
+		else {
+			// AFFICHAGE VERIFICATION
+			// var_dump("date_lecon : " . $date_lecon);
+			// var_dump("eleve_lecon : " . $eleve_lecon);
+			// var_dump("salarie_lecon : " . $salarie_lecon);
+			// var_dump("voiture_lecon : " . $voiture_lecon);
+		}
+	}
+?>
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -39,28 +96,34 @@
 
 				<div class="input-group">
 					<span class="input-group-addon" id="basic-addon1">Eleve</span>
-					<select class=form-control>
-						<option value="e1">1  GIVELET Elise</option>
-						<option value="e2">2  BLANC Guillaume</option>
-						<option value="e3">3  PLARE Karine</option>
+					<select class="form-control" name="eleveLecon">
+						<?php 
+                            foreach ($eleves as $eleve) {
+                            	echo "<option value=" . $eleve->get_id() . ">" . $eleve->get_prenom() . " " . $eleve->get_nom() . "</option>";
+                            }
+					    ?>
 					</select>
 				</div>
 
 				<div class="input-group">
 					<span class="input-group-addon" id="basic-addon1">Salarie</span>
-					<select class=form-control>
-						<option value="s1">1  BORDIN Geoffrey</option>
-						<option value="s2">2  PIRATE Jean</option>
-						<option value="s3">3  HENRI Carl</option>
+					<select class="form-control" name="salarieLecon">
+						<?php 
+                            foreach ($salaries as $salarie) {
+                            	echo "<option value=" . $salarie->get_id() . ">" . $salarie->get_prenom() . " " . $salarie->get_nom() . "</option>";
+                            }
+					    ?>
 					</select>
 				</div>
 
 				<div class="input-group">
 					<span class="input-group-addon" id="basic-addon1">Voiture</span>
-					<select class=form-control>
-						<option value="v1">Voiture 1</option>
-						<option value="v2">Voiture 2</option>
-						<option value="v3">Voiture 3</option>
+					<select class="form-control" name="voitureLecon">
+						<?php 
+                            foreach ($voitures as $voiture) {
+                            	echo "<option value=" . $voiture->get_id() . ">" . $voiture->get_id() . " " . $voiture->get_immatriculation() . "</option>";
+                            }
+					    ?>
 					</select>
 				</div>
     		</div>

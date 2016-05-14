@@ -6,13 +6,13 @@
  * @author Guillaume Blanc
  */
 
-include_once('../LeconConduite.php');
-include_once('../Salarie.php');
-include_once('../Voiture.php');
-include_once('FormuleProvider.php');
-include_once('AchatProvider.php');
-include_once('EleveProvider.php');
-include_once('VoitureProvider.php');
+include_once('C:\wamp\www\auto-ecole\model\LeconConduite.php');
+include_once('C:\wamp\www\auto-ecole\model\Salarie.php');
+include_once('C:\wamp\www\auto-ecole\model\Voiture.php');
+include_once('C:\wamp\www\auto-ecole\model\provider\FormuleProvider.php');
+include_once('C:\wamp\www\auto-ecole\model\provider\AchatProvider.php');
+include_once('C:\wamp\www\auto-ecole\model\provider\EleveProvider.php');
+include_once('C:\wamp\www\auto-ecole\model\provider\VoitureProvider.php');
 
 /**
  * Décommenter pour tester les requetes

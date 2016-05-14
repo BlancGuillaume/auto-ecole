@@ -5,8 +5,8 @@
  * @author Guillaume Blanc
  */
 
-include_once('../Achat.php');
-include_once('../Eleve.php');
+include_once('C:\wamp\www\auto-ecole\model\Achat.php');
+include_once('C:\wamp\www\auto-ecole\model\Eleve.php');
 
 /**
  * Décommenter pour tester les requetes

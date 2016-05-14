@@ -1,4 +1,14 @@
 <?php 
+	// PAGE DISPONIBLE UNIQUEMENT PAR L'ADMINISTRATEUR : sinon redirection à la page de connexion
+    session_start();
+    if (!isset($_SESSION['login']) && empty($_SESSION['login']))
+    {
+      header('Location: connexion.php');
+    }
+
+	include('..\model\provider\ClientProvider.php');
+	include('..\model\Client.php');
+	$npClient = ClientProvider::get_nom_prenom_client(1); // np pour nom prenom
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -54,13 +64,17 @@
 	                                    </thead>
 	                                    <!-- Contenu tableau -->
 		                                <tbody>
-	                                        <!--<tr class="odd gradeX">
-		                                        <td>Trident</td>
-		                                        <td>Internet Explorer 4.0</td>
-		                                        <td>Win 95+</td>
-		                                        <td class="center">4</td>
-		                                        <td class="center">X</td>
-	                                        </tr>!-->
+		                                	<?php 
+		                                        echo "<tr>";
+										        echo "<td>" . $npClient->get_nom() . "</td>";
+										        echo "<td>" . $npClient->get_prenom() . "</td>";
+										        echo "<td>" . $client->get_telDomicile() . "</td>";
+            									echo "<td>" . $client->get_telPortable() . "</td>";
+            									echo "<td>" . $client->get_adresse()->get_rue() . " " . 
+            												  $client->get_adresse()->get_codePostal() . " " . 
+            												  $client->get_adresse()->get_ville() . "</td>";
+										        echo "</tr>";
+									        ?>
                                         </tbody>
 	                                </table>
 	                            </div>

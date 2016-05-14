@@ -5,11 +5,11 @@
  * @author Guillaume Blanc
  */
 
-include_once('../Client.php');
-include_once('../Formule.php');
-include_once('../Adresse.php');
-include_once('AdresseProvider.php');
-include_once('EleveProvider.php');
+include_once('C:\wamp\www\auto-ecole\model\Client.php');
+include_once('C:\wamp\www\auto-ecole\model\Formule.php');
+include_once('C:\wamp\www\auto-ecole\model\Adresse.php');
+include_once('C:\wamp\www\auto-ecole\model\provider\AdresseProvider.php');
+include_once('C:\wamp\www\auto-ecole\model\provider\EleveProvider.php');
 
 
 /**
