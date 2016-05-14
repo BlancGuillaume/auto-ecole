@@ -7,7 +7,7 @@
  * @author Guillaume Blanc
  */
 
-// include_once('C:\wamp\www\auto-ecole\model\Eleve.php');
+include_once('C:\wamp\www\auto-ecole\model\Eleve.php');
 include_once('C:\wamp\www\auto-ecole\model\provider\AdresseProvider.php');
 include_once('C:\wamp\www\auto-ecole\model\provider\SalarieProvider.php');
 include_once('C:\wamp\www\auto-ecole\model\provider\LeconConduiteProvider.php');
@@ -162,21 +162,28 @@ class EleveProvider {
         $connectionManager = new ConnectionManager();
         $conn = $connectionManager->connect();
         
-        $req = "INSERT INTO ELEVE VALUES ('".$eleve->get_id()."', '"
-                                            .$eleve->get_nom()."', '"
-                                            .$eleve->get_prenom()."', '"
-                                            .date("Y-m-d H:i:s")."', '"
-                                            .$eleve->get_dateNaissance()."', '"
-                                            .false."', '"
-                                            .false."', '"
-                                            .$eleve->get_adresse()->get_id()."', '"
-                                            .$eleve->get_client()->get_id()."', '"
-                                            .$eleve->get_formule()->get_id()."', '"
-                                            .$eleve->get_salarie()->get_id()."')"; 
-        
-        // TODO continuer
+        $req = "INSERT INTO ELEVE 
+                VALUES (eleve_seq.nextVal, '" .
+                        $eleve->get_nom(). "', '" . 
+                        $eleve->get_prenom() . 
+                        "', TO_DATE('" . date("Y/m/d") ."', 'yyyy/mm/dd'), '".
+                        $eleve->get_dateNaissance() . "', '" . 
+                        $eleve->get_telPortable() . "', '" . 
+                        $eleve->get_telDomicile() .  "', '" . 
+                        0 . "', '" . 
+                        0 . "', '" .
+                        $eleve->get_adresse()->get_id(). "', '" . 
+                        $eleve->get_client()->get_id() . "', '" .
+                        $eleve->get_formule()->get_id()."', '" .
+                        $eleve->get_moniteur()->get_id()."')"; 
+
+
+        var_dump($req);
+        $aExecuter = oci_parse($conn, $req);
+        $resulat = oci_execute($aExecuter);
+        var_dump($resulat);
     }
-    
+
     /**
      * Test des méthodes ci dessus
      */

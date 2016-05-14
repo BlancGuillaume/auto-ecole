@@ -7,7 +7,7 @@
     }
 
 	include('..\model\provider\ClientProvider.php');
-	$npClient = ClientProvider::get_nom_prenom_client(1); // np pour nom prenom
+	$clients = ClientProvider::get_clients(); // np pour nom prenom
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -64,15 +64,17 @@
 	                                    <!-- Contenu tableau -->
 		                                <tbody>
 		                                	<?php 
-		                                        echo "<tr>";
-										        echo "<td>" . $npClient->get_nom() . "</td>";
-										        echo "<td>" . $npClient->get_prenom() . "</td>";
-										        echo "<td>" . $client->get_telDomicile() . "</td>";
-            									echo "<td>" . $client->get_telPortable() . "</td>";
-            									echo "<td>" . $client->get_adresse()->get_rue() . " " . 
-            												  $client->get_adresse()->get_codePostal() . " " . 
-            												  $client->get_adresse()->get_ville() . "</td>";
-										        echo "</tr>";
+		                                		foreach ($clients as $client ) {
+		                                			echo "<tr>";
+											        echo "<td>" . $client->get_nom() . "</td>";
+											        echo "<td>" . $client->get_prenom() . "</td>";
+											        echo "<td>" . $client->get_telDomicile() . "</td>";
+	            									echo "<td>" . $client->get_telPortable() . "</td>";
+	            									echo "<td>" . $client->get_adresse()->get_rue() . " " . 
+	            												  $client->get_adresse()->get_codePostal() . " " . 
+	            												  $client->get_adresse()->get_ville() . "</td>";
+											        echo "</tr>";
+		                                		}
 									        ?>
                                         </tbody>
 	                                </table>

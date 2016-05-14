@@ -95,7 +95,6 @@ class AdresseProvider {
                                             .$adresse->get_rue()."' , '"
                                             .$adresse->get_ville()."' , '"
                                             .$adresse->get_codePostal()."')";        
-     
             // Execution de la requete
             $aExecuter = oci_parse($conn, $req);
             $resultat = oci_execute($aExecuter);

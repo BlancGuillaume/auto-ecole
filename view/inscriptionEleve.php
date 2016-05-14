@@ -9,6 +9,13 @@
 	// Pour remplir la liste déroulante Formules
 	include('..\model\provider\FormuleProvider.php');
 	$formules = FormuleProvider::get_formules();
+
+	include('..\model\provider\SalarieProvider.php');
+	$moniteurs = SalarieProvider::get_salaries();
+
+	include('..\model\provider\ClientProvider.php');
+	$clients = ClientProvider::get_clients();
+	
 	
    // On regarde si le formulaire a été complété 
 	// TO DO : ajout rafraichissement page
@@ -37,6 +44,9 @@
 		$ville_adresse_client = isset($_POST['villeClient']) ? addslashes($_POST['villeClient']) : NULL;
 		$cp_adresse_client = isset($_POST['codePostalClient']) ? addslashes($_POST['codePostalClient']) : NULL;
 
+		$moniteur_eleve =  isset($_POST['moniteur']) ? addslashes($_POST['moniteur']) : NULL;
+		$client_eleve =  isset($_POST['client']) ? addslashes($_POST['client']) : NULL;
+
 		
 		// Plusieurs champs obligatoires peuvent avoir été omis.
 		// On va consruire le message au fur et a mesure
@@ -48,24 +58,12 @@
 			$erreurMessage2 .= "le code postal de l\'élève est un nombre à 5 chiffres\\n";
 			$erreurFormulaire = 2;
 		}
-		if (!preg_match('#^[0-9]{5}$#', $cp_adresse_client)) {
-			$erreurMessage2 .= "le code postal est un nombre à 5 chiffres\\n";
-			$erreurFormulaire = 2;
-		}
 		if (!preg_match('#^[0-9]{10}$#', $num_eleve)) {
 			$erreurMessage2 .= "le numéro de téléphone personnel de l\'eleve doit contenir 10 chiffres\\n";
 			$erreurFormulaire = 2;
 		}
 		if (!preg_match('#^[0-9]{10}$#', $num_travail_eleve)) {
 			$erreurMessage2 .= "le numéro de téléphone profesionnel de l\'eleve doit contenir 10 chiffres\\n";
-			$erreurFormulaire = 2;
-		}
-		if (!preg_match('#^[0-9]{10}$#', $num_client)) {
-			$erreurMessage2 .= "le numéro de téléphone fixe du client doit contenir 10 chiffres\\n";
-			$erreurFormulaire = 2;
-		}
-		if (!preg_match('#^[0-9]{10}$#', $num_portable_client)) {
-			$erreurMessage2 .= "le numéro de téléphone de portable du client doit contenir 10 chiffres\\n";
 			$erreurFormulaire = 2;
 		}
 
@@ -101,29 +99,43 @@
 			$erreurMessage1 .= "Formule\\n";
 			$erreurFormulaire = 1;
 		}
-		if (empty($num_client) && empty($num_portable_client)) {
-			$erreurMessage1 .= "Numéro de téléphone du client\\n";
-			$erreurFormulaire = 1;
-		}
-		if (empty($prenom_client)) {
-			$erreurMessage1 .= "Prénom du client\\n";
-			$erreurFormulaire = 1;
-		}
-		if (empty($nom_client)) {
-			$erreurMessage1 .= "Nom du client\\n";
-			$erreurFormulaire = 1;
-		}
-		if (empty($libelle_adresse_client)) {
-			$erreurMessage1 .= "Adresse du client\\n";
-			$erreurFormulaire = 1;
-		}
-		if (empty($ville_adresse_client)) {
-			$erreurMessage1 .= "Ville du client\\n";
-			$erreurFormulaire = 1;
-		}
-		if (empty($cp_adresse_client)) {
-			$erreurMessage1 .= "Code postal du client\\n";
-			$erreurFormulaire = 1;
+		if ($client_eleve == 0) {
+			if (!preg_match('#^[0-9]{5}$#', $cp_adresse_client)) {
+				$erreurMessage2 .= "le code postal est un nombre à 5 chiffres\\n";
+				$erreurFormulaire = 2;
+			}
+			if (!preg_match('#^[0-9]{10}$#', $num_client)) {
+				$erreurMessage2 .= "le numéro de téléphone fixe du client doit contenir 10 chiffres\\n";
+				$erreurFormulaire = 2;
+			}
+			if (!preg_match('#^[0-9]{10}$#', $num_portable_client)) {
+				$erreurMessage2 .= "le numéro de téléphone de portable du client doit contenir 10 chiffres\\n";
+				$erreurFormulaire = 2;
+			}
+			if (empty($num_client) && empty($num_portable_client)) {
+				$erreurMessage1 .= "Numéro de téléphone du client\\n";
+				$erreurFormulaire = 1;
+			}
+			if (empty($prenom_client)) {
+				$erreurMessage1 .= "Prénom du client\\n";
+				$erreurFormulaire = 1;
+			}
+			if (empty($nom_client)) {
+				$erreurMessage1 .= "Nom du client\\n";
+				$erreurFormulaire = 1;
+			}
+			if (empty($libelle_adresse_client)) {
+				$erreurMessage1 .= "Adresse du client\\n";
+				$erreurFormulaire = 1;
+			}
+			if (empty($ville_adresse_client)) {
+				$erreurMessage1 .= "Ville du client\\n";
+				$erreurFormulaire = 1;
+			}
+			if (empty($cp_adresse_client)) {
+				$erreurMessage1 .= "Code postal du client\\n";
+				$erreurFormulaire = 1;
+			}
 		}
 		 
 		// Affichage de la pop du succès de la réservation, ou de l'echec dans le cas contraire
@@ -136,6 +148,38 @@
 			echo "<script> alert('".$erreurMessage2."');</script>";
 		} 
 		else {
+			// CLIENT 
+			if ($client_eleve == 0) {
+
+				$adresse_client = new Adresse(NULL, $libelle_adresse_client, $ville_adresse_client, $cp_adresse_client);
+				AdresseProvider::ajout_adresse($adresse_client);
+				$id_adresse_client = AdresseProvider::get_id_adresse($adresse_client);
+				$adresse_client = new Adresse($id_adresse_client, $libelle_adresse_client, $ville_adresse_client, $cp_adresse_client);
+
+		
+				$client = new Client(NULL, $prenom_client, $nom_client, NULL, $num_client, $num_portable_client, $adresse_client, NULL, NULL, NULL);
+				ClientProvider::ajout_client($client);
+				$id_client_eleve = ClientProvider::get_id_client($client);
+				$client = new Client($id_client_eleve, $prenom_client, $nom_client, NULL, $num_client, $num_portable_client, $adresse_client, NULL, NULL, NULL);
+			}
+			else {
+				$client = new Client($client_eleve, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+			}
+			$formule = new Formule($formule_eleve, NULL, NULL, NULL, NULL);
+			$salarie = new Salarie($moniteur_eleve, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+			
+
+			// ELEVE
+			$adresse_eleve = new Adresse (NULL, $libelle_adresse_eleve, $ville_adresse_eleve, $cp_adresse_eleve);
+			AdresseProvider::ajout_adresse($adresse_eleve);
+			$id_adresse_eleve = AdresseProvider::get_id_adresse($adresse_eleve);
+			$adresse_eleve = new Adresse ($id_adresse_eleve, $libelle_adresse_eleve, $ville_adresse_eleve, $cp_adresse_eleve);
+
+			$eleve = new Eleve(NULL, $prenom_eleve, $nom_eleve, $naissance_eleve, $num_eleve, 
+							   $num_travail_eleve, $adresse_eleve, $salarie, 0, 0, 
+							   $client, $formule, 0, 0, $date_inscription);
+			EleveProvider::ajout_eleve($eleve);
+
 			// Récupération de toutes les informations sur l'élève
 			// AFFICHAGE VERIFICATION
 			// var_dump("date_inscription : " . $date_inscription);
@@ -293,6 +337,40 @@
 		<script type="text/javascript" src="js/script.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+
+
+		<script>
+		    function choixClient() {
+		    	$client = document.getElementById('listeClients').value;
+		    	var balise1 = document.getElementById('prenomClient');
+		    	var balise2 = document.getElementById('nomClient');
+		    	var balise3 = document.getElementById('numClient');
+		    	var balise4 = document.getElementById('numPortableClient');
+		    	var balise5 = document.getElementById('villeAdresseClient');
+		    	var balise6 = document.getElementById('libelleAdresseClient');
+		    	var balise7 = document.getElementById('codePostalAdresseClient');
+		    	if($client != 0) {
+					balise1.setAttribute('readonly', 'readonly');
+					balise2.setAttribute('readonly', 'readonly');
+					balise3.setAttribute('readonly', 'readonly');
+					balise4.setAttribute('readonly', 'readonly');
+					balise5.setAttribute('readonly', 'readonly');
+					balise6.setAttribute('readonly', 'readonly');
+					balise7.setAttribute('readonly', 'readonly');
+		    	}
+		    	else {
+		    		balise1.removeAttribute("readonly");
+		    		balise2.removeAttribute("readonly");
+		    		balise3.removeAttribute("readonly");
+		    		balise4.removeAttribute("readonly");
+		    		balise5.removeAttribute("readonly");
+		    		balise6.removeAttribute("readonly");
+		    		balise7.removeAttribute("readonly");
+		    	}
+		    }
+		</script>
+
+
 		<header>
 			<!-- Navigation -->
 	        <?php include('nav.php');?>
@@ -365,27 +443,56 @@
 										</div>
 									</div>
 					    		</div>
+					    		<div id="formulaireFormuleEleve" class="sectionsFormulaireEleve">
+					    			<h3>Moniteur</h3>
+					    			<div class="input-group">
+					    				<div class="input-group">
+					    					<span class="input-group-addon" id="basic-addon1">Moniteur</span>
+											<select class="form-control" name="moniteur">
+												<?php 
+				                                    foreach ($moniteurs as $moniteur) {
+				                                    	echo "<option value=" . $moniteur->get_id() . ">" . $moniteur->get_surnom() . "</option>";
+				                                    }
+											    ?>
+											</select>
+										</div>
+									</div>
+					    		</div>
 					    	</div>
 					    	<div class="col-lg-6">
 								<div id="formulaireInfosClient" class="sectionsFormulaireEleve">
-									<h3>Client</h3>
+									<div>
+										<h3>Client</h3> 
+										<div class="input-group">
+					    					<span class="input-group-addon" id="basic-addon1">Moniteur</span>
+											<select class="form-control" name="client" onchange="choixClient()" id="listeClients">
+												<option value="0">Nouveau</option>
+												<?php 
+				                                    foreach ($clients as $client) {
+				                                    	echo "<option value=" . $client->get_id() . ">" . $client->get_prenom() . " " . $client->get_nom() . "</option>";
+				                                    }
+											    ?>
+											</select>
+										</div>
+									</div><br/>
+									
 									<div class="input-group">
 										<span class="input-group-addon" id="basic-addon1">Nom</span>
-										<input name="nomClient" type="text" class="form-control" aria-describedby="basic-addon1">
+										<input id="nomClient" name="nomClient" type="text" class="form-control" aria-describedby="basic-addon1">
 									</div>
 
 									<div class="input-group">
 										<span class="input-group-addon" id="basic-addon1">Prénom</span>
-										<input name="prenomClient" type="text" class="form-control" aria-describedby="basic-addon1">
+										<input id="prenomClient" name="prenomClient" type="text" class="form-control" aria-describedby="basic-addon1">
 									</div>
 
 									<div class="input-group">
 										<span class="input-group-addon glyphicon glyphicon-phone-alt" aria-hidden="true"></span>
-										<input name="numClient" type="text" class="form-control" placeholder="Numéro fixe" aria-describedby="basic-addon1">
+										<input id="numClient" name="numClient" type="text" class="form-control" placeholder="Numéro fixe" aria-describedby="basic-addon1">
 									</div>
 									<div class="input-group">
 										<span class="input-group-addon glyphicon glyphicon-phone-alt" aria-hidden="true"></span>
-										<input name="numPortableClient" type="text" class="form-control" placeholder="Numéro de portable" aria-describedby="basic-addon1">
+										<input id="numPortableClient" name="numPortableClient" type="text" class="form-control" placeholder="Numéro de portable" aria-describedby="basic-addon1">
 									</div>
 
 									<h5>Adresse</h5>

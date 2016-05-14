@@ -70,15 +70,14 @@
 		                                        foreach ($eleves as $eleve) {
 		                                        	echo "<tr>";
 		                                        	echo "<td>" . $eleve->get_nom() . "</td>";
+		                                        	echo "<td>" . $eleve->get_prenom() . "</td>";
 		                                        	echo "<td>" . $eleve->get_nombreLeconsEffectuees() . "</td>";
 		                                        	echo "<td>" .  $eleve->get_examenCode() . "</td>";
 										            echo "<td>" . $eleve->get_examenPermis() . "</td>";
 		                                        	echo "<td>" . $eleve->get_dateNaissance() . "</td>";
-		                                        	echo "<td>" . $eleve->get_adresse()->get_rue() . "</td>";
-										            echo "<td>" . $eleve->get_adresse()->get_ville() . "</td>";
-										            echo "<td>" . $eleve->get_adresse()->get_codePostal() . "</td>";
-										            echo "<td>" . $eleve->get_client()->get_nom() . "</td>";
-										            echo "<td>" . $eleve->get_client()->get_prenom() . "</td>";
+		                                        	echo "<td>" . $eleve->get_adresse()->get_rue() . " " . $eleve->get_adresse()->get_codePostal() . " " . 
+		                                        				  $eleve->get_adresse()->get_ville() . "</td>";
+										            echo "<td>" . $eleve->get_client()->get_prenom() . " " . $eleve->get_client()->get_nom() . "</td>";
 										            echo "<td>" . $eleve->get_formule()->get_id() . "</td>";
 										            echo "<td>" . $eleve->get_moniteur()->get_surnom() . "</td>";
 										            echo "<td>" .  $eleve->getDateInscription() . "</td>";
