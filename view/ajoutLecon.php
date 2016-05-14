@@ -12,6 +12,7 @@
 	$salaries = SalarieProvider::get_salaries();
 	//include('..\model\provider\VoitureProvider.php');
 	$voitures = VoitureProvider::get_voitures();
+	//include('..\model\provider\LeconConduiteProvider.php');
 	
    // On regarde si le formulaire a été complété 
 	// TO DO : ajout rafraichissement page
@@ -47,6 +48,11 @@
 			echo "<script> alert('".$erreurMessage1."');</script>";
 		} 
 		else {
+			$eleve = EleveProvider::get_eleve($eleve_lecon);
+			$salarie = SalarieProvider::get_salarie($salarie_lecon);
+			$voiture = VoitureProvider::get_voiture($voiture_lecon);
+			$lecon = new LeconConduite (NULL, $eleve, $salarie, $voiture, $date_lecon);
+			LeconConduiteProvider::ajout_lecon($lecon);
 			// AFFICHAGE VERIFICATION
 			// var_dump("date_lecon : " . $date_lecon);
 			// var_dump("eleve_lecon : " . $eleve_lecon);

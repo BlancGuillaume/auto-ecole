@@ -238,15 +238,10 @@ class LeconConduiteProvider {
                                             .$leconConduite->get_eleve()->get_id()."', '"
                                             .$leconConduite->get_salarie()->get_id()."', '"
                                             .$leconConduite->get_voiture()->get_id()."')"; 
-        
-        var_dump($req);
-                                            
+                                           
         // Execution de la requete
         $aExecuter = oci_parse($conn, $req);
         $resultat = oci_execute($aExecuter);
-        
-        var_dump($resultat);
-       
     }
     
      /**
