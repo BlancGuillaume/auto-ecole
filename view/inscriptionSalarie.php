@@ -8,7 +8,6 @@
 
 	// Pour remplir la liste déroulante Voiture
 	include('..\model\provider\VoitureProvider.php');
-	include('..\model\Voiture.php');
 	$voitures = VoitureProvider::get_voitures();
 
 

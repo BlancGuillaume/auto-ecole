@@ -6,9 +6,9 @@
  * @author Guillaume Blanc
  */
 
-include_once('C:\wamp\www\auto-ecole\model\LeconConduite.php');
-include_once('C:\wamp\www\auto-ecole\model\Salarie.php');
-include_once('C:\wamp\www\auto-ecole\model\Voiture.php');
+//include_once('C:\wamp\www\auto-ecole\model\LeconConduite.php');
+//include_once('C:\wamp\www\auto-ecole\model\Salarie.php');
+//include_once('C:\wamp\www\auto-ecole\model\Voiture.php');
 include_once('C:\wamp\www\auto-ecole\model\provider\FormuleProvider.php');
 include_once('C:\wamp\www\auto-ecole\model\provider\AchatProvider.php');
 include_once('C:\wamp\www\auto-ecole\model\provider\EleveProvider.php');

@@ -7,6 +7,7 @@
 
 include_once('C:\wamp\www\auto-ecole\model\Achat.php');
 include_once('C:\wamp\www\auto-ecole\model\Eleve.php');
+include_once('C:\wamp\www\auto-ecole\model\LeconConduite.php');
 
 /**
  * Décommenter pour tester les requetes

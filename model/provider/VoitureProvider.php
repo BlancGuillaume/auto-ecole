@@ -6,7 +6,7 @@
  * 
  * @author Guillaume Blanc
  */
-//include_once('../Voiture.php');
+include_once('C:\wamp\www\auto-ecole\model\Voiture.php');
 include_once('SalarieProvider.php');
 
 /**

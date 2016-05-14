@@ -6,13 +6,6 @@
       header('Location: connexion.php');
     }
 	include('..\model\provider\LeconConduiteProvider.php');
-	// include_once('../model/LeconConduite.php');
-	// include_once('../model/Salarie.php');
-	// include_once('../model/Voiturephp');
-	// include_once('../model/provider/FormuleProvider.php');
-	// include_once('../model/provider/AchatProvider.php');
-	// include_once('../model/provider/EleveProvider.php');
-	// include_once('../model/provider/VoitureProvider.php');
 	$lecons = LeconConduiteProvider::get_lecons();
 ?>
 <!DOCTYPE HTML>

@@ -6,8 +6,8 @@
  */
 
 include_once('C:\wamp\www\auto-ecole\model\Client.php');
-include_once('C:\wamp\www\auto-ecole\model\Formule.php');
-include_once('C:\wamp\www\auto-ecole\model\Adresse.php');
+//include_once('C:\wamp\www\auto-ecole\model\Formule.php');
+//include_once('C:\wamp\www\auto-ecole\model\Adresse.php');
 include_once('C:\wamp\www\auto-ecole\model\provider\AdresseProvider.php');
 include_once('C:\wamp\www\auto-ecole\model\provider\EleveProvider.php');
 

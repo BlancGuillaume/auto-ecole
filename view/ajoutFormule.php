@@ -6,7 +6,7 @@
       header('Location: connexion.php');
     }
 
-	include('../Model/Formule.php');
+	// include('../Model/Formule.php');
    // On regarde si le formulaire a été complété 
 	// TO DO : ajout rafraichissement page
     if (!empty($_POST)) {

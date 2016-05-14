@@ -7,7 +7,6 @@
     }
 
 	include('..\model\provider\EleveProvider.php');
-	include('..\model\Eleve.php');
 	$eleves = EleveProvider::get_eleves();
 ?>
 <!DOCTYPE HTML>

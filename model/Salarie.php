@@ -70,6 +70,4 @@ class Salarie extends Individu {
     function set_voiture($_voiture) {
         $this->_voiture = $_voiture;
     }
-
-
 }

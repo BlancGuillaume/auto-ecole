@@ -6,7 +6,6 @@
       header('Location: connexion.php');
     }
 	include('..\model\provider\FormuleProvider.php');
-	include('..\model\Formule.php');
 	$formules = FormuleProvider::get_formules();
 ?>
 <!DOCTYPE HTML>

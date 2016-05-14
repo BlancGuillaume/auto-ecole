@@ -6,7 +6,7 @@
       header('Location: connexion.php');
     }
 	//include('..\model\provider\ExamenCode.php');
-	//include('..\model\ExamenCode.php');
+
 ?>
 <!DOCTYPE HTML>
 <html>

@@ -6,7 +6,7 @@
       header('Location: connexion.php');
     }
 	include('..\model\provider\SalarieProvider.php');
-	include('..\model\Salarie.php');
+	// include('..\model\Salarie.php');
 	$salaries = SalarieProvider::get_salaries();
 
 

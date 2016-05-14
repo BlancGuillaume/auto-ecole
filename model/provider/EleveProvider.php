@@ -7,7 +7,7 @@
  * @author Guillaume Blanc
  */
 
-include_once('C:\wamp\www\auto-ecole\model\Eleve.php');
+// include_once('C:\wamp\www\auto-ecole\model\Eleve.php');
 include_once('C:\wamp\www\auto-ecole\model\provider\AdresseProvider.php');
 include_once('C:\wamp\www\auto-ecole\model\provider\SalarieProvider.php');
 include_once('C:\wamp\www\auto-ecole\model\provider\LeconConduiteProvider.php');

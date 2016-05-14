@@ -7,7 +7,6 @@
     }
 
 	include('..\model\provider\ClientProvider.php');
-	include('..\model\Client.php');
 	$npClient = ClientProvider::get_nom_prenom_client(1); // np pour nom prenom
 ?>
 <!DOCTYPE HTML>
