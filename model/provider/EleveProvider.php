@@ -176,12 +176,8 @@ class EleveProvider {
                         $eleve->get_client()->get_id() . "', '" .
                         $eleve->get_formule()->get_id()."', '" .
                         $eleve->get_moniteur()->get_id()."')"; 
-
-
-        var_dump($req);
         $aExecuter = oci_parse($conn, $req);
         $resulat = oci_execute($aExecuter);
-        var_dump($resulat);
     }
 
     /**
