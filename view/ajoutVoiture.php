@@ -6,7 +6,8 @@
       header('Location: connexion.php');
     }
     
-	include('../Model/Formule.php');
+	include('../Model/provider/VoitureProvider.php');
+	$salaries = SalarieProvider::get_salaries();
    // On regarde si le formulaire a été complété 
 	// TO DO : ajout rafraichissement page
     if (!empty($_POST)) {
@@ -18,6 +19,8 @@
 		$marque_voiture = isset($_POST['marqueVoiture']) ? addslashes($_POST['marqueVoiture']) : NULL;
 		$modele_voiture = isset($_POST['modeleVoiture']) ? addslashes($_POST['modeleVoiture']) : NULL;
 		$date_achat_voiture = isset($_POST['dateAchatVoiture']) ? addslashes($_POST['dateAchatVoiture']) : NULL;
+		$responsable_voiture = isset($_POST['responsableVoiture']) ? addslashes($_POST['responsableVoiture']) : NULL;
+
 		
 		// Plusieurs champs obligatoires peuvent avoir été omis.
 		// On va consruire le message au fur et a mesure
@@ -25,11 +28,11 @@
 		$erreurMessage2 = "L\'ajout a échouée :\\n";
 		$erreurFormulaire = 0;
 
-		if (!is_float($prix_voiture)) {
+		if (!is_numeric($prix_voiture)) {
 			$erreurMessage2 .= "le prix doit être un nombre\\n";
 			$erreurFormulaire = 2;
 		}
-		if (!is_float($kilometrage_voiture)) {
+		if (!is_numeric($kilometrage_voiture)) {
 			$erreurMessage2 .= "le kilométrage doit être un nombre\\n";
 			$erreurFormulaire = 2;
 		}
@@ -45,7 +48,7 @@
 			$erreurMessage1 .= "le kilométrage\\n";
 			$erreurFormulaire = 1;
 		}
-		if (empty($marqueVoiture)) {
+		if (empty($marque_voiture)) {
 			$erreurMessage1 .= "la marque\\n";
 			$erreurFormulaire = 1;
 		}
@@ -68,13 +71,16 @@
 			echo "<script> alert('".$erreurMessage2."');</script>";
 		} 
 		else {
+			$salarie = SalarieProvider::get_salarie($responsable_voiture);
+			$voiture = new Voiture(NULL, $immatriculation_voiture, $date_achat_voiture, $prix_voiture, NULL, $marque_voiture, $modele_voiture, $kilometrage_voiture, $salarie);
+			VoitureProvider::ajout_voiture($voiture);
 			// AFFICHAGE VERIFICATION
-			var_dump("prix_voiture : " . $prix_voiture);
-			var_dump("immatriculation_voiture : " . $immatriculation_voiture);
-			var_dump("kilometrage_voiture : " . $kilometrage_voiture);
-			var_dump("marqueVoiture : " . $marqueVoiture);
-			var_dump("modeleVoiture : " . $modeleVoiture);
-			var_dump("date_achat_voiture : " . $date_achat_voiture);
+			// var_dump("prix_voiture : " . $prix_voiture);
+			// var_dump("immatriculation_voiture : " . $immatriculation_voiture);
+			// var_dump("kilometrage_voiture : " . $kilometrage_voiture);
+			// var_dump("marqueVoiture : " . $marqueVoiture);
+			// var_dump("modeleVoiture : " . $modeleVoiture);
+			// var_dump("date_achat_voiture : " . $date_achat_voiture);
 
 		}	
 	}
@@ -90,6 +96,13 @@
 		<link href="css/bootstrap-theme.css" rel="stylesheet" type="text/css">
 		<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
 		<link href="css/style.css" rel="stylesheet" type="text/css">
+
+		<link href="css/jquery-ui.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery-ui.structure.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery-ui.structure.min.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery-ui.theme.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery-ui.theme.min.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
 		<!--Import jQuery before materialize.js-->
@@ -101,11 +114,18 @@
 		<script type="text/javascript" src="js/script.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-timepicker-addon-0.6.2.js"></script>
+		
+		<script>
+			jQuery(function($) {
+				$('#datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
+			});
+		</script>
 		<header>
 			<!-- Navigation -->
 	        <?php include('nav.php');?>
 		</header>
-		<form id="page-wrapper" action="ajoutFormule.php" method="post">
+		<form id="page-wrapper" action="ajoutVoiture.php" method="post">
 			<div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Ajout d'une nouvelle voiture</h1>
@@ -139,8 +159,20 @@
 									<input name="modeleVoiture" type="text" class="form-control" aria-describedby="basic-addon1">
 								</div>
 								<div class="input-group">
-									<span class="input-group-addon" id="basic-addon1">Date d'achat</span>
-									<input name="dateAchatVoiture" type="text" class="form-control" aria-describedby="basic-addon1">
+									<span class="input-group-addon" id="basic-addon1">Responsable</span>
+									<select class="form-control" name="responsableVoiture">
+										<?php 
+				                            foreach ($salaries as $salarie) {
+				                            	echo "<option value=" . $salarie->get_id() . ">" . $salarie->get_prenom() . " " . $salarie->get_nom() . "</option>";
+				                            }
+									    ?>
+									</select>
+								</div>
+								<div class="input-group">
+									<span class="input-group-addon">
+				                        <span class="glyphicon glyphicon-calendar"></span>
+				                    </span>
+									<input type="text" id="datepicker" class="form-control" name="dateAchatVoiture">
 								</div>
 				    		</div>
 					    </div>
