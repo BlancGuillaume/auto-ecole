@@ -17,9 +17,10 @@
 	// }
 
 	include('..\model\provider\EleveProvider.php');
-	$eleves = EleveProvider::get_eleves();
+	//$eleves = EleveProvider::get_eleves();
 	$clients = ClientProvider::get_clients();
 	$_SESSION['testClientChoisi'] = 0;
+
    // On regarde si le formulaire a été complété 
 	// TO DO : ajout rafraichissement page
     if (!empty($_POST)) {
@@ -27,51 +28,59 @@
 		$nombre_tickets =  isset($_POST['nombreTickets']) ? $_POST['nombreTickets'] : NULL;
 		$eleve_achat = isset($_POST['eleveAchat']) ? addslashes($_POST['eleveAchat']) : NULL;
 		$client_achat = isset($_POST['clientAchat']) ? addslashes($_POST['clientAchat']) : NULL;
+		$eleves = NULL;
+		$_SESSION['clientChoisi'] = $client_achat;
 
 		if ($client_achat != NULL) {
 			$_SESSION['testClientChoisi'] = 1;
-			$_SESSION['clientChoisi'] = $client_achat;
 			echo '<script>alert(' . $_SESSION['clientChoisi'] .');</script>';
 			$eleves = EleveProvider::get_eleves_dun_client($_SESSION['clientChoisi']);
-			unset($_SESSION['clientChoisi']);
-			echo '<script>affichage_eleves_client();</script>';
 		}
-		// $erreurMessage1 = "L\'ajout a échouée, le(s) champ(s) suivant(s) doivent être complétés : \\n";
-		// $erreurMessage2 = "L\'ajout a échouée :\\n";
-		// $erreurFormulaire = 0;
+		$erreurMessage1 = "L\'ajout a échouée, le(s) champ(s) suivant(s) doivent être complétés : \\n";
+		$erreurMessage2 = "L\'ajout a échouée :\\n";
+		$erreurFormulaire = 0;
 
-		// if (!is_numeric($nombre_tickets)) {
-		// 	$erreurMessage2 .= "le nombre de tickets doit être un nombre entier\\n";
-		// 	$erreurFormulaire = 2;
-		// }
-		// if (empty($eleve_achat)) {
-		// 	$erreurMessage1 .= "Eleve\\n";
-		// 	$erreurFormulaire = 1;
-		// }
-		// if (empty($client_achat)) {
-		// 	$erreurMessage1 .= "Client\\n";
-		// 	$erreurFormulaire = 1;
-		// }
-		// if (empty($nombre_tickets)) {
-		// 	$erreurMessage1 .= "Nombre de tickets\\n";
-		// 	$erreurFormulaire = 1;
-		// }
+		if (!is_numeric($nombre_tickets)) {
+			$erreurMessage2 .= "le nombre de tickets doit être un nombre entier\\n";
+			$erreurFormulaire = 2;
+		}
+		if (empty($eleve_achat)) {
+			$erreurFormulaire = 3;
+		}
+		if (empty($client_achat)) {
+			$erreurMessage1 .= "Client\\n";
+			$erreurFormulaire = 1;
+		}
+		if (empty($nombre_tickets) && empty($client_achat)) {
+			$erreurMessage1 .= "Nombre de tickets\\n";
+			$erreurFormulaire = 1;
+		}
 
-		// if ($erreurFormulaire == 1) {
-		// 	// Il y a eu une erreur
-		// 	echo "<script> alert('".$erreurMessage1."');</script>";
-		// } 
-		// elseif ($erreurFormulaire == 2) {
-		// 	// Il y a eu une erreur
-		// 	echo "<script> alert('".$erreurMessage2."');</script>";
-		// } 
-		// else {
+		if ($erreurFormulaire == 1) {
+			// Il y a eu une erreur
+			echo "<script> alert('".$erreurMessage1."');</script>";
+		} 
+		elseif ($erreurFormulaire == 3) {
+		}
+		elseif ($erreurFormulaire == 2) {
+			// Il y a eu une erreur
+			echo "<script> alert('".$erreurMessage2."');</script>";
+		} 
+		else {
+			$eleve = EleveProvider::get_eleve($eleve_achat);
+			$client = ClientProvider::get_client($client_achat);
+			$montant = $eleve->get_formule()->getPrixLecon() * $nombre_tickets;
 
-		// 	// AFFICHAGE VERIFICATION
-		// 	// var_dump("eleve_achat : " . $eleve_achat);
-		// 	// var_dump("client_achat : " . $client_achat);
-		// 	// var_dump("nombre_tickets : " . $nombre_tickets);
-		// }
+			$achat = new Achat (NULL, $nombre_tickets, $montant, NULL, $eleve_achat);
+			// AchatProvider::ajout_achat($achat);
+
+			// AFFICHAGE VERIFICATION
+			var_dump("eleve_achat : " . $eleve_achat);
+			var_dump("client_achat : " . $client_achat);
+			var_dump("nombre_tickets : " . $nombre_tickets);
+
+
+		}
 	}
 ?>
 <!DOCTYPE HTML>
@@ -95,11 +104,6 @@
 		<script type="text/javascript" src="js/script.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
-		<script>
-		    function raffraichissement() {
-		    	window.location.reload();
-		    }
-		</script>
 		<header>
 		<!-- Navigation -->
         <?php include('nav.php');?>
@@ -108,46 +112,52 @@
 		<form class="formulaire" action="ajoutAchat.php" method="post">
 			<div id="formulaireAjoutLecon" class="sectionsFormulaireEleve">
 				<h3>Achat</h3>
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon1">Client</span>
-					<select class="form-control" name="clientAchat" id="listeClients" onchange="raffraichissement()">
-						<?php 
-                            foreach ($clients as $client) {
-                            	if ($_SESSION['testClientChoisi'] == 1) {
+				<form class="formulaire" action="ajoutAchat.php" method="post">
+					<div class="input-group">
+						<span class="input-group-addon" id="basic-addon1">Client</span>
+						<select class="form-control" name="clientAchat" id="listeClients">
+							<?php 
+	                            foreach ($clients as $client) {
+	                            	if ($_SESSION['testClientChoisi'] == 1) {
 
-                            		if($client->get_id() == $_SESSION['clientChoisi']) {
-                            			echo "<option selected=\"selected\" value=" . $client->get_id() . ">" . $client->get_prenom() . " " . $client->get_nom() . "</option>";
-                            		}
-                            		else {
-                            			echo "<option value=" . $client->get_id() . ">" . $client->get_prenom() . " " . $client->get_nom() . "</option>";
-                            		}
-                            	}
-                            	else {
-                            		echo "<option value=" . $client->get_id() . ">" . $client->get_prenom() . " " . $client->get_nom() . "</option>";
-                            	}
-                            	
-                            }
-					    ?>
-					</select>
-				</div>
+	                            		if($client->get_id() == $_SESSION['clientChoisi']) {
+	                            			echo "<option  selected=\"selected\" value=" . $client->get_id() . ">" . $client->get_prenom() . " " . $client->get_nom() . "</option>";
+	                            		}
+	                            		else {
+	                            			echo "<option value=" . $client->get_id() . ">" . $client->get_prenom() . " " . $client->get_nom() . "</option>";
+	                            		}
+	                            	}
+	                            	else {
+	                            		echo "<option value=" . $client->get_id() . ">" . $client->get_prenom() . " " . $client->get_nom() . "</option>";
+	                            	}
+	                            	
+	                            }
+						    ?>
+						</select>
+					</div>
+					<button id="boutonSelectClient" type="submit" name="action">Selectionner</button>
+				</form>
 				<div>
 					<div class="input-group">
 						<span class="input-group-addon" id="basic-addon1">Eleves</span>
 						<select class="form-control" name="eleveAchat" id="listeEleves">
 							<?php 
-                            foreach ($eleves as $eleve) {
-                            	echo "<option value=" . $eleve->get_id() . ">" . $eleve->get_prenom() . " " . $eleve->get_nom() . "</option>";
-                            }
-					    ?>
+	                            foreach ($eleves as $eleve) {
+	                            	echo "<option value=" . $eleve->get_id() . ">" . $eleve->get_prenom() . " " . $eleve->get_nom() . "</option>";
+	                            }
+					    	?>
 						</select>
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon" id="basic-addon1">Nombre de tickets</span>
 						<input name="nombreTickets" type="text" class="form-control" aria-describedby="basic-addon1">
+
 					</div>
+
 				</div>
+				<button id="boutonAjoutLecon" type="submit" name="action" class="btn btn-primary">Acheter</button>
     		</div>
-    		<button id="boutonAjoutLecon" type="submit" name="action">Acheter</button>
+    		
 		</form>
 
 	</body>
