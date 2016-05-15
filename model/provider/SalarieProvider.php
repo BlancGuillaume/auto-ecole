@@ -130,17 +130,20 @@ class SalarieProvider {
         $connectionManager = new ConnectionManager();
         $conn = $connectionManager->connect();
         
-        $req = "INSERT INTO SALARIE VALUES ('".$salarie->get_id()."', '"
-                                            .$salarie->get_nom()."', '"
-                                            .$salarie->get_prenom()."', '"
-                                            .$salarie->get_telPortable()."', '"
-                                            .$salarie->get_categorie()."', '"
-                                            .$salarie->get_surnom()."', '"
-                                            .$salarie->get_dateRecrutement()."', '"
-                                            .$salarie->get_adresse()->get_id()."', '"
-                                            .$salarie->get_voiture()->get_id()."')"; 
+        $req = "INSERT INTO SALARIE (id_salarie, nom_salarie, prenom_salarie, num_salarie, categorie_salarie, surnom_salarie, date_recrutement, id_adresse_salarie) 
+                VALUES (eleve_seq.nextVal, '" 
+                        .$salarie->get_nom()."', '"
+                        .$salarie->get_prenom()."', '"
+                        .$salarie->get_telPortable()."', '"
+                        .$salarie->get_categorie()."', '"
+                        .$salarie->get_surnom()."', "
+                        ."TO_DATE('" . date("Y/m/d") ."', 'yyyy/mm/dd'), '"
+                        .$salarie->get_adresse()->get_id()."')";
         
-        // TODO continuer
+        var_dump($req);
+        $aExecuter = oci_parse($conn, $req);
+        $resulat = oci_execute($aExecuter);
+        var_dump($resulat);
     }
 
 

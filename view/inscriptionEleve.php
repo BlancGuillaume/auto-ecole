@@ -338,6 +338,11 @@
 		<script type="text/javascript" src="js/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 		<script>
+			jQuery(function($) {
+				$('#datepicker').datepicker({ dateFormat: 'yyyy/mm/dd' });
+			});
+		</script>
+		<script>
 		    function choixClient() {
 		    	$client = document.getElementById('listeClients').value;
 		    	var balise1 = document.getElementById('prenomClient');

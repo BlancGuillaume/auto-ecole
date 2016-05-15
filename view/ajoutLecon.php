@@ -93,8 +93,7 @@
 		
 		<script>
 			jQuery(function($) {
-				$('#datepicker').datepicker();
-				// $("#datetime_picker").datetimepicker();
+				$('#datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
 			});
 		</script>
 		<header>
@@ -118,7 +117,7 @@
 									<span class="input-group-addon">
 				                        <span class="glyphicon glyphicon-calendar"></span>
 				                    </span>
-									<input type="text" id="datepicker" class="form-control">
+									<input type="text" id="datepicker" class="form-control" name="dateLecon">
 								</div>
 							</div>
 
@@ -161,10 +160,7 @@
 					</div>
 				</div>
 			</div>
-
-			
     		<button id="boutonAjoutLecon" type="submit" name="action">Ajouter</button>
 		</form>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	</body>
 </html>
