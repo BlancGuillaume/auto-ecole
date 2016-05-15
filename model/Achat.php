@@ -22,13 +22,17 @@ class Achat {
     /** L'élève qui bénéficie de l'achat */
     private $_eleveBeneficiaire;
     
+    /** Le client qui effectue l'achat */
+    private $_clientFacture;
+    
     /** Constructeur par paramètres */
-    function __construct($id, $nbreLecons, $montant, $dateAchat, $eleveBeneficiaire) {
+    function __construct($id, $nbreLecons, $montant, $dateAchat, $eleveBeneficiaire, $clientFacture) {
         $this->_id = $id;
         $this->_nbreLecons = $nbreLecons;
         $this->_montant = $montant;
         $this->_dateAchat = $dateAchat;
         $this->_eleveBeneficiaire = $eleveBeneficiaire;
+        $this->_clientFacture = $clientFacture;
     }
 
         function get_id() {
@@ -71,5 +75,11 @@ class Achat {
         $this->_eleveBeneficiaire = $eleveBeneficiaire;
     }
 
+    function getClientFacture() {
+        return $this->_clientFacture;
+    }
 
+    function setClientFacture($clientFacture) {
+        $this->_clientFacture = $clientFacture;
+    }
 }

@@ -233,7 +233,7 @@ class LeconConduiteProvider {
         $connectionManager = new ConnectionManager();
         $conn = $connectionManager->connect();
          
-        $req = "INSERT INTO LECON VALUES (examen_conduite_seq.nextVal,TO_DATE('"
+        $req = "INSERT INTO LECON VALUES (lecon_seq.nextVal,TO_DATE('"
                                             .$leconConduite->getDate()."', 'yyyy/mm/dd'), '"
                                             .$leconConduite->get_eleve()->get_id()."', '"
                                             .$leconConduite->get_salarie()->get_id()."', '"

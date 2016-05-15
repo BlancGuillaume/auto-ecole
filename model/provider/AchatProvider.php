@@ -7,13 +7,13 @@
 
 include_once('C:\wamp\www\auto-ecole\model\Achat.php');
 include_once('C:\wamp\www\auto-ecole\model\Eleve.php');
+include_once('C:\wamp\www\auto-ecole\model\Client.php');
 include_once('C:\wamp\www\auto-ecole\model\LeconConduite.php');
 
 /**
  * Décommenter pour tester les requetes
  */
  //AchatProvider::testMethodes();
-
 
 class AchatProvider {
    
@@ -76,10 +76,35 @@ class AchatProvider {
                                       $achat['MONTANT_ACHAT'],
                                       $achat['DATE_ACHAT'], 
                                       new Eleve($achat['ID_ELEVE'], $achat['PRENOM_ELEVE'], $achat['NOM_ELEVE'],
-                                      NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)));  
+                                      NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL), NULL));  
         }
         
         return $achats;
+    }
+    
+    /**
+     * Ajout d'un achat dans la bdd
+     * @param type $achat
+     */
+    public static function ajout_achat($achat) {
+                     
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
+         
+        $req = "INSERT INTO ACHAT VALUES (achat_seq.nextVal,"
+                                            .$achat->getClientFacture()->get_id()." , "
+                                            .$achat->getEleveBeneficiaire()->get_id()." , "
+                                            .$achat->get_nbreLecons().", TO_DATE('"
+                                            .$achat->get_dateAchat()."', 'yyyy/mm/dd'), "
+                                            .$achat->get_montant().")"; 
+        
+        var_dump($req);
+                                           
+        // Execution de la requete
+        $aExecuter = oci_parse($conn, $req);
+        $resultat = oci_execute($aExecuter);
     }
 
     /**
@@ -87,13 +112,19 @@ class AchatProvider {
      */
     public static function testMethodes() {
 
+        $eleveBeneficiaire = new Eleve(2, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+        $clientFacture = new Client(1, null, null, null, null, null, null, null, null);
+
+        $unAchat = new Achat(null, 33, 800, date("Y/m/d"), $eleveBeneficiaire, $clientFacture);
+        AchatProvider::ajout_achat($unAchat);
+
         $nbreLeconsAchetees = AchatProvider::get_nombre_lecons_achetees(2);
         echo "nombre de lecons achetées : " . $nbreLeconsAchetees;
         
         $achats = AchatProvider::get_achats_dun_client(1);
 
         foreach ($achats as $achat) {
-            // Récupération de toutes les achats
+            // Récupération de toutes les achats d'un client
             echo "Récupération de toutes les achats<br>";
             echo "id : " . $achat->get_id() . "<br>";
             echo "nbre lecons : " . $achat->get_nbreLecons() . "<br>";
