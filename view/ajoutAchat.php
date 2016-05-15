@@ -33,7 +33,7 @@
 
 		if ($client_achat != NULL) {
 			$_SESSION['testClientChoisi'] = 1;
-			echo '<script>alert(' . $_SESSION['clientChoisi'] .');</script>';
+			// echo '<script>alert(' . $_SESSION['clientChoisi'] .');</script>';
 			$eleves = EleveProvider::get_eleves_dun_client($_SESSION['clientChoisi']);
 		}
 		$erreurMessage1 = "L\'ajout a échouée, le(s) champ(s) suivant(s) doivent être complétés : \\n";
@@ -71,13 +71,13 @@
 			$client = ClientProvider::get_client($client_achat);
 			$montant = $eleve->get_formule()->getPrixLecon() * $nombre_tickets;
 
-			$achat = new Achat (NULL, $nombre_tickets, $montant, NULL, $eleve_achat);
-			// AchatProvider::ajout_achat($achat);
+			$achat = new Achat (NULL, $nombre_tickets, $montant, NULL, $eleve, $client);
+			AchatProvider::ajout_achat($achat);
 
 			// AFFICHAGE VERIFICATION
-			var_dump("eleve_achat : " . $eleve_achat);
-			var_dump("client_achat : " . $client_achat);
-			var_dump("nombre_tickets : " . $nombre_tickets);
+			// var_dump("eleve_achat : " . $eleve_achat);
+			// var_dump("client_achat : " . $client_achat);
+			// var_dump("nombre_tickets : " . $nombre_tickets);
 
 
 		}

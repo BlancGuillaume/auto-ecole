@@ -96,12 +96,10 @@ class AchatProvider {
         $req = "INSERT INTO ACHAT VALUES (achat_seq.nextVal,"
                                             .$achat->getClientFacture()->get_id()." , "
                                             .$achat->getEleveBeneficiaire()->get_id()." , "
-                                            .$achat->get_nbreLecons().", TO_DATE('"
-                                            .$achat->get_dateAchat()."', 'yyyy/mm/dd'), "
-                                            .$achat->get_montant().")"; 
-        
-        var_dump($req);
-                                           
+                                            .$achat->get_nbreLecons() . " , "
+                                            ."TO_DATE('" . date("Y/m/d") ."', 'yyyy/mm/dd'), '"
+                                            .$achat->get_montant()."')"; 
+                      
         // Execution de la requete
         $aExecuter = oci_parse($conn, $req);
         $resultat = oci_execute($aExecuter);
