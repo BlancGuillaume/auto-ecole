@@ -71,6 +71,13 @@
 		<link href="css/bootstrap-theme.css" rel="stylesheet" type="text/css">
 		<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
 		<link href="css/style.css" rel="stylesheet" type="text/css">
+
+		<link href="css/jquery-ui.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery-ui.structure.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery-ui.structure.min.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery-ui.theme.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery-ui.theme.min.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
 		<!--Import jQuery before materialize.js-->
@@ -82,59 +89,78 @@
 		<script type="text/javascript" src="js/script.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-timepicker-addon-0.6.2.js"></script>
+		
 		<script>
-		  $(function() {
-		    $( "#datepicker" ).datepicker();
-		  });
-		  </script>
+			jQuery(function($) {
+				$('#datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
+			});
+		</script>
 		<header>
 		<!-- Navigation -->
         <?php include('nav.php');?>
 
 		</header>
 		<form class="formulaire" action="ajoutLecon.php" method="post">
-			<div id="formulaireAjoutLecon" class="sectionsFormulaireEleve">
-				<h3>Leçon</h3>
-				<div class="input-group">
-					<span class="input-group-addon" aria-hidden="true">Date</span>
-					<input name="dateLecon" type="text" class="form-control" placeholder="TO DO : datepicker" aria-describedby="basic-addon1">
-				</div>
+			<div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Plannification d'un leçon</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                	<div class="panel panel-default">
+                		<div class="panel-body">
+					    	<div class="col-lg-6">
+								<div class="input-group">
+									<span class="input-group-addon">
+				                        <span class="glyphicon glyphicon-calendar"></span>
+				                    </span>
+									<input type="text" id="datepicker" class="form-control" name="dateLecon">
+								</div>
+							</div>
 
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon1">Eleve</span>
-					<select class="form-control" name="eleveLecon">
-						<?php 
-                            foreach ($eleves as $eleve) {
-                            	echo "<option value=" . $eleve->get_id() . ">" . $eleve->get_prenom() . " " . $eleve->get_nom() . "</option>";
-                            }
-					    ?>
-					</select>
-				</div>
 
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon1">Salarie</span>
-					<select class="form-control" name="salarieLecon">
-						<?php 
-                            foreach ($salaries as $salarie) {
-                            	echo "<option value=" . $salarie->get_id() . ">" . $salarie->get_prenom() . " " . $salarie->get_nom() . "</option>";
-                            }
-					    ?>
-					</select>
-				</div>
+							<div class="col-lg-6">
+								<div class="input-group">
+									<span class="input-group-addon" id="basic-addon1">Eleve</span>
+									<select class="form-control" name="eleveLecon">
+										<?php 
+				                            foreach ($eleves as $eleve) {
+				                            	echo "<option value=" . $eleve->get_id() . ">" . $eleve->get_prenom() . " " . $eleve->get_nom() . "</option>";
+				                            }
+									    ?>
+									</select>
+								</div>
 
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon1">Voiture</span>
-					<select class="form-control" name="voitureLecon">
-						<?php 
-                            foreach ($voitures as $voiture) {
-                            	echo "<option value=" . $voiture->get_id() . ">" . $voiture->get_id() . " " . $voiture->get_immatriculation() . "</option>";
-                            }
-					    ?>
-					</select>
+								<div class="input-group">
+									<span class="input-group-addon" id="basic-addon1">Salarie</span>
+									<select class="form-control" name="salarieLecon">
+										<?php 
+				                            foreach ($salaries as $salarie) {
+				                            	echo "<option value=" . $salarie->get_id() . ">" . $salarie->get_prenom() . " " . $salarie->get_nom() . "</option>";
+				                            }
+									    ?>
+									</select>
+								</div>
+
+								<div class="input-group">
+									<span class="input-group-addon" id="basic-addon1">Voiture</span>
+									<select class="form-control" name="voitureLecon">
+										<?php 
+				                            foreach ($voitures as $voiture) {
+				                            	echo "<option value=" . $voiture->get_id() . ">" . $voiture->get_id() . " " . $voiture->get_immatriculation() . "</option>";
+				                            }
+									    ?>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-    		</div>
+			</div>
     		<button id="boutonAjoutLecon" type="submit" name="action">Ajouter</button>
 		</form>
-
 	</body>
 </html>

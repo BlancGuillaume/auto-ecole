@@ -27,6 +27,7 @@
 		$ville_adresse_salarie = isset($_POST['villeSalarie']) ? addslashes($_POST['villeSalarie']) : NULL;
 		$cp_adresse_salarie = isset($_POST['codePostalSalarie']) ? addslashes($_POST['codePostalSalarie']) : NULL;
 		$voiture_salarie = isset($_POST['voiture']) ? addslashes($_POST['voiture']) : NULL;
+		$date_recrutement_salarie = isset($_POST['dateRecrutement']) ? addslashes($_POST['dateRecrutement']) : NULL;
 
 
 		// Plusieurs champs obligatoires peuvent avoir été omis.
@@ -78,65 +79,15 @@
 			echo "<script> alert('".$erreurMessage2."');</script>";
 		} 
 		else {
-			// Récupération de toutes les informations sur le salarié
-			// AFFICHAGE VERIFICATION
-			// var_dump("num_salarie : " . $num_salarie);
-			// var_dump("prenom_salarie : " . $prenom_salarie);
-			// var_dump("nom_salarie : " . $nom_salarie);
-			// var_dump("libelle_adresse_salarie : " . $libelle_adresse_salarie);
-			// var_dump("ville_adresse_salarie : " . $ville_adresse_salarie);
-			// var_dump("cp_adresse_salarie : " . $cp_adresse_salarie);
-			// var_dump("voiture_salarie : " . $voiture_salarie);
-			// var_dump("categorie_salarie : " . $categorie_salarie);
-			
-			// /*********** AJOUT DES ADRESSES DANS LA BD ***********/
-			// /*********** ADRESSE DU SALARIE ***********/
-			// $req = "SELECT id_adresse 
-			// 		FROM ADRESSE 
-			// 		WHERE libelle_adresse = '".$libelle_adresse_salarie."' 
-			// 			  AND ville_adresse = '".$ville_adresse_salarie."'
-			// 			  AND cp_adresse = '".$cp_adresse_salarie."'"; 		  
-			// // TO DO : get_requete()
-			// $result = $bd->get_requete($req);
+			$adresse_salarie = new Adresse(NULL, $libelle_adresse_salarie, $ville_adresse_salarie, $cp_adresse_salarie);
+			AdresseProvider::ajout_adresse($adresse_salarie);
+			$id_adresse_salarie = AdresseProvider::get_id_adresse($adresse_salarie);
+			$adresse_salarie = new Adresse($id_adresse_salarie, $libelle_adresse_salarie, $ville_adresse_salarie, $cp_adresse_salarie);
 
-			// // L'adresse est-t-elle déja dans la bd ? 
-			// if (empty($result)) {
-			// 	// Non : ajout de l'adresse
-			// 	$req = "INSERT INTO ADRESSE VALUES ('".$libelle_adresse_salarie."', 
-			// 										'".$ville_adresse_salarie."', 
-			// 										'".$cp_adresse_salarie."')";
-			// 	$bd->set_requete($req);
-			// 	$req = "SELECT id_adresse 
-			// 			FROM ADRESSE 
-			// 			WHERE libelle_adresse = '".$libelle_adresse_salarie."'
-			// 				  AND ville_adresse = '".$ville_adresse_salarie."'
-			// 				  AND cp_adresse = '".$cp_adresse_salarie."'";
-
-			// 	$result = $bd->get_requete($req);
-			// }
-			// // TO DO :  vérifier qu'on récupère bien comme ça 
-			// $id_adresse_salarie = $result[0];
-
-			// // /*********** AJOUT DU SALARIE DANS LA BD ***********/
-			// $req = 	"SELECT id_salarie 
-			// 		 FROM CLIENT 
-			// 		 WHERE nom_salarie = '".$nom_salarie."' 
-			// 			   AND prenom_salarie = '".$prenom_salarie."'
-			// 			   AND num_salarie = '".$num_salarie."'"; 
-			// // TO DO : get_requete()
-			// $result = $bd->get_requete($req);
-   
-			// // Le salarié est t'il déja dans la bd ? 
-			// if (empty($result)) {
-			// 	// Non : ajout du client
-			// 	$req = "INSERT INTO CLIENT VALUES ('".$nom_salarie."', '".$prenom_salarie."', 
-			// 									   '".$num_salarie."', '".$id_adresse_salarie."')";
-
-			// 	$bd->set_requete($req);
-			// } 
-
-			// // Popup de succès 
-			// echo "<script> alert(\"Réservation effectuée. Nous vous contacterons prochainement\");</script>";
+			$voiture = new Voiture($voiture_salarie, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+			$salarie = new Salarie(NULL, $prenom_salarie, $nom_salarie, NULL, NULL, 
+							   $num_salarie, $adresse_salarie, $surnom, $date_recrutement_salarie, $categorie_salarie, $voiture, NULL);
+			SalarieProvider::ajout_salarie($salarie);
 		}	
 	}
 ?>
@@ -151,6 +102,13 @@
 		<link href="css/bootstrap-theme.css" rel="stylesheet" type="text/css">
 		<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
 		<link href="css/style.css" rel="stylesheet" type="text/css">
+
+		<link href="css/jquery-ui.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery-ui.structure.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery-ui.structure.min.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery-ui.theme.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery-ui.theme.min.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
 		<!--Import jQuery before materialize.js-->
@@ -162,6 +120,7 @@
 		<script type="text/javascript" src="js/script.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-timepicker-addon-0.6.2.js"></script>
 		<header>
 		<!-- Navigation -->
         <?php include('nav.php');?>
@@ -244,6 +203,5 @@
 			<button id="boutonAjout" name="action" type="submit" class="btn btn-primary">Inscrire</button>
 			<br/>
 		</form>
-
 	</body>
 </html>

@@ -65,6 +65,7 @@
 	                                        </tr>
 	                                    </thead>
 	                                    <!-- Contenu tableau -->
+		                                <!-- Contenu tableau -->
 		                                <tbody>
 		                                	<?php 
 		                                        foreach ($eleves as $eleve) {
@@ -83,7 +84,7 @@
 										            echo "<td>" .  $eleve->getDateInscription() . "</td>";
 										            echo "<td>" . $eleve->get_telDomicile() . "</td>";
 										            echo "<td>" . $eleve->get_telPortable() . "</td>";
-										            echo "<tr>";
+										            echo "</tr>";
 										        }
 									        ?>
                                         </tbody>
@@ -97,3 +98,8 @@
         </div>
 	</body>
 </html>
+
+
+
+										
+	                                    

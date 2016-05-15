@@ -30,11 +30,6 @@
 		<script type="text/javascript" src="js/script.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
-		<script>
-		  $(function() {
-		    $( "#datepicker" ).datepicker();
-		  });
-		  </script>
 		<header>
 			<!-- Navigation -->
 	        <?php include('nav.php');?>
