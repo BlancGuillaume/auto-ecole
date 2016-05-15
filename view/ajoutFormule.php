@@ -5,7 +5,7 @@
     {
       header('Location: connexion.php');
     }
-
+	include('..\model\provider\FormuleProvider.php');
 	// include('../Model/Formule.php');
    // On regarde si le formulaire a été complété 
 	// TO DO : ajout rafraichissement page
@@ -23,15 +23,15 @@
 		$erreurMessage2 = "L\'ajout a échouée :\\n";
 		$erreurFormulaire = 0;
 
-		if (!is_float($prix_formule)) {
+		if (!is_numeric($prix_formule)) {
 			$erreurMessage2 .= "le prix doit être un nombre\\n";
 			$erreurFormulaire = 2;
 		}
-		if (!is_float($nb_tickets_formule)) {
+		if (!is_numeric($nb_tickets_formule)) {
 			$erreurMessage2 .= "le nombre de tickets doit être un nombre\\n";
 			$erreurFormulaire = 2;
 		}
-		if (!is_float($prix_lecon_formule)) {
+		if (!is_numeric($prix_lecon_formule)) {
 			$erreurMessage2 .= "le prix d\'une leçon doit être un nombre";
 			$erreurFormulaire = 2;
 		}
@@ -58,11 +58,13 @@
 			echo "<script> alert('".$erreurMessage2."');</script>";
 		} 
 		else {
+			$formule = new Formule(NULL, $prix_formule, $nb_tickets_formule, $prix_lecon_formule, $details_formule);
+			FormuleProvider::ajout_formule($formule);
 			// AFFICHAGE VERIFICATION
-			var_dump("prix_formule : " . $prix_formule);
-			var_dump("nb_tickets_formule : " . $nb_tickets_formule);
-			var_dump("prix_lecon_formule : " . $prix_lecon_formule);
-			var_dump("details_formule : " . $details_formule);
+			// var_dump("prix_formule : " . $prix_formule);
+			// var_dump("nb_tickets_formule : " . $nb_tickets_formule);
+			// var_dump("prix_lecon_formule : " . $prix_lecon_formule);
+			// var_dump("details_formule : " . $details_formule);
 
 		}	
 	}
