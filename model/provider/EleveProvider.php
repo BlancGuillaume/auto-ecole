@@ -177,7 +177,7 @@ class EleveProvider {
                         $eleve->get_formule()->get_id()."', '" .
                         $eleve->get_moniteur()->get_id()."')"; 
         $aExecuter = oci_parse($conn, $req);
-        $resulat = oci_execute($aExecuter);
+        return oci_execute($aExecuter);
     }
 
     /**

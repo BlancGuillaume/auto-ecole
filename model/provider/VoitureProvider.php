@@ -109,7 +109,7 @@ class VoitureProvider {
     
         // Execution de la requete
         $aExecuter = oci_parse($conn, $req);
-        $resultat = oci_execute($aExecuter); 
+        return oci_execute($aExecuter); 
     }
     
     /**
@@ -130,9 +130,9 @@ class VoitureProvider {
         
         // Execution de la requete
         $aExecuter = oci_parse($conn, $req);
-        $resultat = oci_execute($aExecuter); 
+        return oci_execute($aExecuter); 
         
-         var_dump($resultat); 
+ 
     }
     
      /**

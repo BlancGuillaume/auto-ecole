@@ -139,11 +139,9 @@ class SalarieProvider {
                         .$salarie->get_surnom()."', "
                         ."TO_DATE('" . date("Y/m/d") ."', 'yyyy/mm/dd'), '"
                         .$salarie->get_adresse()->get_id()."')";
-        
-        var_dump($req);
+       
         $aExecuter = oci_parse($conn, $req);
-        $resulat = oci_execute($aExecuter);
-        var_dump($resulat);
+        return oci_execute($aExecuter);
     }
 
 

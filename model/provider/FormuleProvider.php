@@ -88,13 +88,11 @@ class FormuleProvider {
                                             .$formule->get_nombreTickets()." , "
                                             .$formule->getPrixLecon().", '"
                                             .$formule->getDetail()."')";        
-    
-        var_dump($req);
         
         // Execution de la requete
         $aExecuter = oci_parse($conn, $req);
-        $resultat = oci_execute($aExecuter);
-        var_dump($resultat);
+        return oci_execute($aExecuter);
+     
     }
     
     /**

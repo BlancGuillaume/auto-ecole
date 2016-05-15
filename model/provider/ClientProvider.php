@@ -189,7 +189,7 @@ class ClientProvider {
         
         // Execution de la requete
         $aExecuter = oci_parse($conn, $req);
-        oci_execute($aExecuter); 
+        return oci_execute($aExecuter); 
         
     }
     
