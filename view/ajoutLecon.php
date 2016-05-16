@@ -13,53 +13,6 @@
 	//include('..\model\provider\VoitureProvider.php');
 	$voitures = VoitureProvider::get_voitures();
 	//include('..\model\provider\LeconConduiteProvider.php');
-	
-   // On regarde si le formulaire a été complété 
-	// TO DO : ajout rafraichissement page
-    if (!empty($_POST)) {
-   		/*********** DONNEES SUR L'ELEVE ***********/
-		$date_lecon =  isset($_POST['dateLecon']) ? addslashes($_POST['dateLecon']) : NULL;
-		$eleve_lecon = isset($_POST['eleveLecon']) ? addslashes($_POST['eleveLecon']) : NULL;
-		$salarie_lecon = isset($_POST['salarieLecon']) ? addslashes($_POST['salarieLecon']) : NULL;
-		$voiture_lecon = isset($_POST['voitureLecon']) ? addslashes($_POST['voitureLecon']) : NULL;
-
-		$erreurMessage1 = "L\'ajout a échouée, le(s) champ(s) suivant(s) doivent être complétés : \\n";
-		$erreurFormulaire = 0;
-
-		if (empty($date_lecon)) {
-			$erreurMessage1 .= "Date\\n";
-			$erreurFormulaire = 1;
-		}
-		if (empty($eleve_lecon)) {
-			$erreurMessage1 .= "Eleve\\n";
-			$erreurFormulaire = 1;
-		}
-		if (empty($salarie_lecon)) {
-			$erreurMessage1 .= "Salarié\\n";
-			$erreurFormulaire = 1;
-		}
-		if (empty($voiture_lecon)) {
-			$erreurMessage1 .= "Voiture\\n";
-			$erreurFormulaire = 1;
-		}
-
-		if ($erreurFormulaire == 1) {
-			// Il y a eu une erreur
-			echo "<script> alert('".$erreurMessage1."');</script>";
-		} 
-		else {
-			$eleve = EleveProvider::get_eleve($eleve_lecon);
-			$salarie = SalarieProvider::get_salarie($salarie_lecon);
-			$voiture = VoitureProvider::get_voiture($voiture_lecon);
-			$lecon = new LeconConduite (NULL, $eleve, $salarie, $voiture, $date_lecon);
-			LeconConduiteProvider::ajout_lecon($lecon);
-			// AFFICHAGE VERIFICATION
-			// var_dump("date_lecon : " . $date_lecon);
-			// var_dump("eleve_lecon : " . $eleve_lecon);
-			// var_dump("salarie_lecon : " . $salarie_lecon);
-			// var_dump("voiture_lecon : " . $voiture_lecon);
-		}
-	}
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -119,7 +72,14 @@
 				                    </span>
 									<input type="text" id="datepicker" class="form-control" name="dateLecon">
 								</div>
+								<div class="input-group">
+									<span class="input-group-addon" id="basic-addon1">Heure</span>
+									<input type="text" id="heurepicker" class="form-control" name="heureLecon">
+									<span class="input-group-addon" id="basic-addon1">Minute</span>
+									<input type="text" id="heurepicker" class="form-control" name="minuteLecon">
+								</div>
 							</div>
+
 
 
 							<div class="col-lg-6">
@@ -155,12 +115,139 @@
 									    ?>
 									</select>
 								</div>
+								
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-    		<button id="boutonAjoutLecon" type="submit" name="action">Ajouter</button>
+    		<button id="boutonAjoutLecon" type="submit" name="action" class="btn btn-primary">Ajouter</button>
 		</form>
+		<?php
+									// On regarde si le formulaire a été complété 
+	// TO DO : ajout rafraichissement page
+    if (!empty($_POST)) {
+   		/*********** DONNEES SUR L'ELEVE ***********/
+		$date_lecon =  isset($_POST['dateLecon']) ? addslashes($_POST['dateLecon']) : NULL;
+		$heure_lecon =  isset($_POST['heureLecon']) ? addslashes($_POST['heureLecon']) : NULL;
+		$minute_lecon =  isset($_POST['minuteLecon']) ? addslashes($_POST['minuteLecon']) : NULL;
+		$eleve_lecon = isset($_POST['eleveLecon']) ? addslashes($_POST['eleveLecon']) : NULL;
+		$salarie_lecon = isset($_POST['salarieLecon']) ? addslashes($_POST['salarieLecon']) : NULL;
+		$voiture_lecon = isset($_POST['voitureLecon']) ? addslashes($_POST['voitureLecon']) : NULL;
+		$erreurMessage1 = "L\'ajout a échouée, le(s) champ(s) suivant(s) doivent être complétés : \\n";
+		$erreurMessage2 = "L\'ajout a échouée :\\n";
+		$erreurFormulaire = 0;
+
+		if (!(is_numeric($heure_lecon))) {
+			$erreurMessage2 .= "Heure doit être un nombre\\n";
+			$erreurFormulaire = 2;
+		}
+		else {
+			if($heure_lecon < 8) {
+				$erreurMessage2 .= "Heure doit être un nombre entre 8 et 20\\n";
+				$erreurFormulaire = 2;
+			} 
+			if($heure_lecon > 20) {
+				$erreurMessage2 .= "Heure doit être un nombre entre 8 et 20\\n";
+				$erreurFormulaire = 2;
+			} 
+		}
+		if (!(is_numeric($minute_lecon))) {
+			$erreurMessage2 .= "Minutes\\n";
+			$erreurFormulaire = 2;
+		}
+		else {
+			if($minute_lecon < 0) {
+				$erreurMessage2 .= "Minutes doit être un nombre entre 0 et 59\\n";
+				$erreurFormulaire = 2;
+			} 
+			if($minute_lecon > 59) {
+				$erreurMessage2 .= "Heure doit être un nombre entre 0 et 59\\n";
+				$erreurFormulaire = 2;
+			} 
+		}
+		if (empty($date_lecon)) {
+			$erreurMessage1 .= "Date\\n";
+			$erreurFormulaire = 1;
+		}
+		if (empty($eleve_lecon)) {
+			$erreurMessage1 .= "Eleve\\n";
+			$erreurFormulaire = 1;
+		}
+		if (empty($salarie_lecon)) {
+			$erreurMessage1 .= "Salarié\\n";
+			$erreurFormulaire = 1;
+		}
+		if (empty($voiture_lecon)) {
+			$erreurMessage1 .= "Voiture\\n";
+			$erreurFormulaire = 1;
+		}
+		if (empty($heure_lecon)) {
+			$erreurMessage1 .= "Heure\\n";
+			$erreurFormulaire = 1;
+		}
+		if (empty($minute_lecon)) {
+			$erreurMessage1 .= "Minute\\n";
+			$erreurFormulaire = 1;
+		}
+
+		if ($erreurFormulaire == 1) {
+			// Il y a eu une erreur
+			echo "<script> alert('".$erreurMessage1."');</script>";
+		} 
+		elseif ($erreurFormulaire == 2) {
+			// Il y a eu une erreur
+			echo "<script> alert('".$erreurMessage2."');</script>";
+		} 
+		else {
+			$eleve = EleveProvider::get_eleve($eleve_lecon);
+			$salarie = SalarieProvider::get_salarie($salarie_lecon);
+			$voiture = VoitureProvider::get_voiture($voiture_lecon);
+			$dateHeure = $date_lecon . " " . $heure_lecon . ":" . $minute_lecon . ":" . "00";
+			$lecon = new LeconConduite (NULL, $eleve, $salarie, $voiture, $dateHeure);
+			$lecons_en_conflit = LeconConduiteProvider::get_lecons_en_conflit_avec_lecon_courante($lecon);
+			if (empty($lecons_en_conflit)) {
+				LeconConduiteProvider::ajout_lecon($lecon);
+			}
+			else { 
+				echo "<div id=\"page-wrapper\">
+	                <div class=\"row\">
+	                	<div class=\"col-lg-24\">
+		                    <div class=\"panel panel-default\">
+		                        <div class=\"panel-body\">
+		                            <div class=\"dataTable_wrapper\">
+		                                <table class=\"table table-striped table-bordered table-hover\" id=\"dataTables-example\">
+		                                    <!-- Entête du tableau -->
+		                                    <thead>
+		                                        <tr>
+		                                            <th>Date</th>
+		                                            <th>Eleve</th>
+		                                            <th>Moniteur</th>
+		                                            <th>Voiture</th>
+		                                        </tr>
+		                                    </thead>
+		                                    <!-- Contenu tableau -->
+			                                <tbody>";
+			                                        foreach ($lecons_en_conflit as $lecon_en_conflit) {
+			                                        	echo "<tr>";
+			                                        	echo "<td>" . $lecon_en_conflit->getDate() . "</td>";
+			                                        	echo "<td>" . $lecon_en_conflit->get_eleve()->get_prenom() . 
+			                                        		 " " . $lecon_en_conflit->get_eleve()->get_nom() . "</td>";
+			                                        	echo "<td>" . $lecon_en_conflit->get_salarie()->get_surnom() . "</td>";
+			                                        	echo "<td>" . $lecon_en_conflit->get_voiture()->get_immatriculation() . "</td>";
+											            echo "</tr>";
+											        }
+	                                        echo "</tbody>
+		                                </table>
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+            	</div>";
+            }
+		}
+	}
+								?>
 	</body>
 </html>

@@ -222,7 +222,7 @@ class LeconConduiteProvider {
                                                   $lecon['DATE_LECON']));
         }
         
-        var_dump($leconsPotentiellementIncompatible);
+        //var_dump($leconsPotentiellementIncompatible);
         
         // On determine les lecons incompatibles 
         $leconsIncompatibles = array();
@@ -283,7 +283,7 @@ class LeconConduiteProvider {
         $conn = $connectionManager->connect();
          
         $req = "INSERT INTO LECON VALUES (lecon_seq.nextVal,TO_DATE('"
-                                            .$leconConduite->getDate()."', 'yyyy/mm/dd hh:mi:ss'), '"
+                                            .$leconConduite->getDate()."', 'yyyy/mm/dd hh24:mi:ss'), '"
                                             .$leconConduite->get_eleve()->get_id()."', '"
                                             .$leconConduite->get_salarie()->get_id()."', '"
                                             .$leconConduite->get_voiture()->get_id()."')"; 
