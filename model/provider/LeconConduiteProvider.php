@@ -6,9 +6,9 @@
  * @author Guillaume Blanc
  */
 
-//include_once('C:\wamp\www\auto-ecole\model\LeconConduite.php');
-//include_once('C:\wamp\www\auto-ecole\model\Salarie.php');
-//include_once('C:\wamp\www\auto-ecole\model\Voiture.php');
+include_once('C:\wamp\www\auto-ecole\model\LeconConduite.php');
+include_once('C:\wamp\www\auto-ecole\model\Salarie.php');
+include_once('C:\wamp\www\auto-ecole\model\Voiture.php');
 include_once('C:\wamp\www\auto-ecole\model\provider\FormuleProvider.php');
 include_once('C:\wamp\www\auto-ecole\model\provider\AchatProvider.php');
 include_once('C:\wamp\www\auto-ecole\model\provider\EleveProvider.php');
@@ -18,9 +18,6 @@ include_once('C:\wamp\www\auto-ecole\model\provider\VoitureProvider.php');
  * Décommenter pour tester les requetes
  */
 // LeconConduiteProvider::testMethodes();
-
-
-
 
 class LeconConduiteProvider {
     
@@ -189,6 +186,58 @@ class LeconConduiteProvider {
         return $lecons;
     }
     
+    /**
+     * Récupere les lecons en conflits avec la lecon courante.
+     * C'est a dire si la voiture, le moniteur ou l'eleve est déja occupé
+     * @param type $leconCourante - la lecon courante
+     * @return la liste des lecons en conflits en indiquant ou est le conflit
+     *         par exemple si c'est le moniteur qui coince tout est a "null" sauf le moniteur
+     */
+    public static function get_lecons_en_conflit_avec_lecon_courante($leconCourante) {
+        
+        $dateCourante = $leconCourante->getDate();
+        $dateInf=date("Y/m/d H:i:s", strtotime($dateCourante." - 59 minutes"));
+        $dateSup=date("Y/m/d H:i:s", strtotime($dateCourante." + 59 minutes"));
+
+        // Connection à la bdd
+        include_once('ConnectionManager.php');
+        $connectionManager = new ConnectionManager();
+        $conn = $connectionManager->connect();
+        
+        // Récupération des lecons qui posent conflit
+        $reqAExecuter = "SELECT * FROM LECON WHERE date_lecon BETWEEN TO_DATE('".$dateInf."','yyyy/mm/dd hh24:mi:ss') AND TO_DATE('".$dateSup."','yyyy/mm/dd hh24:mi:ss')";
+                
+        // Execution de la requête
+        $aExecuter = oci_parse($conn, $reqAExecuter);
+        oci_execute($aExecuter);
+        
+        // Traitement du résultat : construction des lecons de conduites potentielles incompatibles
+        $leconsPotentiellementIncompatible = array(); // tableau de lecons potentiellement incompatibles
+        while (($lecon = oci_fetch_array($aExecuter, OCI_RETURN_NULLS)) != false) {
+            
+            array_push($leconsPotentiellementIncompatible, new LeconConduite($lecon['ID_LECON'],
+                                                  EleveProvider::get_eleve($lecon['ID_ELEVE_LECON']),
+                                                  SalarieProvider::get_nom_prenom_surnom_moniteur($lecon['ID_SALARIE_LECON']),
+                                                  VoitureProvider::get_voiture($lecon['ID_VOITURE_LECON']),
+                                                  $lecon['DATE_LECON']));
+        }
+        
+        var_dump($leconsPotentiellementIncompatible);
+        
+        // On determine les lecons incompatibles 
+        $leconsIncompatibles = array();
+        foreach ($leconsPotentiellementIncompatible as $lecon) {
+            // On crée la lecon incompatible
+            if ($lecon->get_voiture()->get_id() == $leconCourante->get_voiture()->get_id() || 
+                $lecon->get_salarie()->get_id() == $leconCourante->get_salarie()->get_id() ||
+                $lecon->get_eleve()->get_id() == $leconCourante->get_eleve()->get_id()) {
+                
+                array_push($leconsIncompatibles, $lecon);
+            }
+        }    
+        
+        return $leconsIncompatibles;
+    }
     
         
     /**
@@ -234,7 +283,7 @@ class LeconConduiteProvider {
         $conn = $connectionManager->connect();
          
         $req = "INSERT INTO LECON VALUES (lecon_seq.nextVal,TO_DATE('"
-                                            .$leconConduite->getDate()."', 'yyyy/mm/dd'), '"
+                                            .$leconConduite->getDate()."', 'yyyy/mm/dd hh:mi:ss'), '"
                                             .$leconConduite->get_eleve()->get_id()."', '"
                                             .$leconConduite->get_salarie()->get_id()."', '"
                                             .$leconConduite->get_voiture()->get_id()."')"; 
@@ -257,9 +306,9 @@ class LeconConduiteProvider {
 
         // Test ajout d'une lecon de conduite
         $salarie = new Salarie(1, null, null, null, null, null, null, null, null, null, null, null); // pour le test
-        $voiture = new Voiture(1, "biordeded", date("Y/m/d"), 15000, true, "audi", "tt", "239", null);
-        $eleve = new Eleve(1, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-        $lecon = new LeconConduite(1, $eleve, $salarie, $voiture, date("Y/m/d"));
+        $voiture = new Voiture(2, "biordeded", date("Y/m/d"), 15000, true, "audi", "tt", "239", null);
+        $eleve = new Eleve(3, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+        $lecon = new LeconConduite(1, $eleve, $salarie, $voiture, date("Y/m/d H:i:s"));
         LeconConduiteProvider::ajout_lecon($lecon);
 
         /* récupération de toutes les lecons */
@@ -414,6 +463,43 @@ class LeconConduiteProvider {
             echo "<br>";
             echo "<br>";
         }
-    }
+    
+    
+    
+         /* Récupération de toutes les lecons incompatibles */
+        echo "récupération de toutes les lecons incompatibles <br>";
+        $salarie = new Salarie(1, null, null, null, null, null, null, null, null, null, null, null); // pour le test
+        $voiture = new Voiture(2, "biordeded", date("Y/m/d"), 15000, true, "audi", "tt", "239", null);
+        $eleve = new Eleve(3, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+   
+        $leconCourante = new LeconConduite(1, $eleve, $salarie, $voiture, date("Y/m/d H:i:s"));
+        $euh = LeconConduiteProvider::get_lecons_en_conflit_avec_lecon_courante($leconCourante);
+        foreach ($euh as $lecon) {
+            echo "id : " . $lecon->get_id() . "<br>";
 
+            // Eleve qui participe a la lecon
+            echo "eleve qui participe a la lecon <br>";
+            echo "id : " . $lecon->get_eleve()->get_id() . "<br>";
+            echo "nom : " . $lecon->get_eleve()->get_nom() . "<br>";
+            echo "prenom :" . $lecon->get_eleve()->get_prenom() . "<br>";
+            echo "<br>";
+
+            // Voiture de la lecon
+            echo "voiture de la lecon <br>";
+            echo "id : " . $lecon->get_voiture()->get_id() . "<br>";
+            echo "immatriculation : " . $lecon->get_voiture()->get_immatriculation() . "<br>";
+            echo "marque : " . $lecon->get_voiture()->get_marque() . "<br>";
+            echo "modele ; " . $lecon->get_voiture()->get_modele() . "<br>";
+            echo "<br>";
+
+            // Moniteur qui encadre la lecon
+            echo "moniteur qui encadre la lecon <br>";
+            echo "id : " . $lecon->get_salarie()->get_id() . "<br>";
+            echo "nom : " . $lecon->get_salarie()->get_nom() . "<br>";
+            echo "prenom : " . $lecon->get_salarie()->get_prenom() . "<br>";
+            echo "surnom : " . $lecon->get_salarie()->get_surnom() . "<br>";
+            echo "<br>";
+            echo "<br>";
+        }
+    }
 }
