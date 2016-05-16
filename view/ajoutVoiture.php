@@ -73,7 +73,16 @@
 		else {
 			$salarie = SalarieProvider::get_salarie($responsable_voiture);
 			$voiture = new Voiture(NULL, $immatriculation_voiture, $date_achat_voiture, $prix_voiture, NULL, $marque_voiture, $modele_voiture, $kilometrage_voiture, $salarie);
-			VoitureProvider::ajout_voiture($voiture);
+			$reussite = VoitureProvider::ajout_voiture($voiture);
+
+			if ($reussite) {
+				$message = "Ajout réussi";
+				
+			}
+			else {
+				$message = "Echec ajout";
+			}
+			echo "<script> alert('".$message."');</script>";
 			// AFFICHAGE VERIFICATION
 			// var_dump("prix_voiture : " . $prix_voiture);
 			// var_dump("immatriculation_voiture : " . $immatriculation_voiture);

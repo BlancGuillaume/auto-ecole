@@ -59,7 +59,16 @@
 		} 
 		else {
 			$formule = new Formule(NULL, $prix_formule, $nb_tickets_formule, $prix_lecon_formule, $details_formule);
-			FormuleProvider::ajout_formule($formule);
+			$reussite = FormuleProvider::ajout_formule($formule);
+
+			if ($reussite) {
+				$message = "Ajout réussi";
+				
+			}
+			else {
+				$message = "Echec ajout";
+			}
+			echo "<script> alert('".$message."');</script>";
 			// AFFICHAGE VERIFICATION
 			// var_dump("prix_formule : " . $prix_formule);
 			// var_dump("nb_tickets_formule : " . $nb_tickets_formule);

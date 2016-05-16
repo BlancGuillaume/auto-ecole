@@ -207,7 +207,16 @@
 			$lecon = new LeconConduite (NULL, $eleve, $salarie, $voiture, $dateHeure);
 			$lecons_en_conflit = LeconConduiteProvider::get_lecons_en_conflit_avec_lecon_courante($lecon);
 			if (empty($lecons_en_conflit)) {
-				LeconConduiteProvider::ajout_lecon($lecon);
+				$reussite = LeconConduiteProvider::ajout_lecon($lecon);
+				if ($reussite) {
+					$message = "Ajout réussi";
+					
+				}
+				else {
+					$message = "Echec ajout";
+				}
+				echo "<script> alert('".$message."');</script>";
+
 			}
 			else { 
 				echo "<div id=\"page-wrapper\">

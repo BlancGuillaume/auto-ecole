@@ -72,7 +72,16 @@
 			$montant = $eleve->get_formule()->getPrixLecon() * $nombre_tickets;
 
 			$achat = new Achat (NULL, $nombre_tickets, $montant, NULL, $eleve, $client);
-			AchatProvider::ajout_achat($achat);
+			$reussite = AchatProvider::ajout_achat($achat);
+
+			if ($reussite) {
+				$message = "Ajout réussi";
+				
+			}
+			else {
+				$message = "Echec ajout";
+			}
+			echo "<script> alert('".$message."');</script>";
 
 			// AFFICHAGE VERIFICATION
 			// var_dump("eleve_achat : " . $eleve_achat);

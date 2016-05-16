@@ -178,140 +178,17 @@
 			$eleve = new Eleve(NULL, $prenom_eleve, $nom_eleve, $naissance_eleve, $num_eleve, 
 							   $num_travail_eleve, $adresse_eleve, $salarie, 0, 0, 
 							   $client, $formule, 0, 0, $date_inscription);
-			EleveProvider::ajout_eleve($eleve);
+			$reussite = EleveProvider::ajout_eleve($eleve);
 
-			// Récupération de toutes les informations sur l'élève
-			// AFFICHAGE VERIFICATION
-			// var_dump("date_inscription : " . $date_inscription);
-			// var_dump("naissance_eleve : " . $naissance_eleve);
-			// var_dump("num_eleve : " . $num_eleve);
-			// var_dump("num_travail_eleve : " . $num_travail_eleve);
-			// var_dump("prenom_eleve : " . $prenom_eleve);
-			// var_dump("nom_eleve : " . $nom_eleve);
+			if ($reussite) {
+				$message = "Ajout réussi";
+				
+			}
+			else {
+				$message = "Echec ajout";
+			}
+			echo "<script> alert('".$message."');</script>";
 
-			// var_dump("libelle_adresse_eleve : " . $libelle_adresse_eleve);
-			// var_dump("ville_adresse_eleve : " . $ville_adresse_eleve);
-			// var_dump("cp_adresse_eleve : " . $cp_adresse_eleve);
-			// var_dump("formule_eleve : " . $formule_eleve);
-
-			// var_dump("num_client : " . $num_client);
-			// var_dump("num_portable_client : " . $num_portable_client);
-			// var_dump("prenom_client : " . $prenom_client);
-			// var_dump("nom_client : " . $nom_client);
-			// var_dump("libelle_adresse_client : " . $libelle_adresse_client);
-			// var_dump("ville_adresse_client : " . $ville_adresse_client);
-			// var_dump("cp_adresse_client : " . $cp_adresse_client);
-			
-			// /*********** AJOUT DES ADRESSES DANS LA BD ***********/
-			// /*********** ADRESSE DU CLIENT ***********/
-			// $req = "SELECT id_adresse 
-			// 		FROM ADRESSE 
-			// 		WHERE libelle_adresse = '".$libelle_adresse_client."' 
-			// 			  AND ville_adresse = '".$ville_adresse_client."'
-			// 			  AND cp_adresse = '".$cp_adresse_client."'"; 		  
-			// // TO DO : get_requete()
-			// $result = $bd->get_requete($req);
-
-			// // L'adresse est-t-elle déja dans la bd ? 
-			// if (empty($result)) {
-			// 	// Non : ajout de l'adresse
-			// 	$req = "INSERT INTO ADRESSE VALUES ('".$libelle_adresse_client."', 
-			// 										'".$ville_adresse_client."', 
-			// 										'".$cp_adresse_client."')";
-			// 	$bd->set_requete($req);
-			// 	$req = "SELECT id_adresse 
-			// 			FROM ADRESSE 
-			// 			WHERE libelle_adresse = '".$libelle_adresse_client."' 
-			// 				  AND ville_adresse = '".$ville_adresse_client."' 
-			// 				  AND cp_adresse = '".$cp_adresse_client."'"; 
-			// 	$result = $bd->get_requete($req);
-			// }
-			// $id_adresse_client = $result[0];
-
-			// /*********** ADRESSE DE L'ELEVE ***********/
-			// $req = "SELECT id_adresse 
-			// 		FROM ADRESSE 
-			// 		WHERE libelle_adresse = '".$libelle_adresse_eleve."' 
-			// 			  AND ville_adresse = '".$ville_adresse_eleve."'
-			// 			  AND cp_adresse = '".$cp_adresse_eleve."'"; 		  
-			// // TO DO : get_requete()
-			// $result = $bd->get_requete($req);
-
-			// // L'adresse est-t-elle déja dans la bd ? 
-			// if (empty($result)) {
-			// 	// Non : ajout de l'adresse
-			// 	$req = "INSERT INTO ADRESSE VALUES ('".$libelle_adresse_eleve."', 
-			// 										'".$ville_adresse_eleve."', 
-			// 										'".$cp_adresse_eleve."')";
-			// 	$bd->set_requete($req);
-			// 	$req = "SELECT id_adresse 
-			// 			FROM ADRESSE 
-			// 			WHERE libelle_adresse = '".$libelle_adresse_eleve."' 
-			// 				  AND ville_adresse = '".$ville_adresse_eleve."' 
-			// 				  AND cp_adresse = '".$cp_adresse_eleve."'"; 
-			// 	$result = $bd->get_requete($req);
-			// }
-			// $id_adresse_eleve = $result[0];
-
-
-
-			// /*********** AJOUT DU CLIENT DANS LA BD ***********/
-			// $req = 	"SELECT id_client 
-			// 		 FROM CLIENT 
-			// 		 WHERE nom_client = '".$nom_client."' 
-			// 			   AND prenom_client = '".$prenom_client."'
-			// 			   AND num_client = '".$num_client."'"; 
-			// // TO DO : get_requete()
-			// $result = $bd->get_requete($req);
-   
-			// // Le client est t'il déja dans la bd ? 
-			// if (empty($result)) {
-			// 	// Non : ajout du client
-			// 	$req = "INSERT INTO CLIENT VALUES ('".$nom_client."', '".$prenom_client."', 
-			// 									   '".$num_client."', '".$id_adresse_client."')";
-
-			// 	$bd->set_requete($req);
-			// 	$req = 	"SELECT id_client 
-			// 						 FROM CLIENT 
-			// 						 WHERE nom_client = '".$nom_client."' 
-			// 				      	 AND prenom_client = '".$prenom_client."' 
-			// 				      	 AND num_client = '".$num_client."'"; 
-			// 	$result = $bd->get_requete($req);
-			// } 
-			// // TO DO : à vérifier que c'est bien comme ça qu'on récupère l'id
-			// $id_client_eleve = $result[0];
-
-   // 			/*********** AJOUT DE L'ELEVE DANS LA BD ***********/
-   // 			$req = 	"SELECT id_eleve 
-			// 		 FROM CLIENT 
-			// 		 WHERE nom_eleve = '".$nom_eleve."' 
-			// 		 AND prenom_eleve = '".$prenom_eleve."' 
-			// 		 AND num_eleve = '".$num_eleve."'
-			// 		 AND naissance_eleve = '".$naissance_eleve."'"; 
-			// // TO DO : get_requete()
-			// $result = $bd->get_requete($req);
-   
-			// // L'élève est t'il déja dans la bd ? 
-			// if (empty($result)) {
-			// 	// Non : ajout du client
-			// 	// TO DO : vérifier l'ordre des champs
-			// 	$req = "INSERT INTO ELEVE VALUES ('".$nom_eleve."', '".$prenom_eleve."',
-			// 									  '".$num_eleve."', '".$date_inscription."', 
-			// 									  '".$naissance_eleve."', '".$id_adresse_eleve."', 
-			// 									  '".$id_client_eleve."', '".$formule_eleve."',
-			// 									  '".$id_salarie_eleve."')";
-
-			// 	$bd->set_requete($req);
-			// 	$req = 	"SELECT id_eleve 
-			// 		     FROM CLIENT 
-			// 		     WHERE nom_eleve = '".$nom_eleve."' 
-			// 		           AND prenom_eleve = '".$prenom_eleve."'
-			// 		           AND naissance_eleve = '".$naissance_eleve."'";  
-			// 	$result = $bd->get_requete($reqClientExiste);
-			// } 
-		
-			// // Popup de succès 
-			// echo "<script> alert(\"Réservation effectuée. Nous vous contacterons prochainement\");</script>";
 		}	
 	}
 ?>
@@ -326,6 +203,13 @@
 		<link href="css/bootstrap-theme.css" rel="stylesheet" type="text/css">
 		<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
 		<link href="css/style.css" rel="stylesheet" type="text/css">
+
+		<link href="css/jquery-ui.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery-ui.structure.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery-ui.structure.min.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery-ui.theme.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery-ui.theme.min.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
 		<!--Import jQuery before materialize.js-->
@@ -337,9 +221,10 @@
 		<script type="text/javascript" src="js/script.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-timepicker-addon-0.6.2.js"></script>
 		<script>
 			jQuery(function($) {
-				$('#datepicker').datepicker({ dateFormat: 'yyyy/mm/dd' });
+				$('#datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
 			});
 		</script>
 		<script>
@@ -414,7 +299,7 @@
 
 									<div class="input-group">
 										<span class="input-group-addon glyphicon glyphicon-gift" aria-hidden="true"></span>
-										<input name="anniversaireEleve" type="text" class="form-control" placeholder="TO DO : datepicker" aria-describedby="basic-addon1">
+										<input type="text" id="datepicker" class="form-control" name="anniversaireEleve" placeholder="Date de naissance">
 									</div>
 									<div class="adresseFormulaire">
 										<div class="input-group">

@@ -87,7 +87,16 @@
 			$voiture = new Voiture($voiture_salarie, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 			$salarie = new Salarie(NULL, $prenom_salarie, $nom_salarie, NULL, NULL, 
 							   $num_salarie, $adresse_salarie, $surnom, $date_recrutement_salarie, $categorie_salarie, $voiture, NULL);
-			SalarieProvider::ajout_salarie($salarie);
+			$reussite = SalarieProvider::ajout_salarie($salarie);
+
+			if ($reussite) {
+				$message = "Ajout réussi";
+				
+			}
+			else {
+				$message = "Echec ajout";
+			}
+			echo "<script> alert('".$message."');</script>";
 		}	
 	}
 ?>
