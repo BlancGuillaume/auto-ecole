@@ -57,11 +57,9 @@
 	                                            <th>Code</th>
 	                                            <th>Conduite</th>
 	                                            <th>Naissance</th>
-	                                            <th>Adresse</th>
 	                                            <th>Responsable</th>
 	                                            <th>Formule</th>
 	                                            <th>Référent</th>
-	                                            <th>Inscrip</th>
 	                                            <th>Tel 1</th>
 	                                            <th>Tel 2</th>
 	                                        </tr>
@@ -79,12 +77,9 @@
 		                                        	echo "<td>" .  $eleve->get_examenCode() . "</td>";
 										            echo "<td>" . $eleve->get_examenPermis() . "</td>";
 		                                        	echo "<td>" . $eleve->get_dateNaissance() . "</td>";
-		                                        	echo "<td>" . $eleve->get_adresse()->get_rue() . " " . $eleve->get_adresse()->get_codePostal() . " " . 
-		                                        				  $eleve->get_adresse()->get_ville() . "</td>";
 										            echo "<td>" . $eleve->get_client()->get_prenom() . " " . $eleve->get_client()->get_nom() . "</td>";
 										            echo "<td>" . $eleve->get_formule()->get_id() . "</td>";
 										            echo "<td>" . $eleve->get_moniteur()->get_surnom() . "</td>";
-										            echo "<td>" .  $eleve->getDateInscription() . "</td>";
 										            echo "<td>" . $eleve->get_telDomicile() . "</td>";
 										            echo "<td>" . $eleve->get_telPortable() . "</td>";
 										            echo "</tr>";
