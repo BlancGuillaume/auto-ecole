@@ -150,7 +150,8 @@
 				<select readonly class="form-control" name="listeAchats" id="listeAchats">
 					<?php 
 						if ($clientAAfficher != NULL) {
-							$achats = AchatProvider::get_achats_dun_client(1);
+							$achats = $clientAAfficher->get_listeAchats();
+							//$achats = AchatProvider::get_achats_dun_client($clientAAfficher->get_id());
 							foreach ($achats as $achat) {
 								echo "<option value=" . $achat->get_id() . ">" . $achat->getEleveBeneficiaire()->get_prenom() . " " . $achat->getEleveBeneficiaire()->get_nom() . 
 									 " - " . $achat->get_dateAchat() . " - " . $achat->get_nbreLecons() ." - ". $achat->get_montant() . "euros</option>";
