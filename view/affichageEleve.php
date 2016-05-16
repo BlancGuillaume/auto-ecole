@@ -7,6 +7,7 @@
     }
 
 	include('..\model\provider\EleveProvider.php');
+	//include('..\model\provider\LeconConduiteProvider.php');
 	$eleves = EleveProvider::get_eleves();
 ?>
 <!DOCTYPE HTML>
@@ -51,7 +52,8 @@
 	                                        <tr>
 	                                            <th>Nom</th>
 	                                            <th>Prénom</th>
-	                                            <th>Total heures</th>
+	                                            <th>Heures faites</th>
+	                                            <th>Heures à faire</th>
 	                                            <th>Code</th>
 	                                            <th>Conduite</th>
 	                                            <th>Naissance</th>
@@ -59,7 +61,7 @@
 	                                            <th>Responsable</th>
 	                                            <th>Formule</th>
 	                                            <th>Référent</th>
-	                                            <th>Date d'inscription</th>
+	                                            <th>Inscrip</th>
 	                                            <th>Tel 1</th>
 	                                            <th>Tel 2</th>
 	                                        </tr>
@@ -72,7 +74,8 @@
 		                                        	echo "<tr>";
 		                                        	echo "<td>" . $eleve->get_nom() . "</td>";
 		                                        	echo "<td>" . $eleve->get_prenom() . "</td>";
-		                                        	echo "<td>" . $eleve->get_nombreLeconsEffectuees() . "</td>";
+		                                        	echo "<td>" . LeconConduiteProvider::get_nombre_lecons_effectuees($eleve->get_id()) . "</td>";
+													echo "<td>" . AchatProvider::get_nombre_lecons_achetees($eleve->get_id()) . "</td>";
 		                                        	echo "<td>" .  $eleve->get_examenCode() . "</td>";
 										            echo "<td>" . $eleve->get_examenPermis() . "</td>";
 		                                        	echo "<td>" . $eleve->get_dateNaissance() . "</td>";

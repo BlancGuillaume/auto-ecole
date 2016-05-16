@@ -27,6 +27,12 @@
                         <li>
                             <a href="inscriptionEleve.php">Inscription</a>
                         </li>
+                        <li>
+                            <a href="ficheIndividuelleEleve.php">Fiche élève individuelle </a>
+                        </li>
+                        <li>
+                            <a href="ficheIndividuelleClient.php">Fiche client individuelle </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="dropdown">

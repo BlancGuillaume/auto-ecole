@@ -467,7 +467,7 @@
 									<div>
 										<h3>Client</h3> 
 										<div class="input-group">
-					    					<span class="input-group-addon" id="basic-addon1">Moniteur</span>
+					    					<span class="input-group-addon" id="basic-addon1">Client</span>
 											<select class="form-control" name="client" onchange="choixClient()" id="listeClients">
 												<option value="0">Nouveau</option>
 												<?php 
